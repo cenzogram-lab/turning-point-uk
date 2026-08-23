@@ -1,0 +1,2419 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─────────────────────────────────────────────────────────────
+   Cinematic Civic — Turning Point UK
+   SpaceX discipline: near-black, square corners, no shadows,
+   one idea + one action per screen.
+   ───────────────────────────────────────────────────────────── */
+
+/* Fonts loaded via Google Fonts CDN <link> in index.html:
+   - Oswald (display): condensed grotesque for bold uppercase headlines.
+   - Inter (body): neutral sans for paragraphs and UI.
+   - JetBrains Mono (mono): technical eyebrow / metadata labels.
+   @font-face declarations were removed because the referenced woff2 files
+   did not exist in /assets/fonts/ and silently failed open to the fallback
+   family. The CDN <link> guarantees the chosen type stack actually renders. */
+
+@layer base {
+  :root {
+    --font-display: "Oswald", "Bricolage Grotesque", sans-serif;
+    --font-body: "Inter", "General Sans", sans-serif;
+    --font-mono: "JetBrains Mono", "Geist Mono", monospace;
+
+    --radius: 0;
+
+    /* Global announcement bar height — the persistent red top banner rendered
+       above the fixed navbar on every page. The fixed Nav offsets itself by
+       this value (top-[var(--announcement-bar-height)]) so the bar never
+       overlaps the nav, and the vigil spotlight section uses it in its
+       scroll-margin so in-page anchor scrolling clears the fixed header. */
+    --announcement-bar-height: 2.5rem;
+
+    /* Cinematic Civic — deep blue is the default; light is a constrained inverse.
+       The hero placeholder deep blue (oklch 0.22 0.08 255) is now the universal
+       background. --background sits one step darker than --navy so the two tokens
+       stay distinguishable (navy is used for section backgrounds like the footer). */
+    --background: 0.2 0.08 255;
+    --foreground: 0.98 0.005 250;
+    --card: 0.26 0.08 255;
+    --card-foreground: 0.98 0.005 250;
+    --popover: 0.26 0.08 255;
+    --popover-foreground: 0.98 0.005 250;
+
+    --primary: 0.55 0.22 25;
+    --primary-foreground: 0.98 0.005 250;
+
+    --secondary: 0.22 0.08 255;
+    --secondary-foreground: 0.98 0.005 250;
+
+    --muted: 0.24 0.06 255;
+    --muted-foreground: 0.74 0.04 255;
+
+    --accent: 0.55 0.22 25;
+    --accent-foreground: 0.98 0.005 250;
+
+    --destructive: 0.55 0.22 25;
+    --destructive-foreground: 0.98 0.005 250;
+
+    --border: 0.3 0.08 255;
+    --input: 0.3 0.08 255;
+    --ring: 0.55 0.22 25;
+
+    --navy: 0.22 0.08 255;
+
+    --chart-1: 0.55 0.22 25;
+    --chart-2: 0.22 0.08 255;
+    --chart-3: 0.98 0.005 250;
+    --chart-4: 0.74 0.04 255;
+    --chart-5: 0.45 0.12 25;
+
+    --sidebar: 0.26 0.08 255;
+    --sidebar-foreground: 0.98 0.005 250;
+    --sidebar-primary: 0.55 0.22 25;
+    --sidebar-primary-foreground: 0.98 0.005 250;
+    --sidebar-accent: 0.22 0.08 255;
+    --sidebar-accent-foreground: 0.98 0.005 250;
+    --sidebar-border: 0.3 0.08 255;
+    --sidebar-ring: 0.55 0.22 25;
+
+    /* Gallery + Admin dashboard extension — layered surfaces on the deep-blue canvas.
+       Upload zone sits one step above background; admin card one step above that.
+       Lightbox backdrop is a near-opaque deep-blue scrim darker than background for focus.
+       Destructive-soft is a muted red wash for delete confirmations. */
+    --upload-zone: 0.22 0.06 255;
+    --upload-zone-hover: 0.24 0.07 255;
+    --upload-zone-active: 0.2 0.1 25;
+    --admin-card: 0.28 0.08 255;
+    --admin-card-hover: 0.3 0.08 255;
+    --lightbox-backdrop: 0.1 0.06 255;
+    --destructive-soft: 0.3 0.1 25;
+
+    /* Blog CMS extension — cinematic covers, narrow reading column, dark composer.
+       Hero card sits one step above --card for the featured post; blog grid card
+       reuses --card at 40% with backdrop-blur for the translucent blue-tinted look.
+       Cover-fallback is a blue-tinted neutral (distinct from --card) so a failed
+       cover shows a placeholder, not a void. Prose tokens tune the reading column:
+       bright white headings, soft blue-tinted grey body, softer still for metadata.
+       Status badges: muted amber for draft, success green for published. Composer
+       surface sits one step above --admin-card for the publishing dashboard. */
+    --blog-hero-card: 0.3 0.08 255;
+    --blog-card: 0.26 0.08 255;
+    --blog-cover-fallback: 0.2 0.06 255;
+    --blog-prose-heading: 0.98 0.005 250;
+    --blog-prose-body: 0.78 0.025 255;
+    --blog-prose-muted: 0.62 0.025 255;
+    --status-draft: 0.7 0.15 85;
+    --status-draft-foreground: 0.16 0.04 85;
+    --status-published: 0.62 0.16 150;
+    --status-published-foreground: 0.14 0.04 150;
+    --composer-surface: 0.24 0.08 255;
+
+    /* ArticleCard + /real-british-history hub extension — per-category pill
+       accents so the two hubs are distinguishable at a glance. Blog keeps the
+       red --primary (via .category-pill.is-blog); Real British History uses
+       a blue-tinted azure accent distinct from red. Hub-header tokens reuse
+       existing --blog-prose-heading / --muted-foreground / --blog-prose-body. */
+    --category-rbh: 0.6 0.14 235;
+    --category-rbh-foreground: 0.14 0.04 235;
+
+    --gradient-scrim: linear-gradient(
+      to bottom,
+      oklch(0.2 0.08 255) 0%,
+      oklch(0.2 0.08 255 / 0.35) 22%,
+      oklch(0.2 0.08 255 / 0.05) 50%,
+      oklch(0.2 0.08 255 / 0.55) 78%,
+      oklch(0.2 0.08 255) 100%
+    );
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .dark {
+    /* Dark is the canonical theme — tokens mirror :root intentionally. */
+    --background: 0.2 0.08 255;
+    --foreground: 0.98 0.005 250;
+    --card: 0.26 0.08 255;
+    --card-foreground: 0.98 0.005 250;
+    --popover: 0.26 0.08 255;
+    --popover-foreground: 0.98 0.005 250;
+
+    --primary: 0.55 0.22 25;
+    --primary-foreground: 0.98 0.005 250;
+
+    --secondary: 0.22 0.08 255;
+    --secondary-foreground: 0.98 0.005 250;
+
+    --muted: 0.24 0.06 255;
+    --muted-foreground: 0.74 0.04 255;
+
+    --accent: 0.55 0.22 25;
+    --accent-foreground: 0.98 0.005 250;
+
+    --destructive: 0.55 0.22 25;
+    --destructive-foreground: 0.98 0.005 250;
+
+    --border: 0.3 0.08 255;
+    --input: 0.3 0.08 255;
+    --ring: 0.55 0.22 25;
+
+    --navy: 0.22 0.08 255;
+
+    --chart-1: 0.55 0.22 25;
+    --chart-2: 0.22 0.08 255;
+    --chart-3: 0.98 0.005 250;
+    --chart-4: 0.74 0.04 255;
+    --chart-5: 0.45 0.12 25;
+
+    --sidebar: 0.26 0.08 255;
+    --sidebar-foreground: 0.98 0.005 250;
+    --sidebar-primary: 0.55 0.22 25;
+    --sidebar-primary-foreground: 0.98 0.005 250;
+    --sidebar-accent: 0.22 0.08 255;
+    --sidebar-accent-foreground: 0.98 0.005 250;
+    --sidebar-border: 0.3 0.08 255;
+    --sidebar-ring: 0.55 0.22 25;
+
+    /* Gallery + Admin dashboard extension — mirror :root in dark (canonical). */
+    --upload-zone: 0.22 0.06 255;
+    --upload-zone-hover: 0.24 0.07 255;
+    --upload-zone-active: 0.2 0.1 25;
+    --admin-card: 0.28 0.08 255;
+    --admin-card-hover: 0.3 0.08 255;
+    --lightbox-backdrop: 0.1 0.06 255;
+    --destructive-soft: 0.3 0.1 25;
+
+    /* Blog CMS extension — mirror :root in dark (canonical theme). */
+    --blog-hero-card: 0.3 0.08 255;
+    --blog-card: 0.26 0.08 255;
+    --blog-cover-fallback: 0.2 0.06 255;
+    --blog-prose-heading: 0.98 0.005 250;
+    --blog-prose-body: 0.78 0.025 255;
+    --blog-prose-muted: 0.62 0.025 255;
+    --status-draft: 0.7 0.15 85;
+    --status-draft-foreground: 0.16 0.04 85;
+    --status-published: 0.62 0.16 150;
+    --status-published-foreground: 0.14 0.04 150;
+    --composer-surface: 0.24 0.08 255;
+
+    /* ArticleCard + /real-british-history hub extension — mirror :root in dark. */
+    --category-rbh: 0.6 0.14 235;
+    --category-rbh-foreground: 0.14 0.04 235;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-snap-type: y proximity;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+    font-feature-settings: "ss01", "cv01";
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: oklch(var(--primary));
+    color: oklch(var(--primary-foreground));
+  }
+}
+
+@layer utilities {
+  /* One idea + one action per screen.
+     NOTE: overflow is intentionally NOT hidden here. The Hero CTA's TPUK
+     arrow is sized to break out beyond the rounded-full pill edge, and any
+     overflow clipping on this section would crop the arrowhead. The hero
+     background video plate and scrim are themselves absolutely positioned
+     with inset-0, so they self-contain without needing section-level clipping. */
+  .scroll-snap-section {
+    /* Mobile-first responsive hero height: shorter on phones so object-cover
+       crops the background video less, stepping up to full viewport on
+       desktop. The shared Hero section inherits this height via the
+       .scroll-snap-section class. */
+    min-height: 65dvh;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    position: relative;
+  }
+  @media (min-width: 640px) {
+    .scroll-snap-section {
+      min-height: 75dvh;
+    }
+  }
+  @media (min-width: 768px) {
+    .scroll-snap-section {
+      min-height: 85dvh;
+    }
+  }
+  @media (min-width: 1024px) {
+    .scroll-snap-section {
+      min-height: 100dvh;
+    }
+  }
+
+  /* NOTE: the legacy .hero-scrim CSS class was removed. The Hero gradient
+      overlay now uses Tailwind classes directly
+      (bg-gradient-to-b from-blue-950/85 via-blue-950/65 to-blue-950 absolute
+      inset-0 z-10) so the overlay sits above the native <video> at z-0 and
+      below the content at z-20. The --gradient-scrim token is retained for
+      any other consumers. */
+
+  /* Condensed-grotesque uppercase headlines with heavy tracking. */
+  .text-headline {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 0.95;
+    font-size: clamp(2.25rem, 7vw, 5.375rem); /* 36 → 86px */
+    font-stretch: 90%;
+  }
+
+  .text-eyebrow {
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.22em;
+    color: oklch(var(--muted-foreground));
+  }
+
+  /* Pill CTA — solid red, rounded-full, no shadow. The single primary action per screen.
+     Scales up slightly on hover; the inline .tpuk-arrow nudges up-and-right. */
+  .btn-primary-square {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.95rem 2.25rem;
+    background: oklch(var(--primary));
+    color: oklch(var(--primary-foreground));
+    font-family: var(--font-display);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.875rem;
+    border-radius: 9999px;
+    border: 1px solid oklch(var(--primary));
+    box-shadow: none;
+    transition: var(--transition-smooth);
+    cursor: pointer;
+    position: relative;
+  }
+  .btn-primary-square:hover {
+    background: oklch(0.62 0.24 25);
+    border-color: oklch(0.62 0.24 25);
+    transform: scale(1.05);
+  }
+  /* Mobile fixed bottom Donate bar — neutralize the inherited hover scale so the
+     full-width fixed bar never overflows the viewport on tap and stays truly
+     pinned to the bottom edge. Visual styling (color, height, width) is
+     unchanged; only the pill-CTA scale transform is suppressed for this
+     full-width fixed variant. */
+  [data-ocid="mobile.donate_bar"]:hover {
+    transform: none;
+  }
+
+  /* Pill outline CTA — white outline that inverts to solid white on hover, rounded-full. */
+  .btn-outline-invert {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.95rem 2.25rem;
+    background: transparent;
+    color: oklch(var(--foreground));
+    font-family: var(--font-display);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.875rem;
+    border-radius: 9999px;
+    border: 1px solid oklch(var(--foreground));
+    box-shadow: none;
+    transition: var(--transition-smooth);
+    cursor: pointer;
+  }
+  .btn-outline-invert:hover {
+    background: oklch(var(--foreground));
+    color: oklch(var(--background));
+    transform: scale(1.05);
+  }
+
+  /* Inline curved TPUK arrow inside primary CTAs. Nudges up-and-right on parent hover. */
+  .tpuk-arrow {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    flex-shrink: 0;
+  }
+  .btn-primary-square:hover .tpuk-arrow,
+  .btn-outline-invert:hover .tpuk-arrow {
+    transform: translate(2px, -2px);
+  }
+
+  /* Universal entrance animations — applied via Intersection Observer across every page.
+     Initial state set by .entrance-left / .entrance-right; .entrance-visible triggers the
+     settled state. Runs ALONGSIDE the existing hero-fade-in / headline-rise, not replacing them.
+
+     FOUC guard: the hidden initial state (opacity:0 / translateX) is gated behind the
+     `.entrance-js` marker that useEntranceAnimation adds to <html> on mount. Before JS is
+     active (or if it never runs) entrance elements stay fully visible, so footer/content
+     never flashes hidden-then-animated at the bottom on initial desktop load. */
+  .entrance-js .entrance-left {
+    opacity: 0;
+    transform: translateX(-5rem);
+    transition: opacity 700ms ease-out, transform 700ms ease-out;
+    will-change: opacity, transform;
+  }
+  .entrance-js .entrance-right {
+    opacity: 0;
+    transform: translateX(5rem);
+    transition: opacity 700ms ease-out, transform 700ms ease-out;
+    will-change: opacity, transform;
+  }
+  .entrance-js .entrance-visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* Fixed nav: translucent at top, solidifies on scroll via .nav-solid. */
+  .nav-translucent {
+    background: oklch(var(--background) / 0.55);
+    backdrop-filter: saturate(140%) blur(10px);
+    border-bottom: 1px solid oklch(var(--border) / 0.6);
+    transition: var(--transition-smooth);
+  }
+  .nav-solid {
+    background: oklch(var(--background));
+    backdrop-filter: none;
+    border-bottom: 1px solid oklch(var(--border));
+  }
+
+  /* Centered logo white notch plate — hangs slightly below the navbar bar.
+      tailwind.config.js zeroes all borderRadius except full and all boxShadow,
+      so the rounded bottom corners and drop shadow are implemented here as
+      explicit CSS rather than rounded-b-2xl / shadow-lg (which would be zeroed).
+      The plate stays solid white at every scroll position.
+      inline-block + tight px-4 py-2 padding sizes the white background exactly
+      to the logo's dimensions, acting as a fitted shield rather than a wide bar. */
+  .nav-notch-plate {
+    background: oklch(0.98 0.005 250);
+    display: inline-block;
+    /* Desktop (xl+) logo plate — zero left padding (0) so the Turning Point
+       UK logo sits all the way flush with the top-left corner of the screen,
+       while the right padding (1rem) keeps the plate's right edge balanced
+       around the logo. Vertical padding (0.625rem) is unchanged so the
+       xl:h-16 logo still has its breathing room. Mobile uses the separate
+       .nav-notch-plate-sm class and is unaffected. */
+    padding: 0.625rem 1rem 0.625rem 0;
+    border-radius: 0 0 1rem 1rem; /* rounded-b-2xl equivalent */
+    box-shadow: 0 10px 25px -5px oklch(0.2 0.08 255 / 0.45), 0 8px 10px -6px
+      oklch(0.2 0.08 255 / 0.35);
+    /* Hang slightly below the navbar bar. */
+    margin-top: -1px;
+  }
+
+  /* Mobile-sized white notch plate — same white-backed shield treatment as the
+     desktop CenteredLogo, but with smaller padding and a shorter logo height so
+     it fits the mobile top bar (h-12 vs h-16). Used by the mobile top-bar logo
+     so the brand is clearly visible against the dark/transparent navbar.
+     tailwind.config.js zeroes non-full radii and all shadows, so the rounded
+     bottom corners and drop shadow are explicit CSS here. */
+  .nav-notch-plate-sm {
+    background: oklch(0.98 0.005 250);
+    display: inline-block;
+    padding: 0.25rem 0.625rem 0.25rem 0; /* py-1 px-2.5 with zero left padding so the logo sits flush with the left edge */
+    border-radius: 0 0 0.75rem 0.75rem; /* rounded-b-xl equivalent */
+    box-shadow: 0 6px 16px -4px oklch(0.2 0.08 255 / 0.45), 0 4px 8px -4px
+      oklch(0.2 0.08 255 / 0.35);
+    margin-top: -1px;
+  }
+
+  /* Sheet header logo white plate — a flat white backing (no hanging notch)
+      for the logo inside the mobile menu Sheet header. Keeps the brand visible
+      against the Sheet's bg-background. Smaller radius and no bottom-hang since
+      it sits inside a bordered header, not hanging below a bar. */
+  .sheet-logo-plate {
+    background: oklch(0.98 0.005 250);
+    display: inline-block;
+    padding: 0.25rem 0.625rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 12px -4px oklch(0.2 0.08 255 / 0.4);
+  }
+
+  /* Mobile navbar single-row overflow guard — the below-xl top bar packs the
+      logo, 4 social icons, $MBGA pill, DONATE button, and hamburger onto one
+      row. On narrow phones (down to ~360px) the row can overflow horizontally
+      if any flex child refuses to shrink. This rule enforces min-width: 0 on
+      every direct flex child (the canonical fix for truncating/shrinking flex
+      children) and clips any residual horizontal overflow as defense-in-depth
+      so no element is pushed off-screen or causes a horizontal scrollbar.
+      Only the below-xl row uses .mobile-nav-row; the desktop (xl+) navbar is
+      unaffected. */
+  .mobile-nav-row > * {
+    min-width: 0;
+  }
+  .mobile-nav-row {
+    overflow-x: clip;
+  }
+
+  /* ── Gallery + Admin dashboard extension ─────────────────────────
+     Dashed upload zone, admin management cards, lightbox overlay,
+     fade-in-up scroll animation, admin form inputs. All respect the
+     existing zero-radius / no-shadow discipline. ──────────────── */
+
+  /* Drag-and-drop upload zone — dashed border, lifts on hover, turns red
+     when a file is dragged over. Centered, prominent, single action. */
+  .upload-dropzone {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 3rem 2rem;
+    background: oklch(var(--upload-zone));
+    border: 2px dashed oklch(var(--border));
+    transition: var(--transition-smooth);
+    cursor: pointer;
+  }
+  .upload-dropzone:hover {
+    background: oklch(var(--upload-zone-hover));
+    border-color: oklch(var(--muted-foreground));
+  }
+  .upload-dropzone.is-active {
+    background: oklch(var(--upload-zone-active));
+    border-color: oklch(var(--primary));
+  }
+
+  /* Admin management card — elevated surface one step above --card,
+     hairline border, subtle background lift on hover. No shadow (discipline). */
+  .admin-card {
+    background: oklch(var(--admin-card));
+    border: 1px solid oklch(var(--border));
+    transition: var(--transition-smooth);
+    overflow: hidden;
+  }
+  .admin-card:hover {
+    background: oklch(var(--admin-card-hover));
+    border-color: oklch(var(--muted-foreground));
+  }
+
+  /* Admin form input — dark recessed field, hairline border, red focus ring.
+     Matches the SpaceX discipline: square corners, no shadow. */
+  .admin-input {
+    width: 100%;
+    background: oklch(var(--upload-zone));
+    border: 1px solid oklch(var(--border));
+    color: oklch(var(--foreground));
+    padding: 0.625rem 0.875rem;
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    transition: var(--transition-smooth);
+    outline: none;
+  }
+  .admin-input:focus {
+    border-color: oklch(var(--primary));
+    box-shadow: 0 0 0 1px oklch(var(--primary));
+  }
+  .admin-input::placeholder {
+    color: oklch(var(--muted-foreground));
+  }
+
+  /* Admin select (category dropdown) — same recessed field treatment as
+     .admin-input but with a native chevron via appearance + background-image
+     so the control reads as a dropdown, not a text field. Square corners,
+     no shadow, red focus ring. color-scheme: dark so the native <option>
+     list renders dark in supporting browsers. */
+  .admin-select {
+    width: 100%;
+    background: oklch(var(--upload-zone));
+    border: 1px solid oklch(var(--border));
+    color: oklch(var(--foreground));
+    padding: 0.625rem 2rem 0.625rem 0.875rem;
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    transition: var(--transition-smooth);
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    color-scheme: dark;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none' stroke='%23a8b3c7' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'><path d='M3 4.5l3 3 3-3'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    cursor: pointer;
+  }
+  .admin-select:focus {
+    border-color: oklch(var(--primary));
+    box-shadow: 0 0 0 1px oklch(var(--primary));
+  }
+  .admin-select:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  /* Admin date input — same recessed field treatment as .admin-input.
+     color-scheme: dark so the native date picker calendar icon and the
+     dropdown day/month/year picker render in the dark theme. Square corners,
+     no shadow, red focus ring. The native calendar indicator is recolored
+     via the ::-webkit-calendar-picker-indicator pseudo so it reads against
+     the dark surface. */
+  .admin-date {
+    width: 100%;
+    background: oklch(var(--upload-zone));
+    border: 1px solid oklch(var(--border));
+    color: oklch(var(--foreground));
+    padding: 0.625rem 0.875rem;
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    transition: var(--transition-smooth);
+    outline: none;
+    color-scheme: dark;
+  }
+  .admin-date:focus {
+    border-color: oklch(var(--primary));
+    box-shadow: 0 0 0 1px oklch(var(--primary));
+  }
+  .admin-date:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  .admin-date::-webkit-calendar-picker-indicator {
+    filter: invert(0.7) sepia(0.2) hue-rotate(180deg);
+    cursor: pointer;
+  }
+  .admin-date::-webkit-clear-button,
+  .admin-date::-webkit-inner-spin-button {
+    filter: invert(0.7);
+  }
+
+  /* Admin meta tag — small uppercase mono label showing the item's current
+      category and event date on the management card, above the edit form.
+      Square corners, no shadow. Reuses --muted-foreground so it reads as
+      metadata, not a CTA. */
+  .admin-meta-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.2rem 0.5rem;
+    background: oklch(var(--muted) / 0.5);
+    border: 1px solid oklch(var(--border));
+    color: oklch(var(--foreground) / 0.85);
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    font-size: 0.625rem;
+    letter-spacing: 0.14em;
+    font-weight: 500;
+    border-radius: 0;
+    box-shadow: none;
+    white-space: nowrap;
+  }
+
+  /* ── Shared AdminLayout shell ────────────────────────────────────
+     Fixed admin header with bold ADMIN DASHBOARD title, horizontal
+     tab nav between admin dashboards, II principal + sign-out, and a
+     Quick Links cluster of external-tool CTAs. The dashboard body
+     uses bg-blue-950 directly (per user preference) for a clean
+     minimal dark-navy surface distinct from the public --background.
+     All respect the existing zero-radius / no-shadow discipline. */
+
+  /* Admin header — fixed top bar over the bg-blue-950 dashboard.
+      Hairline bottom border separates it from the page content.
+      Uses a slightly elevated navy surface (one OKLCH step above
+      --background) so the header reads as a distinct chrome zone
+      against the bg-blue-950 body. No shadow (discipline). */
+  .admin-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    background: oklch(0.24 0.09 255);
+    border-bottom: 1px solid oklch(var(--border));
+    backdrop-filter: saturate(140%) blur(8px);
+  }
+
+  /* Admin tab — internal navigation between admin dashboards.
+      Mono uppercase label, hairline border, transparent inactive state.
+      Inactive: muted foreground text. Hover: lifts to a subtle muted
+      background and brightens the text. Active: solid red --primary
+      background with primary-foreground text (matches the gallery
+      filter button active state). Square corners, no shadow. */
+  .admin-tab {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1rem;
+    background: transparent;
+    color: oklch(var(--foreground) / 0.7);
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    font-weight: 500;
+    border: 1px solid oklch(var(--border));
+    border-radius: 0;
+    box-shadow: none;
+    transition: var(--transition-smooth);
+    cursor: pointer;
+    white-space: nowrap;
+    text-decoration: none;
+  }
+  .admin-tab:hover:not(.admin-tab-active) {
+    background: oklch(var(--muted) / 0.6);
+    border-color: oklch(var(--muted-foreground));
+    color: oklch(var(--foreground));
+  }
+  .admin-tab:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px oklch(var(--ring));
+  }
+
+  /* Admin tab active — solid red --primary background, primary-foreground
+      text, matching border. Visually distinct from the outline Quick Links
+      so internal nav reads as the current section. */
+  .admin-tab-active {
+    background: oklch(var(--primary));
+    color: oklch(var(--primary-foreground));
+    border-color: oklch(var(--primary));
+  }
+
+  /* Admin quick link — external-tool CTA (Mailchimp, Plesk) styled as a
+      subtle outline / secondary button so it stands apart from the
+      internal admin tabs. Transparent background, hairline foreground
+      border, foreground text. Hover inverts to solid foreground
+      background + background text (mirrors .btn-outline-invert but at
+      a smaller, secondary scale). Square corners, no shadow. */
+  .admin-quick-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.375rem;
+    padding: 0.4rem 0.875rem;
+    background: transparent;
+    color: oklch(var(--foreground) / 0.85);
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    font-weight: 500;
+    border: 1px solid oklch(var(--foreground) / 0.4);
+    border-radius: 0;
+    box-shadow: none;
+    transition: var(--transition-smooth);
+    cursor: pointer;
+    white-space: nowrap;
+    text-decoration: none;
+  }
+  .admin-quick-link:hover {
+    background: oklch(var(--foreground));
+    color: oklch(0.24 0.09 255);
+    border-color: oklch(var(--foreground));
+  }
+  .admin-quick-link:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px oklch(var(--ring));
+  }
+
+  /* Lightbox overlay — full-screen backdrop darker than background for focus.
+     Fades in via the lightbox-fade keyframe (tailwind.config.js). */
+  .lightbox-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background: oklch(var(--lightbox-backdrop) / 0.92);
+    backdrop-filter: blur(8px);
+  }
+
+  /* Image-fallback background — a blue-tinted neutral (oklch 0.20 0.06 255)
+     used on gallery <img> wrappers so a failed image shows a blue-tinted square
+     instead of the deep-blue --card token that masquerades as the
+     "blue cards" symptom. Distinct from --card (0.26 0.08 255) so the
+     fallback state is visibly a placeholder, not a void. */
+  .bg-image-fallback {
+    background: oklch(0.2 0.06 255);
+  }
+
+  /* ── Masonry gallery + filter + per-tile skeleton ───────────────
+     True CSS masonry via `columns` so mixed-orientation event photos
+     pack into variable-height columns with no fixed row heights. Each
+     tile uses `break-inside: avoid` so a tile never splits across a
+     column break. Responsive: 1 col mobile, 2 col tablet, 3 col
+     desktop, 4 col wide desktop. Respects the existing zero-radius /
+     no-shadow discipline. ──────────────────────────────────────── */
+
+  /* Masonry container — CSS multi-column layout. `gap` controls the
+     horizontal column gap; vertical spacing between tiles in a column
+     is `column-gap`-equivalent via the tile's margin-bottom (see
+     .gallery-masonry-item). `columns` is used (not `column-count`)
+     so we can specify both the count and a min width hint. */
+  .gallery-masonry {
+    columns: 1;
+    column-gap: 1.5rem;
+  }
+  @media (min-width: 640px) {
+    .gallery-masonry {
+      columns: 2;
+      column-gap: 1.5rem;
+    }
+  }
+  @media (min-width: 1024px) {
+    .gallery-masonry {
+      columns: 3;
+      column-gap: 1.5rem;
+    }
+  }
+  @media (min-width: 1280px) {
+    .gallery-masonry {
+      columns: 4;
+      column-gap: 1.5rem;
+    }
+  }
+
+  /* Masonry tile — each tile is one inline-block column item that must
+     not split across a column break. `break-inside: avoid` is the
+     canonical masonry guard; the legacy `page-break-inside: avoid`
+     fallback covers older engines. `display: inline-block` (not block)
+     is required so the column algorithm treats the tile as an atomic
+     unit. The bottom margin provides the vertical gutter between tiles
+     in the same column. Width is 100% of the column. */
+  .gallery-masonry-item {
+    display: inline-block;
+    width: 100%;
+    break-inside: avoid;
+    -webkit-column-break-inside: avoid;
+    page-break-inside: avoid;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Category filter bar — horizontal scroll on mobile, wraps on
+     desktop. Buttons use the existing red --primary accent for the
+     active state (inverted style) and a hairline outline for inactive.
+     Respects the zero-radius discipline (square corners). Rendered as a
+     <fieldset> for accessible grouping, so reset the browser-default
+     fieldset chrome (margin/border/padding) so the flex layout reads
+     cleanly. */
+  .gallery-filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0;
+    border: 0;
+    padding: 0;
+    margin-bottom: 2rem;
+  }
+
+  /* Filter button — square corners, mono uppercase label, hairline
+     border. Inactive: transparent background, foreground text. Active:
+     solid red --primary background, primary-foreground text. Hover on
+     inactive lifts to a subtle muted background. */
+  .gallery-filter-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1rem;
+    background: transparent;
+    color: oklch(var(--foreground) / 0.8);
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    font-weight: 500;
+    border: 1px solid oklch(var(--border));
+    border-radius: 0;
+    box-shadow: none;
+    transition: var(--transition-smooth);
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .gallery-filter-button:hover:not(.is-active) {
+    background: oklch(var(--muted) / 0.6);
+    border-color: oklch(var(--muted-foreground));
+    color: oklch(var(--foreground));
+  }
+  .gallery-filter-button.is-active {
+    background: oklch(var(--primary));
+    color: oklch(var(--primary-foreground));
+    border-color: oklch(var(--primary));
+  }
+  .gallery-filter-button:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px oklch(var(--ring));
+  }
+
+  /* Per-tile image skeleton — a shimmer placeholder shown behind the
+     <img> until onLoad fires. The skeleton fills the tile's image
+     frame and crossfades out when the image loads. CSS-only shimmer
+     via a diagonal gradient sweep; no extra deps. */
+  .gallery-tile-frame {
+    position: relative;
+    overflow: hidden;
+    background: oklch(0.2 0.06 255);
+  }
+  .gallery-tile-skeleton {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      100deg,
+      oklch(0.22 0.06 255) 30%,
+      oklch(0.28 0.08 255) 50%,
+      oklch(0.22 0.06 255) 70%
+    );
+    background-size: 200% 100%;
+    animation: gallery-skeleton-shimmer 1.4s ease-in-out infinite;
+    transition: opacity 400ms ease-out;
+    z-index: 1;
+  }
+  .gallery-tile-skeleton.is-hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .gallery-tile-image {
+    position: relative;
+    z-index: 2;
+    display: block;
+    width: 100%;
+    height: auto;
+    opacity: 0;
+    transition: opacity 400ms ease-out;
+  }
+  .gallery-tile-image.is-loaded {
+    opacity: 1;
+  }
+
+  @keyframes gallery-skeleton-shimmer {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
+
+  /* Lightbox metadata — category tag + event date pill rendered
+     beneath the lightbox image. Reuses the existing .category-pill
+     red accent for the category tag so the lightbox matches the
+     gallery's categorical accent discipline. */
+  .gallery-lightbox-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+  }
+  .gallery-lightbox-date {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.625rem;
+    background: oklch(var(--muted) / 0.6);
+    color: oklch(var(--foreground) / 0.85);
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    font-size: 0.6875rem;
+    letter-spacing: 0.16em;
+    font-weight: 500;
+    border: 1px solid oklch(var(--border));
+    border-radius: 0;
+    box-shadow: none;
+    white-space: nowrap;
+  }
+
+  /* Fade-in-up scroll animation — gallery grid items and admin cards rise
+     and fade in as they enter the viewport. Initial state set by .fade-in-up;
+     .fade-in-up-visible triggers the settled state. Mirrors the .entrance-*
+     Intersection Observer pattern. */
+  .fade-in-up {
+    opacity: 0;
+    transform: translateY(1.5rem);
+    transition: opacity 600ms ease-out, transform 600ms ease-out;
+    will-change: opacity, transform;
+  }
+  .fade-in-up-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .transition-smooth {
+    transition: var(--transition-smooth);
+  }
+
+  .bg-navy {
+    background: oklch(var(--navy));
+  }
+
+  .bg-destructive-soft {
+    background: oklch(var(--destructive-soft));
+  }
+
+  /* ── ArticleCard + /real-british-history hub extension ──────────
+     Reusable vertical preview card, per-category pill, primary red
+     Read Article button, and hub header zone. All respect the existing
+     zero-radius / no-shadow / red-accent discipline. Reuse existing
+     tokens (--blog-card, --primary, --blog-prose-heading, --blog-prose-body,
+     --blog-cover-fallback). ─────────────────────────────────────── */
+
+  /* ArticleCard — vertical preview card with top image, category pill,
+     title, author + readTime, and a Read Article button. Translucent
+     blue-tinted surface (reuses --blog-card at 40% + backdrop-blur) so it
+     matches the existing .blog-card grid aesthetic; hairline white/10
+     border; hover lift -4px. rounded-t-xl / rounded-xl declared for
+     semantic clarity but resolve to 0 under --radius: 0 (square discipline). */
+  .article-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: oklch(var(--blog-card) / 0.4);
+    backdrop-filter: saturate(140%) blur(12px);
+    border: 1px solid oklch(0.98 0.005 250 / 0.1);
+    border-radius: 0;
+    overflow: hidden;
+    transition: var(--transition-smooth);
+    cursor: pointer;
+  }
+  .article-card:hover {
+    background: oklch(var(--blog-card) / 0.6);
+    border-color: oklch(0.98 0.005 250 / 0.2);
+    transform: translateY(-4px);
+  }
+  .article-card .article-card-cover {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: oklch(var(--blog-cover-fallback));
+    border-radius: 0 0 0 0;
+  }
+  .article-card .article-card-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .article-card .article-card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1.25rem 1.5rem 1.5rem;
+  }
+  .article-card .article-card-title {
+    color: oklch(var(--blog-prose-heading));
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.25rem;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .article-card .article-card-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: oklch(var(--blog-prose-muted));
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .article-card .article-card-meta .meta-dot {
+    width: 0.25rem;
+    height: 0.25rem;
+    border-radius: 9999px;
+    background: oklch(var(--blog-prose-muted) / 0.6);
+    flex-shrink: 0;
+  }
+
+  /* Category pill — small uppercase mono badge below the image, per-category
+     color. .is-blog reuses red --primary (matches existing .category-badge);
+     .is-rbh uses the blue-tinted azure --category-rbh accent so the two hubs
+     are distinguishable at a glance. Square corners, no shadow. */
+  .category-pill {
+    display: inline-flex;
+    align-items: center;
+    align-self: flex-start;
+    padding: 0.25rem 0.625rem;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    font-size: 0.6875rem;
+    letter-spacing: 0.18em;
+    font-weight: 500;
+    border-radius: 0;
+    box-shadow: none;
+    white-space: nowrap;
+  }
+  .category-pill.is-blog {
+    background: oklch(var(--primary));
+    color: oklch(var(--primary-foreground));
+  }
+  .category-pill.is-rbh {
+    background: oklch(var(--category-rbh));
+    color: oklch(var(--category-rbh-foreground));
+  }
+
+  /* Read Article button — primary red CTA inside the ArticleCard. Solid red
+     --primary, square corners (card-internal button, NOT a pill — distinct
+     from hero CTAs), hover intensifies to the lifted red. Full-width inside
+     the card body. */
+  .read-article-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.75rem 1.25rem;
+    background: oklch(var(--primary));
+    color: oklch(var(--primary-foreground));
+    font-family: var(--font-display);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.8125rem;
+    border-radius: 0;
+    border: 1px solid oklch(var(--primary));
+    box-shadow: none;
+    transition: var(--transition-smooth);
+    cursor: pointer;
+    margin-top: 0.25rem;
+  }
+  .read-article-button:hover {
+    background: oklch(0.62 0.24 25);
+    border-color: oklch(0.62 0.24 25);
+  }
+  .read-article-button .read-article-arrow {
+    display: inline-block;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    flex-shrink: 0;
+  }
+  .read-article-button:hover .read-article-arrow {
+    transform: translate(2px, -2px);
+  }
+
+  /* Hub header zone — eyebrow + display headline + standfirst for the
+     /real-british-history hub (and reusable for /blog). Matches the blog
+     hub hero header styling WITHOUT a featured hero card. Reuses existing
+     --blog-prose-heading (bright white), --muted-foreground (eyebrow),
+     --blog-prose-body (standfirst). */
+  .hub-header {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: clamp(3rem, 8vw, 5.5rem) 1.5rem clamp(2rem, 5vw, 3.5rem);
+    max-width: 48rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .hub-header .hub-eyebrow {
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.22em;
+    color: oklch(var(--muted-foreground));
+  }
+  .hub-header .hub-title {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 0.95;
+    font-size: clamp(2.25rem, 6vw, 4rem);
+    color: oklch(var(--blog-prose-heading));
+  }
+  .hub-header .hub-standfirst {
+    font-family: var(--font-body);
+    font-size: 1.125rem;
+    line-height: 1.6;
+    color: oklch(var(--blog-prose-body));
+    max-width: 40rem;
+  }
+
+  /* ── Blog CMS extension ─────────────────────────────────────────
+     Featured hero card, responsive grid cards, cinematic cover,
+     narrow reading column, publish-status badge, dark composer,
+     Markdown prose styling, Load More button. All respect the
+     existing zero-radius / no-shadow / red-accent discipline. ─── */
+
+  /* Featured hero card — full-width cinematic featured post at the top
+     of the blog hub. Cover image fills the frame; gradient scrim anchors
+     the headline low-left. One step above --card for prominence. */
+  .featured-hero-card {
+    position: relative;
+    width: 100%;
+    min-height: clamp(22rem, 60vh, 42rem);
+    overflow: hidden;
+    background: oklch(var(--blog-hero-card));
+    border: 1px solid oklch(var(--border) / 0.6);
+  }
+  .featured-hero-card .featured-cover {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+  .featured-hero-card .featured-scrim {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      oklch(0.2 0.08 255 / 0.35) 0%,
+      oklch(0.2 0.08 255 / 0.1) 40%,
+      oklch(0.2 0.08 255 / 0.55) 70%,
+      oklch(0.2 0.08 255 / 0.92) 100%
+    );
+    z-index: 1;
+  }
+  .featured-hero-card .featured-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 100%;
+    padding: clamp(1.5rem, 4vw, 3.5rem);
+    gap: 1rem;
+  }
+
+  /* Blog grid card — responsive card with cover image, category badge,
+     headline, standfirst, read time. Translucent blue-tinted surface with
+     backdrop-blur, hairline border, hover lift one OKLCH step. */
+  .blog-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: oklch(var(--blog-card) / 0.4);
+    backdrop-filter: saturate(140%) blur(12px);
+    border: 1px solid oklch(0.98 0.005 250 / 0.1);
+    overflow: hidden;
+    transition: var(--transition-smooth);
+  }
+  .blog-card:hover {
+    background: oklch(var(--blog-card) / 0.6);
+    border-color: oklch(0.98 0.005 250 / 0.2);
+    transform: translateY(-4px);
+  }
+  .blog-card .blog-card-cover {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    background: oklch(var(--blog-cover-fallback));
+  }
+  .blog-card .blog-card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    padding: 1.25rem 1.5rem 1.5rem;
+  }
+
+  /* Category badge — small red uppercase mono label. Red reserved for
+     categorical accents (badges, arrows, CTAs) per the existing discipline. */
+  .category-badge {
+    display: inline-flex;
+    align-items: center;
+    align-self: flex-start;
+    padding: 0.25rem 0.625rem;
+    background: oklch(var(--primary));
+    color: oklch(var(--primary-foreground));
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    font-size: 0.6875rem;
+    letter-spacing: 0.18em;
+    font-weight: 500;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  /* Article reading column — narrow max-w-3xl mx-auto column for long-form.
+     Bright white headings, soft blue-tinted grey body text. */
+  .article-reading-column {
+    max-width: 48rem; /* max-w-3xl equivalent */
+    margin-left: auto;
+    margin-right: auto;
+    padding: clamp(2rem, 5vw, 4rem) 1.5rem;
+  }
+  .article-reading-column h1,
+  .article-reading-column h2,
+  .article-reading-column h3,
+  .article-reading-column h4 {
+    color: oklch(var(--blog-prose-heading));
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  .article-reading-column h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+  }
+  .article-reading-column h2 {
+    font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+  }
+  .article-reading-column h3 {
+    font-size: clamp(1.25rem, 2.5vw, 1.625rem);
+  }
+  .article-reading-column p,
+  .article-reading-column li {
+    color: oklch(var(--blog-prose-body));
+    font-family: var(--font-body);
+    font-size: 1.0625rem;
+    line-height: 1.75;
+    margin-bottom: 1.25rem;
+  }
+  .article-reading-column a {
+    color: oklch(var(--primary));
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    transition: var(--transition-smooth);
+  }
+  .article-reading-column a:hover {
+    color: oklch(0.62 0.24 25);
+  }
+  .article-reading-column blockquote {
+    border-left: 3px solid oklch(var(--primary));
+    padding-left: 1.5rem;
+    margin: 2rem 0;
+    color: oklch(var(--blog-prose-heading));
+    font-style: italic;
+    font-size: 1.25rem;
+    line-height: 1.6;
+  }
+  .article-reading-column code {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    background: oklch(var(--muted));
+    padding: 0.15em 0.4em;
+    color: oklch(var(--blog-prose-heading));
+  }
+  .article-reading-column img {
+    width: 100%;
+    height: auto;
+    margin: 2rem 0;
+    background: oklch(var(--blog-cover-fallback));
+  }
+  .article-reading-column ul,
+  .article-reading-column ol {
+    padding-left: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+  .article-reading-column ul li {
+    list-style-type: disc;
+    margin-bottom: 0.5rem;
+  }
+  .article-reading-column ol li {
+    list-style-type: decimal;
+    margin-bottom: 0.5rem;
+  }
+  .article-reading-column hr {
+    border: none;
+    border-top: 1px solid oklch(var(--border));
+    margin: 3rem 0;
+  }
+
+  /* Article share buttons — X/Twitter, Facebook, and a copy-link button
+     rendered at the end of the reading column. Square corners, hairline
+     border, mono uppercase label, no shadow (matches the SpaceX discipline).
+     Hover lifts the surface one OKLCH step and tints the border toward the
+     foreground so the affordance reads clearly against the deep-blue canvas.
+     The copy-link button reuses the same surface but flips its label/icon
+     to a "Link copied" confirmation state via JS. */
+  .article-share-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  .article-share-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1rem;
+    background: oklch(var(--blog-card) / 0.4);
+    border: 1px solid oklch(var(--border));
+    color: oklch(var(--blog-prose-heading));
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    font-size: 0.6875rem;
+    letter-spacing: 0.16em;
+    font-weight: 500;
+    border-radius: 0;
+    box-shadow: none;
+    transition: var(--transition-smooth);
+    cursor: pointer;
+    text-decoration: none;
+    min-height: 2.75rem;
+  }
+  .article-share-button:hover {
+    background: oklch(var(--blog-card) / 0.7);
+    border-color: oklch(var(--muted-foreground));
+    color: oklch(var(--foreground));
+  }
+  .article-share-button:focus-visible {
+    outline: 2px solid oklch(var(--primary));
+    outline-offset: 2px;
+  }
+  .article-share-button svg {
+    flex-shrink: 0;
+  }
+  /* Copy-link button is a real <button> (not an anchor) — reset any
+     inherited button defaults so it matches the anchor share buttons. */
+  button.article-share-button {
+    font-family: var(--font-mono);
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  /* Cinematic cover — massive full-width cover image at the top of an
+     article page. Full viewport width, ~55vh tall, gradient scrim at the
+     bottom for headline legibility if overlaid. */
+  .cinematic-cover {
+    position: relative;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    height: clamp(24rem, 55vh, 44rem);
+    overflow: hidden;
+    background: oklch(var(--blog-cover-fallback));
+  }
+  .cinematic-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    animation: blog-cover-reveal 1.1s cubic-bezier(0.4, 0, 0.2, 1) both;
+  }
+  .cinematic-cover .cinematic-cover-scrim {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      oklch(0.2 0.08 255 / 0.2) 0%,
+      oklch(0.2 0.08 255 / 0.05) 50%,
+      oklch(0.2 0.08 255 / 0.7) 100%
+    );
+    z-index: 1;
+  }
+
+  /* Publish status badge — draft (amber) vs published (green). Square
+     corners, mono uppercase, no shadow. Functional state cue, not decorative. */
+  .publish-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.25rem 0.625rem;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    font-size: 0.6875rem;
+    letter-spacing: 0.16em;
+    font-weight: 500;
+    border-radius: 0;
+    box-shadow: none;
+    white-space: nowrap;
+  }
+  .publish-status-badge::before {
+    content: "";
+    display: inline-block;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 9999px;
+    background: currentColor;
+  }
+  .publish-status-badge.is-draft {
+    background: oklch(var(--status-draft) / 0.18);
+    color: oklch(var(--status-draft));
+    border: 1px solid oklch(var(--status-draft) / 0.4);
+  }
+  .publish-status-badge.is-published {
+    background: oklch(var(--status-published) / 0.18);
+    color: oklch(var(--status-published));
+    border: 1px solid oklch(var(--status-published) / 0.4);
+  }
+
+  /* Blog admin composer — dark-themed publishing dashboard surface.
+     Sits one step above --admin-card. Wraps the composer form + cover
+     upload zone + draft/published toggle. Reuses .admin-input for fields. */
+  .blog-admin-composer {
+    background: oklch(var(--composer-surface));
+    border: 1px solid oklch(var(--border));
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .blog-admin-composer .composer-field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .blog-admin-composer .composer-label {
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    font-size: 0.6875rem;
+    letter-spacing: 0.18em;
+    color: oklch(var(--muted-foreground));
+  }
+  .blog-admin-composer textarea.admin-input {
+    min-height: 18rem;
+    resize: vertical;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    line-height: 1.6;
+  }
+
+  /* Markdown content — prose styling for rendered Markdown in the reading
+     column. Delegates heading/body colors to .article-reading-column tokens
+     so a standalone .markdown-content block also reads correctly. */
+  .markdown-content {
+    color: oklch(var(--blog-prose-body));
+    font-family: var(--font-body);
+    font-size: 1.0625rem;
+    line-height: 1.75;
+  }
+  .markdown-content h1,
+  .markdown-content h2,
+  .markdown-content h3,
+  .markdown-content h4 {
+    color: oklch(var(--blog-prose-heading));
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  .markdown-content h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+  }
+  .markdown-content h2 {
+    font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+  }
+  .markdown-content h3 {
+    font-size: clamp(1.25rem, 2.5vw, 1.625rem);
+  }
+  .markdown-content p {
+    margin-bottom: 1.25rem;
+  }
+  .markdown-content a {
+    color: oklch(var(--primary));
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+  .markdown-content blockquote {
+    border-left: 3px solid oklch(var(--primary));
+    padding-left: 1.5rem;
+    margin: 2rem 0;
+    color: oklch(var(--blog-prose-heading));
+    font-style: italic;
+    font-size: 1.25rem;
+    line-height: 1.6;
+  }
+  .markdown-content code {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    background: oklch(var(--muted));
+    padding: 0.15em 0.4em;
+    color: oklch(var(--blog-prose-heading));
+  }
+  .markdown-content pre {
+    background: oklch(var(--muted));
+    padding: 1.25rem;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+    border: 1px solid oklch(var(--border));
+  }
+  .markdown-content pre code {
+    background: transparent;
+    padding: 0;
+  }
+  .markdown-content img {
+    width: 100%;
+    height: auto;
+    margin: 2rem 0;
+    background: oklch(var(--blog-cover-fallback));
+  }
+  .markdown-content ul,
+  .markdown-content ol {
+    padding-left: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+  .markdown-content ul li {
+    list-style-type: disc;
+    margin-bottom: 0.5rem;
+  }
+  .markdown-content ol li {
+    list-style-type: decimal;
+    margin-bottom: 0.5rem;
+  }
+  .markdown-content hr {
+    border: none;
+    border-top: 1px solid oklch(var(--border));
+    margin: 3rem 0;
+  }
+
+  /* Load More button — red outline pill that inverts to solid red on hover.
+     Carries a downward arrow. Square-corners discipline exempts pill CTAs
+     (matches .btn-primary-square / .btn-outline-invert). */
+  .load-more-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.85rem 2.25rem;
+    background: transparent;
+    color: oklch(var(--primary));
+    font-family: var(--font-display);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.875rem;
+    border-radius: 9999px;
+    border: 1px solid oklch(var(--primary));
+    box-shadow: none;
+    transition: var(--transition-smooth);
+    cursor: pointer;
+  }
+  .load-more-button:hover:not(:disabled) {
+    background: oklch(var(--primary));
+    color: oklch(var(--primary-foreground));
+    transform: scale(1.05);
+  }
+  .load-more-button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    border-color: oklch(var(--muted-foreground));
+    color: oklch(var(--muted-foreground));
+  }
+
+  @keyframes blog-cover-reveal {
+    from {
+      opacity: 0;
+      transform: scale(1.04);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  /* Branded loading screen — full-viewport overlay with the TPUK arrow centered.
+     Motion is a single opacity fade-in only (no layout/scale animation); the
+     global prefers-reduced-motion override in index.css neutralizes it. */
+  .loading-screen {
+    animation: loading-screen-fade 240ms ease-out both;
+  }
+
+  @keyframes loading-screen-fade {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  /* Circling UK loading arrow — continuous 360-degree spin around its center.
+     Only transform is animated (no layout properties). The global
+     prefers-reduced-motion override in index.css neutralizes the spin, leaving
+     the static arrow with just the opacity fade. */
+  .loading-arrow-spin {
+    animation: loading-arrow-spin 1.4s linear infinite;
+    will-change: transform;
+  }
+
+  @keyframes loading-arrow-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* $MBGA capsule icon — continuous energetic jump/flip/bounce loop. Two
+      bounce peaks per loop (translateY -11px at 25% and 75%) combined with a
+      full 360° rotation spread across the loop and a scale pop to 1.08 at each
+      bounce peak for extra energy. Only the icon <span> is animated; the pill
+      wrapper (emerald-500 bg, font-black, rounded-full) and the "$MBGA" text
+      are untouched. The prefers-reduced-motion block below neutralizes this
+      animation for users who prefer reduced motion. */
+  .spin-jump {
+    animation: spin-jump 2.6s ease-in-out infinite;
+    will-change: transform;
+  }
+
+  @keyframes spin-jump {
+    0% {
+      transform: translateY(0) rotate(0deg) scale(1);
+    }
+    25% {
+      transform: translateY(-11px) rotate(90deg) scale(1.08);
+    }
+    50% {
+      transform: translateY(0) rotate(180deg) scale(1);
+    }
+    75% {
+      transform: translateY(-11px) rotate(270deg) scale(1.08);
+    }
+    100% {
+      transform: translateY(0) rotate(360deg) scale(1);
+    }
+  }
+
+  /* Preloader arrow spin + glow — a continuous 360° rotation combined with a
+     pulsing red drop-shadow glow on the centered Turning Point arrow on the
+     global full-screen preloader. Rotates 0 -> 360° linearly while the red
+     drop-shadow breathes 10px -> 25px -> 10px, ~1.5s linear infinite. Only
+     transform + filter are animated (no layout properties). The global
+     prefers-reduced-motion block below neutralizes the spin + glow, leaving
+     the static arrow visible. */
+  .spinner-glow {
+    animation: spinner-glow 1.5s linear infinite;
+    will-change: transform, filter;
+  }
+
+  @keyframes spinner-glow {
+    0% {
+      transform: rotate(0deg) scale(1);
+      filter: drop-shadow(0 0 10px rgba(220, 38, 38, 0.5));
+    }
+    50% {
+      transform: rotate(180deg) scale(1.1);
+      filter: drop-shadow(0 0 25px rgba(220, 38, 38, 0.95));
+    }
+    100% {
+      transform: rotate(360deg) scale(1);
+      filter: drop-shadow(0 0 10px rgba(220, 38, 38, 0.5));
+    }
+  }
+
+  /* Preloader arrow pulse — subtle scale + opacity breathing on the centered
+     Turning Point arrow on the global full-screen preloader. Combines a gentle
+     1 -> 1.08 scale with a 1 -> 0.85 opacity dip at the midpoint, ~1.6s
+     ease-in-out infinite. Only transform + opacity are animated (no layout
+     properties). The global prefers-reduced-motion block below neutralizes the
+     pulse, leaving the static arrow visible. */
+  .loading-arrow-pulse {
+    animation: loading-arrow-pulse 1.6s ease-in-out infinite;
+    will-change: transform, opacity;
+  }
+
+  @keyframes loading-arrow-pulse {
+    0% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.08);
+      opacity: 0.85;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  /* Preloader progress bar — thin on-brand indeterminate bar beneath the
+     arrow. A royal-blue (#00247D) accent travels left-to-right across a faint
+     white track, ~1.4s ease-in-out infinite. Only transform is animated. The
+     global prefers-reduced-motion block neutralizes the travel, leaving a
+     static accent segment. */
+  .preloader-progress-bar {
+    animation: preloader-progress 1.4s ease-in-out infinite;
+    will-change: transform;
+  }
+
+  @keyframes preloader-progress {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(400%);
+    }
+  }
+
+  /* Movement pillar icons — subtle staggered scale-pulse with a soft red
+     drop-shadow glow. Scale 1 -> 1.12 -> 1 over 3.2s ease-in-out infinite.
+     Only transform + filter are animated (no layout properties). The six
+     pillar cards stagger the loop via inline animation-delay (0s, 0.4s,
+     0.8s, 1.2s, 1.6s, 2.0s) so the icons breathe out of phase rather than
+     in lockstep. The global prefers-reduced-motion block below neutralizes
+     the pulse + glow, leaving the static red glyphs visible. */
+  .icon-pulse {
+    animation: icon-pulse 3.2s ease-in-out infinite;
+    will-change: transform, filter;
+  }
+
+  @keyframes icon-pulse {
+    0% {
+      transform: scale(1);
+      filter: drop-shadow(0 0 0 rgba(200, 16, 46, 0));
+    }
+    50% {
+      transform: scale(1.12);
+      filter: drop-shadow(0 0 6px rgba(200, 16, 46, 0.55));
+    }
+    100% {
+      transform: scale(1);
+      filter: drop-shadow(0 0 0 rgba(200, 16, 46, 0));
+    }
+  }
+
+  /* 'Our podcasts' floating CTA label — subtle continuous vertical bounce
+     on the global fixed half-oval Patreon CTA on the middle-right edge.
+     Only transform is animated (no layout properties). The global
+     prefers-reduced-motion block below neutralizes the bounce, leaving
+     the static label visible. */
+  .podcasts-bounce {
+    animation: podcasts-bounce 1.5s ease-in-out infinite;
+    will-change: transform;
+  }
+
+  @keyframes podcasts-bounce {
+    0% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-4px);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+    scroll-snap-type: none;
+  }
+  .scroll-snap-section {
+    scroll-snap-align: none;
+    scroll-snap-stop: normal;
+  }
+  /* Entrance animations: jump straight to settled state, no slide. Gated behind
+     `.entrance-js` to match the FOUC guard — before JS is active entrance elements
+     are already fully visible, so this only needs to neutralize the JS-driven
+     hidden state. */
+  .entrance-js .entrance-left,
+  .entrance-js .entrance-right,
+  .fade-in-up {
+    opacity: 1;
+    transform: translateX(0);
+    transition: none;
+  }
+  .fade-in-up {
+    transform: translateY(0);
+  }
+  /* CTA hover scale + arrow nudge disabled for reduced motion. */
+  .btn-primary-square:hover,
+  .btn-outline-invert:hover {
+    transform: none;
+  }
+  .btn-primary-square:hover .tpuk-arrow,
+  .btn-outline-invert:hover .tpuk-arrow {
+    transform: none;
+  }
+  /* ArticleCard hover lift + Read Article arrow nudge disabled for reduced motion. */
+  .article-card:hover {
+    transform: none;
+  }
+  .read-article-button:hover .read-article-arrow {
+    transform: none;
+  }
+  /* Blog cover reveal + load-more arrow nudge disabled for reduced motion. */
+  .cinematic-cover img {
+    animation: none;
+  }
+  /* $MBGA capsule icon spin/jump disabled for reduced motion — leaves a
+      static capsule icon inside the pill. */
+  .spin-jump {
+    animation: none;
+  }
+  /* Preloader arrow spin + glow + pulse + progress bar travel disabled for
+     reduced motion — leaves the static arrow + a static accent segment
+     visible. */
+  .spinner-glow {
+    animation: none;
+  }
+  .loading-arrow-pulse {
+    animation: none;
+  }
+  .preloader-progress-bar {
+    animation: none;
+    transform: translateX(0);
+  }
+  .load-more-button:hover:not(:disabled) {
+    transform: none;
+  }
+  /* Gallery skeleton shimmer disabled for reduced motion — leaves a
+      static neutral placeholder behind the image until it loads. */
+  .gallery-tile-skeleton {
+    animation: none;
+  }
+  /* 'Our podcasts' floating CTA label bounce disabled for reduced motion —
+      leaves the static label visible on the half-oval Patreon CTA. */
+  .podcasts-bounce {
+    animation: none;
+  }
+  /* Background video policy under reduced-motion: the hero background
+     videos are muted, looped, and ambient (non-distracting), so they are
+     allowed to play even when the user prefers reduced motion. The user
+     explicitly wants the homepage hero video to PLAY on mobile, where
+     many devices report prefers-reduced-motion under battery saver.
+     The shared <BackgroundVideo> component now renders the <video>
+     element under reduced-motion (with the poster still set as a
+     buffering fallback), so no defense-in-depth `video[autoplay] {
+     display: none }` rule is needed here — that rule previously hid
+     every autoplay video on reduced-motion devices and was the main
+     cause of the "mobile shows only a static poster" symptom. */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   Mailchimp connected-site popup (mcjs) — theme overrides
+   The mcjs script injects the popup markup into the DOM with its own
+   inline styles. These overrides are scoped to #mc_embed_signup and
+   its descendants so they never leak into the rest of the site, and
+   use !important to win over Mailchimp's injected inline styles.
+   Matches the Cinematic Civic design system: deep-navy background,
+   red --primary accents, white text, Oswald display headings, Inter
+   body, zero border-radius, no box-shadows, hairline borders.
+   ───────────────────────────────────────────────────────────────── */
+
+/* Popup shell — deep-navy canvas, square corners, no shadow. */
+#mc_embed_signup {
+  background: oklch(var(--background)) !important;
+  color: oklch(var(--foreground)) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  border: 1px solid oklch(var(--border)) !important;
+  font-family: var(--font-body) !important;
+}
+
+/* Inner wrapper that Mailchimp pads — keep the navy canvas, kill any
+   default white background Mailchimp injects. */
+#mc_embed_signup .mc_embed_signup,
+#mc_embed_signup .mc_embed_signup_scroll,
+#mc_embed_signup .mc-form-embed {
+  background: oklch(var(--background)) !important;
+  color: oklch(var(--foreground)) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  font-family: var(--font-body) !important;
+}
+
+/* Popup heading — Oswald, bold, uppercase, tight tracking, white. */
+#mc_embed_signup h1,
+#mc_embed_signup h2,
+#mc_embed_signup h3,
+#mc_embed_signup .mc-embedded-subscribe-form-heading,
+#mc_embed_signup .heading {
+  color: oklch(var(--foreground)) !important;
+  font-family: var(--font-display) !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: -0.02em !important;
+  line-height: 1.05 !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Popup body / helper text — Inter, soft blue-grey. */
+#mc_embed_signup p,
+#mc_embed_signup .helper-text,
+#mc_embed_signup .mc-text {
+  color: oklch(var(--muted-foreground)) !important;
+  font-family: var(--font-body) !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Field labels — Oswald uppercase mono-style eyebrow above inputs. */
+#mc_embed_signup label,
+#mc_embed_signup .mc-field-group label,
+#mc_embed_signup .mc-label {
+  color: oklch(var(--foreground)) !important;
+  font-family: var(--font-display) !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  font-size: 0.75rem !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Field group wrapper — hairline border, square corners, no shadow. */
+#mc_embed_signup .mc-field-group {
+  background: transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Email input — dark recessed field, white text, hairline border,
+   red focus ring. Square corners, no shadow. */
+#mc_embed_signup input[type="email"],
+#mc_embed_signup input[type="text"],
+#mc_embed_signup .mc-field-group input,
+#mc_embed_signup .email {
+  background: oklch(var(--upload-zone)) !important;
+  color: oklch(var(--foreground)) !important;
+  border: 1px solid oklch(var(--border)) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  font-family: var(--font-body) !important;
+  font-size: 1rem !important;
+  padding: 0.75rem 0.875rem !important;
+  outline: none !important;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+}
+#mc_embed_signup input[type="email"]::placeholder,
+#mc_embed_signup input[type="text"]::placeholder,
+#mc_embed_signup .email::placeholder {
+  color: oklch(var(--muted-foreground)) !important;
+}
+#mc_embed_signup input[type="email"]:focus,
+#mc_embed_signup input[type="text"]:focus,
+#mc_embed_signup .mc-field-group input:focus,
+#mc_embed_signup .email:focus {
+  border-color: oklch(var(--primary)) !important;
+  box-shadow: 0 0 0 1px oklch(var(--primary)) !important;
+  outline: none !important;
+}
+
+/* Submit button — solid red block, white uppercase Oswald, zero radius,
+   no shadow, brighter-red hover. */
+#mc_embed_signup input[type="submit"],
+#mc_embed_signup .mc-field-group input[type="submit"],
+#mc_embed_signup .button,
+#mc_embed_signup .mc-embedded-subscribe {
+  background: oklch(var(--primary)) !important;
+  color: oklch(var(--primary-foreground)) !important;
+  border: 1px solid oklch(var(--primary)) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  font-family: var(--font-display) !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  font-size: 0.875rem !important;
+  padding: 0.85rem 1.5rem !important;
+  cursor: pointer !important;
+  transition: background 0.2s ease, border-color 0.2s ease !important;
+}
+#mc_embed_signup input[type="submit"]:hover,
+#mc_embed_signup .mc-field-group input[type="submit"]:hover,
+#mc_embed_signup .button:hover,
+#mc_embed_signup .mc-embedded-subscribe:hover {
+  background: oklch(0.62 0.24 25) !important;
+  border-color: oklch(0.62 0.24 25) !important;
+}
+#mc_embed_signup input[type="submit"]:focus-visible,
+#mc_embed_signup .mc-field-group input[type="submit"]:focus-visible,
+#mc_embed_signup .button:focus-visible,
+#mc_embed_signup .mc-embedded-subscribe:focus-visible {
+  outline: 2px solid oklch(var(--primary)) !important;
+  outline-offset: 2px !important;
+}
+
+/* Form element itself — transparent background, square corners. */
+#mc_embed_signup form,
+#mc_embed_signup .mc-embedded-subscribe-form {
+  background: transparent !important;
+  color: oklch(var(--foreground)) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  font-family: var(--font-body) !important;
+}
+
+/* Close button — visible against the dark navy background. Mailchimp
+   renders the close control as an anchor/button with a × glyph; make
+   it foreground-colored, hairline-bordered, square, no shadow, with a
+   red hover so it reads as an intentional part of the design system. */
+#mc_embed_signup .mc-close-modal,
+#mc_embed_signup .mc-close,
+#mc_embed_signup a[href="#close"],
+#mc_embed_signup .close-modal,
+#mc_embed_signup button.mc-close {
+  background: transparent !important;
+  color: oklch(var(--foreground)) !important;
+  border: 1px solid oklch(var(--border)) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  font-family: var(--font-display) !important;
+  font-weight: 700 !important;
+  opacity: 1 !important;
+  text-decoration: none !important;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease !important;
+}
+#mc_embed_signup .mc-close-modal:hover,
+#mc_embed_signup .mc-close:hover,
+#mc_embed_signup a[href="#close"]:hover,
+#mc_embed_signup .close-modal:hover,
+#mc_embed_signup button.mc-close:hover {
+  background: oklch(var(--primary)) !important;
+  color: oklch(var(--primary-foreground)) !important;
+  border-color: oklch(var(--primary)) !important;
+  opacity: 1 !important;
+}
+
+/* Response / success / error messages — Inter, red accent for errors,
+   foreground for success. Square corners, no shadow. */
+#mc_embed_signup .response,
+#mc_embed_signup #mce-success-response,
+#mc_embed_signup #mce-error-response,
+#mc_embed_signup .mce_inline_error {
+  background: transparent !important;
+  color: oklch(var(--foreground)) !important;
+  font-family: var(--font-body) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 0.5rem 0 !important;
+}
+#mc_embed_signup #mce-error-response,
+#mc_embed_signup .mce_inline_error {
+  color: oklch(var(--primary)) !important;
+  background: oklch(var(--destructive-soft) / 0.3) !important;
+  border: 1px solid oklch(var(--primary) / 0.5) !important;
+  padding: 0.5rem 0.75rem !important;
+}
+#mc_embed_signup #mce-success-response {
+  color: oklch(var(--status-published)) !important;
+}
+
+/* Mailchimp "powered by" / footer link — muted, mono, no shadow. */
+#mc_embed_signup .mc-embedded-subscribe-form .small-help,
+#mc_embed_signup .small-help,
+#mc_embed_signup .powered-by,
+#mc_embed_signup a[href*="mailchimp"] {
+  color: oklch(var(--muted-foreground)) !important;
+  font-family: var(--font-mono) !important;
+  font-size: 0.6875rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.14em !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  text-decoration: none !important;
+}
+#mc_embed_signup a[href*="mailchimp"]:hover {
+  color: oklch(var(--primary)) !important;
+  text-decoration: underline !important;
+}
+
+/* Generic catch-all for any injected div/section inside the popup so
+   Mailchimp's white defaults never bleed through. Square corners, no
+   shadow, navy/transparent backgrounds, foreground text. */
+#mc_embed_signup div,
+#mc_embed_signup section,
+#mc_embed_signup fieldset {
+  background: transparent !important;
+  color: oklch(var(--foreground)) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  font-family: var(--font-body) !important;
+}
+#mc_embed_signup fieldset {
+  border: 1px solid oklch(var(--border)) !important;
+}
+
+/* Links inside the popup — red accent, underline on hover. */
+#mc_embed_signup a {
+  color: oklch(var(--primary)) !important;
+  font-family: var(--font-body) !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  text-decoration: none !important;
+  transition: color 0.2s ease !important;
+}
+#mc_embed_signup a:hover {
+  color: oklch(0.62 0.24 25) !important;
+  text-decoration: underline !important;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   Mailchimp popup — mobile responsive overrides
+   Mailchimp's mcjs injects the popup with inline positioning/sizing
+   (bottom-right, fixed width) that clips and is hard to fill out on
+   small touch screens. These media queries override those inline
+   styles with !important so the popup becomes a full-width bottom
+   sheet on mobile, with touch-friendly inputs, no horizontal
+   overflow, vertically stacked fields, and tappable controls.
+   Scoped to #mc_embed_signup and descendants only — does NOT affect
+   the in-page Mailchimp forms on /merchandise, /join-us, or the
+   global ContactForm.
+   ───────────────────────────────────────────────────────────────── */
+
+@media (max-width: 640px) {
+  /* Popup shell — full-width bottom sheet, no right-edge clipping. */
+  #mc_embed_signup {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 1rem !important;
+    border-radius: 0 !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-bottom: none !important;
+    box-sizing: border-box !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    max-height: 100dvh !important;
+  }
+
+  /* Inner wrappers — full width, no clipping, safe box model. */
+  #mc_embed_signup .mc_embed_signup,
+  #mc_embed_signup .mc_embed_signup_scroll,
+  #mc_embed_signup .mc-form-embed,
+  #mc_embed_signup form,
+  #mc_embed_signup .mc-embedded-subscribe-form {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+    overflow-x: hidden !important;
+  }
+
+  /* Headings — slightly smaller on mobile, still Oswald uppercase. */
+  #mc_embed_signup h1,
+  #mc_embed_signup h2,
+  #mc_embed_signup h3,
+  #mc_embed_signup .mc-embedded-subscribe-form-heading,
+  #mc_embed_signup .heading {
+    font-size: 1.25rem !important;
+    margin: 0 0 0.5rem 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Body / helper text — readable, not cramped. */
+  #mc_embed_signup p,
+  #mc_embed_signup .helper-text,
+  #mc_embed_signup .mc-text {
+    font-size: 0.875rem !important;
+    line-height: 1.4 !important;
+    margin: 0 0 0.75rem 0 !important;
+  }
+
+  /* Field labels — keep eyebrow style, slightly larger for legibility. */
+  #mc_embed_signup label,
+  #mc_embed_signup .mc-field-group label,
+  #mc_embed_signup .mc-label {
+    display: block !important;
+    width: 100% !important;
+    font-size: 0.8125rem !important;
+    margin: 0 0 0.25rem 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Field groups — stack vertically, full width, no inline clipping. */
+  #mc_embed_signup .mc-field-group {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 0 0.75rem 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Inputs — touch-friendly: 44px min-height, 16px font to prevent
+     iOS auto-zoom, full width, stack vertically. */
+  #mc_embed_signup input[type="email"],
+  #mc_embed_signup input[type="text"],
+  #mc_embed_signup .mc-field-group input,
+  #mc_embed_signup .email {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: 44px !important;
+    font-size: 16px !important;
+    line-height: 1.5 !important;
+    padding: 0.75rem 0.875rem !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+    -webkit-appearance: none !important;
+    appearance: none !important;
+  }
+
+  /* Submit button — full-width tappable block, 44px min-height. */
+  #mc_embed_signup input[type="submit"],
+  #mc_embed_signup .mc-field-group input[type="submit"],
+  #mc_embed_signup .button,
+  #mc_embed_signup .mc-embedded-subscribe {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: 44px !important;
+    font-size: 1rem !important;
+    padding: 0.85rem 1rem !important;
+    margin: 0.75rem 0 0 0 !important;
+    box-sizing: border-box !important;
+    -webkit-appearance: none !important;
+    appearance: none !important;
+  }
+
+  /* Consent checkbox group — full width, tappable, label wraps. */
+  #mc_embed_signup .mc-field-group.input-group,
+  #mc_embed_signup .mc-field-group.checkbox-group,
+  #mc_embed_signup .interestgroup_field,
+  #mc_embed_signup .mc-interest-group {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 0 0.75rem 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+  }
+  #mc_embed_signup input[type="checkbox"],
+  #mc_embed_signup input[type="radio"] {
+    min-width: 24px !important;
+    min-height: 24px !important;
+    width: 24px !important;
+    height: 24px !important;
+    margin: 0 0.5rem 0 0 !important;
+    flex: 0 0 auto !important;
+  }
+  #mc_embed_signup .mc-field-group.input-group label,
+  #mc_embed_signup .mc-field-group.checkbox-group label,
+  #mc_embed_signup .interestgroup_field label,
+  #mc_embed_signup .mc-interest-group label {
+    display: inline-flex !important;
+    align-items: flex-start !important;
+    width: calc(100% - 2rem) !important;
+    font-size: 0.8125rem !important;
+    line-height: 1.4 !important;
+    text-transform: none !important;
+    letter-spacing: 0 !important;
+    margin: 0 0 0.5rem 0 !important;
+  }
+
+  /* Close button — fixed top-right inside the sheet, 44px hit target. */
+  #mc_embed_signup .mc-close-modal,
+  #mc_embed_signup .mc-close,
+  #mc_embed_signup a[href="#close"],
+  #mc_embed_signup .close-modal,
+  #mc_embed_signup button.mc-close {
+    position: absolute !important;
+    top: 0.5rem !important;
+    right: 0.5rem !important;
+    left: auto !important;
+    bottom: auto !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+    width: 44px !important;
+    height: 44px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    font-size: 1.25rem !important;
+    line-height: 1 !important;
+    z-index: 10 !important;
+  }
+
+  /* Response / error / success messages — full width, readable. */
+  #mc_embed_signup .response,
+  #mc_embed_signup #mce-success-response,
+  #mc_embed_signup #mce-error-response,
+  #mc_embed_signup .mce_inline_error {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    font-size: 0.8125rem !important;
+    line-height: 1.4 !important;
+    margin: 0 0 0.5rem 0 !important;
+    padding: 0.5rem 0.75rem !important;
+    box-sizing: border-box !important;
+  }
+
+  /* "Powered by" footer link — full width, smaller, no clipping. */
+  #mc_embed_signup .mc-embedded-subscribe-form .small-help,
+  #mc_embed_signup .small-help,
+  #mc_embed_signup .powered-by,
+  #mc_embed_signup a[href*="mailchimp"] {
+    display: block !important;
+    width: 100% !important;
+    font-size: 0.625rem !important;
+    margin: 0.5rem 0 0 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Generic injected divs/sections — full width, no overflow. */
+  #mc_embed_signup div,
+  #mc_embed_signup section,
+  #mc_embed_signup fieldset {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    overflow-x: hidden !important;
+  }
+}
+
+/* Very small screens — tighten padding and font sizes further so the
+   popup stays usable on phones under 480px wide. */
+@media (max-width: 480px) {
+  #mc_embed_signup {
+    padding: 0.75rem !important;
+  }
+  #mc_embed_signup h1,
+  #mc_embed_signup h2,
+  #mc_embed_signup h3,
+  #mc_embed_signup .mc-embedded-subscribe-form-heading,
+  #mc_embed_signup .heading {
+    font-size: 1.125rem !important;
+    padding-right: 2.5rem !important;
+  }
+  #mc_embed_signup p,
+  #mc_embed_signup .helper-text,
+  #mc_embed_signup .mc-text {
+    font-size: 0.8125rem !important;
+  }
+  #mc_embed_signup input[type="email"],
+  #mc_embed_signup input[type="text"],
+  #mc_embed_signup .mc-field-group input,
+  #mc_embed_signup .email {
+    padding: 0.625rem 0.75rem !important;
+  }
+  #mc_embed_signup input[type="submit"],
+  #mc_embed_signup .mc-field-group input[type="submit"],
+  #mc_embed_signup .button,
+  #mc_embed_signup .mc-embedded-subscribe {
+    padding: 0.75rem 0.875rem !important;
+  }
+  #mc_embed_signup .mc-field-group {
+    margin: 0 0 0.625rem 0 !important;
+  }
+}

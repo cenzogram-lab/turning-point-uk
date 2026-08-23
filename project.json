@@ -1,0 +1,18 @@
+{
+  "overview": "Turning Point UK is a conservative youth organisation website with supporter subscriptions, one-off donations, merchandise checkout, and an admin content area.",
+  "features": [
+    "Supporter subscription tiers (Ambassador, Standard, Donor) via Stripe",
+    "One-off donations via Stripe",
+    "Merchandise store with canister checkout",
+    "Blog, gallery, events and campaign pages",
+    "Admin content management gated to a whitelisted admin"
+  ],
+  "category": "showcase",
+  "tags": [
+    "organisation",
+    "campaign",
+    "stripe",
+    "content"
+  ],
+  "last_updated": "2026-08-19T20:50:10.874Z"
+}

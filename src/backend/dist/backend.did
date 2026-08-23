@@ -1,0 +1,232 @@
+type _ImmutableObjectStorageRefillResult = 
+ record {
+   success: opt bool;
+   topped_up_amount: opt nat;
+ };
+type _ImmutableObjectStorageRefillInformation = record {
+                                                  proposed_top_up_amount:
+                                                   opt nat;};
+type _ImmutableObjectStorageCreateCertificateResult = 
+ record {
+   blob_hash: text;
+   method: text;
+ };
+type Value = 
+ variant {
+   "bool": bool;
+   float: float64;
+   "int": int;
+   "nat": nat;
+   "null";
+   "text": text;
+ };
+type UserRole = 
+ variant {
+   admin;
+   guest;
+   user;
+ };
+type UpdateBlogPostInput = 
+ record {
+   author: text;
+   category: text;
+   content: text;
+   coverImage: ExternalBlob;
+   excerpt: text;
+   isPublished: bool;
+   readTime: text;
+   slug: text;
+   title: text;
+ };
+type TransformationOutput = 
+ record {
+   body: blob;
+   headers: vec HttpHeader;
+   status: nat;
+ };
+type TransformationInput = 
+ record {
+   context: blob;
+   response: HttpRequestResult;
+ };
+type Timestamp = int;
+type StripeSessionStatus = 
+ variant {
+   completed: record {
+                response: text;
+                userPrincipal: opt text;
+              };
+   failed: record {error: text;};
+ };
+type StripeConfiguration = 
+ record {
+   allowedCountries: vec text;
+   secretKey: text;
+ };
+type ShoppingItem = 
+ record {
+   currency: text;
+   priceInCents: nat;
+   productDescription: text;
+   productName: text;
+   quantity: nat;
+ };
+type Result__1 = 
+ variant {
+   err: Error;
+   ok;
+ };
+type Result = 
+ record {
+   hasMore: bool;
+   rows: vec vec Cell;
+ };
+type PublishedPostsPage = 
+ record {
+   posts: vec BlogPost;
+   total: nat;
+ };
+type PostSitemapEntry = 
+ record {
+   category: text;
+   lastmod: Timestamp;
+   slug: text;
+ };
+type NavEntry = 
+ record {
+   children: vec NavEntry;
+   href: text;
+   "text": text;
+ };
+type NavConfig = record {entries: vec NavEntry;};
+type HttpRequestResult = 
+ record {
+   body: blob;
+   headers: vec HttpHeader;
+   status: nat;
+ };
+type HttpHeader = 
+ record {
+   name: text;
+   value: text;
+ };
+type HeroVideoSlot = 
+ record {
+   key: text;
+   posterUrl: text;
+   videoUrl: text;
+ };
+type HeroVideoConfig = record {slots: vec HeroVideoSlot;};
+type GalleryItemId = nat;
+type GalleryItem = 
+ record {
+   category: text;
+   createdAt: Timestamp;
+   description: text;
+   eventDate: opt Timestamp;
+   id: GalleryItemId;
+   image: ExternalBlob;
+   title: text;
+ };
+type ExternalBlob = blob;
+type Error = 
+ variant {
+   AmbiguousAttribute: record {
+                         field: text;
+                         sources: vec text;
+                       };
+   FrontendOriginMismatch: record {
+                             expected: vec text;
+                             got: text;
+                           };
+   FrontendOriginsNotConfigured;
+   MalformedCandid;
+   MissingField: text;
+   MixedSsoSources: record {
+                      otherKeys: vec text;
+                      ssoKeys: vec text;
+                    };
+   NoAttributes;
+   Stale: record {ageNs: nat;};
+   UnknownNonce;
+   UntrustedSsoSource: record {domain: text;};
+ };
+type CreateBlogPostInput = 
+ record {
+   author: text;
+   category: text;
+   content: text;
+   coverImage: ExternalBlob;
+   excerpt: text;
+   isPublished: bool;
+   readTime: text;
+   slug: text;
+   title: text;
+ };
+type Cell = 
+ record {
+   name: text;
+   value: Value;
+ };
+type BlogPostId = nat;
+type BlogPost = 
+ record {
+   author: text;
+   category: text;
+   content: text;
+   coverImage: ExternalBlob;
+   createdAt: Timestamp;
+   excerpt: text;
+   id: BlogPostId;
+   isPublished: bool;
+   readTime: text;
+   slug: text;
+   title: text;
+ };
+service : {
+  _immutableObjectStorageBlobsAreLive: (hashes: vec blob) -> (vec bool) query;
+  _immutableObjectStorageBlobsToDelete: () -> (vec blob) query;
+  _immutableObjectStorageConfirmBlobDeletion: (blobs: vec blob) -> ();
+  _immutableObjectStorageCreateCertificate: (blobHash: text) ->
+   (_ImmutableObjectStorageCreateCertificateResult);
+  _immutableObjectStorageRefillCashier: (refillInformation:
+   opt _ImmutableObjectStorageRefillInformation) ->
+   (_ImmutableObjectStorageRefillResult);
+  _immutableObjectStorageUpdateGatewayPrincipals: () -> ();
+  _initialize_access_control: () -> ();
+  _internet_identity_sign_in_finish: () -> (Result__1);
+  _internet_identity_sign_in_start: () -> (blob);
+  addAdmin: ("principal": principal) -> ();
+  assignCallerUserRole: (user: principal, role: UserRole) -> ();
+  createBlogPost: (input: CreateBlogPostInput) -> (BlogPost);
+  createCheckoutSession: (items: vec ShoppingItem, successUrl: text,
+   cancelUrl: text) -> (text);
+  createGalleryItem: (image: ExternalBlob, title: text, description: 
+   text, eventDate: opt Timestamp, category: text) -> (GalleryItem);
+  deleteBlogPost: (id: BlogPostId) -> (bool);
+  deleteGalleryItem: (id: GalleryItemId) -> (bool);
+  execute: (qJson: text) -> (Result) query;
+  getCallerUserRole: () -> (UserRole) query;
+  getGalleryItems: () -> (vec GalleryItem) query;
+  getHeroVideoConfig: () -> (HeroVideoConfig) query;
+  getNavConfig: () -> (NavConfig) query;
+  getPostBySlug: (slug: text) -> (opt BlogPost) query;
+  getPostSlugs: () -> (vec PostSitemapEntry) query;
+  getStripeSessionStatus: (sessionId: text) -> (StripeSessionStatus);
+  isAdmin: (caller: principal) -> (bool) query;
+  isCallerAdmin: () -> (bool) query;
+  isStripeConfigured: () -> (bool) query;
+  listAllPosts: () -> (vec BlogPost) query;
+  listPublishedPosts: (offset: nat, limit: nat) -> (PublishedPostsPage) query;
+  listPublishedPostsByCategory: (category: text, offset: nat, limit: 
+   nat) -> (PublishedPostsPage) query;
+  schema: () -> (text) query;
+  setHeroVideoConfig: (config: HeroVideoConfig) -> (HeroVideoConfig);
+  setNavConfig: (config: NavConfig) -> (NavConfig);
+  setStripeConfiguration: (config: StripeConfiguration) -> ();
+  transform: (input: TransformationInput) -> (TransformationOutput) query;
+  updateBlogPost: (id: BlogPostId, input: UpdateBlogPostInput) ->
+   (opt BlogPost);
+  updateGalleryItem: (id: GalleryItemId, title: text, description: text,
+   eventDate: opt Timestamp, category: text) -> (opt GalleryItem);
+}

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 450" width="600" height="450" role="img" aria-label="Placeholder image — Join Our Movement">
+  <rect width="600" height="450" fill="#0A0D12"/>
+  <rect width="600" height="450" fill="#C60E3B" opacity="0.10"/>
+  <rect x="1" y="1" width="598" height="448" fill="none" stroke="#C60E3B" stroke-width="2" stroke-dasharray="10 8" opacity="0.55"/>
+  <g transform="translate(300 175)">
+    <text x="0" y="-30" text-anchor="middle" font-family="Oswald, Arial, sans-serif" font-size="34" font-weight="700" fill="#FFFFFF" letter-spacing="2">TURNING POINT UK</text>
+    <text x="0" y="10" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="13" fill="#C60E3B" letter-spacing="3">PLACEHOLDER</text>
+    <text x="0" y="40" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="15" fill="#9CA3AF">Join Our Movement — 600 × 450</text>
+    <text x="0" y="62" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="12" fill="#6B7280">home-600x450.webp</text>
+  </g>
+  <text x="300" y="425" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#4B5563" letter-spacing="2">REAL IMAGE PENDING REPLACEMENT</text>
+</svg>
