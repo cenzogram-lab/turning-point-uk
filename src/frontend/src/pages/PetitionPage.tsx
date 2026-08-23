@@ -3,7 +3,6 @@ import { Section } from "@/components/Section";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useEntranceAnimation } from "@/hooks/useEntranceAnimation";
 import { useSeoMeta } from "@/hooks/useSeoMeta";
-import { POSTER_FLAG_WAVING, VIDEO_FLAG_WAVING } from "@/lib/assets";
 import { ROUTES } from "@/lib/routes";
 import {
   BREADCRUMB_TRAILS,
@@ -58,8 +57,6 @@ export function PetitionPage() {
           },
         ]}
         lazy={false}
-        videoSrc={VIDEO_FLAG_WAVING}
-        posterSrc={POSTER_FLAG_WAVING}
       />
 
       {/* Real impact — the Gurkha veterans pension petition. */}
@@ -118,7 +115,7 @@ export function PetitionPage() {
           iframe attribute pattern is reused from OnYouTube.tsx. */}
       <section
         data-ocid="section.petition-video"
-        className="w-full bg-background px-6 py-20 sm:px-10"
+        className="w-full px-6 py-20 sm:px-10"
       >
         <div className="mx-auto w-full max-w-4xl">
           <div className="mb-8 flex flex-col items-center gap-3 text-center">

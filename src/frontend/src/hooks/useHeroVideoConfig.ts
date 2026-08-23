@@ -47,6 +47,41 @@ import { useQuery } from "@tanstack/react-query";
 const USE_MOCK = import.meta.env.VITE_USE_MOCK === "true";
 
 /**
+ * Sanitizes a backend-driven slot map against the retired video/poster era.
+ *
+ * The deployed canister state may still carry the pre-redesign seed values:
+ * local `/videos/*.mp4` paths (removed in favour of the authoritative hosted
+ * file.garden URLs) and static poster images (removed universally — heroes
+ * have no fallback image anymore). Without this pass, the stale stored
+ * config would override the new baked-in defaults on the live site.
+ *
+ *   - A slot whose videoUrl is empty or points at a retired local
+ *     `/videos/` path is replaced by the current default videoUrl for that
+ *     key (unknown keys keep their admin-set URL untouched).
+ *   - posterUrl is always blanked: fallback images are gone site-wide.
+ *
+ * Admin-set external URLs pass through unchanged, so the config remains
+ * fully admin-editable going forward. The Candid actor interface is not
+ * touched — this is a pure read-side normalization.
+ */
+function sanitizeSlotMap(
+  map: Map<string, HeroVideoSlot>,
+): Map<string, HeroVideoSlot> {
+  const sanitized = new Map<string, HeroVideoSlot>();
+  for (const [key, slot] of map) {
+    const isRetiredUrl =
+      slot.videoUrl.trim() === "" || slot.videoUrl.startsWith("/videos/");
+    const fallback = DEFAULT_HERO_VIDEO_SLOT_MAP.get(key);
+    sanitized.set(key, {
+      key,
+      videoUrl: isRetiredUrl && fallback ? fallback.videoUrl : slot.videoUrl,
+      posterUrl: "",
+    });
+  }
+  return sanitized;
+}
+
+/**
  * Resolves the effective backend actor for read queries. Returns the real
  * actor when available; otherwise falls back to `mockBackend` in mock mode
  * so the seeded sample hero video config renders. Returns `null` in
@@ -88,7 +123,9 @@ export function useHeroVideoConfig(): UseHeroVideoConfigResult {
     queryFn: async () => {
       if (!resolvedActor) return new Map(DEFAULT_HERO_VIDEO_SLOT_MAP);
       const config = await resolvedActor.getHeroVideoConfig();
-      const map = toHeroVideoSlotMap(config);
+      // Normalize stale stored values (retired local /videos/ paths, poster
+      // images) against the current defaults — see sanitizeSlotMap.
+      const map = sanitizeSlotMap(toHeroVideoSlotMap(config));
       // Empty backend config → fall back to defaults so heroes never blank.
       return map.size > 0 ? map : new Map(DEFAULT_HERO_VIDEO_SLOT_MAP);
     },

@@ -3,7 +3,6 @@ import { Section } from "@/components/Section";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useEntranceAnimation } from "@/hooks/useEntranceAnimation";
 import { useSeoMeta } from "@/hooks/useSeoMeta";
-import { POSTER_FLAG_WAVING, VIDEO_FLAG_WAVING } from "@/lib/assets";
 import { ROUTES } from "@/lib/routes";
 import {
   BREADCRUMB_TRAILS,
@@ -122,8 +121,6 @@ export function ActivismKitPage() {
           },
         ]}
         lazy={false}
-        videoSrc={VIDEO_FLAG_WAVING}
-        posterSrc={POSTER_FLAG_WAVING}
       />
 
       {/* WHAT'S INSIDE — four-card grid. */}

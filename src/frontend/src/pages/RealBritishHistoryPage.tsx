@@ -166,7 +166,6 @@ export function RealBritishHistoryPage() {
           a bottom-edge fade that blends into the hub-header beneath it. */}
       <Hero
         videoSrc={historicLondon?.videoUrl}
-        posterSrc={historicLondon?.posterUrl}
         videoLabel="Real British History hero"
         eyebrow="Turning Point UK"
         headline="REAL BRITISH HISTORY"

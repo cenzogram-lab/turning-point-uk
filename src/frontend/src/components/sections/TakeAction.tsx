@@ -151,7 +151,7 @@ export function TakeAction() {
     <section
       id="take-action"
       data-ocid="section.take-action"
-      className="w-full bg-navy px-6 py-32 sm:px-10"
+      className="w-full px-6 py-32 sm:px-10"
     >
       <div className="mx-auto w-full max-w-7xl">
         <div className="mb-16 flex flex-col gap-4">

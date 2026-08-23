@@ -1,4 +1,4 @@
-import { h as createLucideIcon, r as reactExports, j as jsxRuntimeExports, i as useParams, k as useLocation, l as useBlogPostBySlug, a as useEntranceAnimation, m as useHeroVideoConfig, B as BLOG_COVER_FALLBACK, n as useSeoMeta, o as buildBreadcrumbJsonLd, p as SITE_BASE_URL, O as OG_IMAGE_URL, L as Link, R as ROUTES, H as Hero, A as ArrowLeft, C as Check } from "./index-CIwUKotW.js";
+import { h as createLucideIcon, r as reactExports, j as jsxRuntimeExports, i as useParams, k as useLocation, l as useBlogPostBySlug, a as useEntranceAnimation, m as useHeroVideoConfig, B as BLOG_COVER_FALLBACK, n as useSeoMeta, o as buildBreadcrumbJsonLd, p as SITE_BASE_URL, O as OG_IMAGE_URL, L as Link, R as ROUTES, H as Hero, A as ArrowLeft, C as Check } from "./index-DnMuymy2.js";
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -342,7 +342,6 @@ function PostArticlePage() {
   const heroSlotKey = post ? pickHeroVideoSlotKey(alias, post.category) : "newspaper-ad";
   const heroSlot = getSlot(heroSlotKey);
   const heroVideo = heroSlot == null ? void 0 : heroSlot.videoUrl;
-  const heroPoster = heroSlot == null ? void 0 : heroSlot.posterUrl;
   const backLink = post ? resolveBackLink(alias, post.category) : { to: ROUTES.blog, label: "Back to Blog" };
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { ref: containerRef, className: "w-full", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -352,8 +351,7 @@ function PostArticlePage() {
         headline: post.title,
         sub: post.excerpt,
         videoLabel: `${post.category} article hero video`,
-        videoSrc: heroVideo,
-        posterSrc: heroPoster
+        videoSrc: heroVideo
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("figure", { className: "cinematic-cover", "data-ocid": "post_article.cover", children: [

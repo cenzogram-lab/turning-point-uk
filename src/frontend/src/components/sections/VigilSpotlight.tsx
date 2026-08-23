@@ -32,7 +32,7 @@ export function VigilSpotlight() {
     <section
       id="vigil"
       data-ocid="section.vigil_spotlight"
-      className="w-full scroll-mt-[calc(var(--announcement-bar-height)+4rem)] bg-navy px-6 py-20 sm:px-10 sm:py-28"
+      className="w-full scroll-mt-[calc(var(--announcement-bar-height)+4rem)] bg-navy/60 px-6 py-20 sm:px-10 sm:py-28"
     >
       <div className="mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16">
         {/* Left — vigil promotional graphic. */}

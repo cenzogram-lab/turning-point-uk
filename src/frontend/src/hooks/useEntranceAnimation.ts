@@ -40,7 +40,7 @@ export interface UseEntranceAnimationOptions {
   disabled?: boolean;
 }
 
-const ENTRANCE_SELECTOR = ".entrance-left, .entrance-right";
+const ENTRANCE_SELECTOR = ".entrance-left, .entrance-right, .entrance-up";
 
 function prefersReducedMotion(): boolean {
   if (typeof window === "undefined" || !window.matchMedia) return false;
@@ -137,12 +137,23 @@ export function useEntranceAnimation<T extends HTMLElement = HTMLElement>(
 
     // Re-scan when the subtree changes so dynamically rendered content
     // (route transitions, lazy sections, fetched lists) is picked up.
-    const mo = new MutationObserver(() => observeAll());
+    // Coalesced to at most one scan per animation frame so mutation bursts
+    // (autoplaying carousels, streaming lists) don't trigger a full
+    // querySelectorAll pass per mutation record.
+    let rafId = 0;
+    const mo = new MutationObserver(() => {
+      if (rafId) return;
+      rafId = window.requestAnimationFrame(() => {
+        rafId = 0;
+        observeAll();
+      });
+    });
     mo.observe(root, { childList: true, subtree: true });
 
     return () => {
       io.disconnect();
       mo.disconnect();
+      if (rafId) window.cancelAnimationFrame(rafId);
     };
   }, [rootMargin, threshold, stagger, disabled]);
 
@@ -185,4 +196,183 @@ export function entranceProps({
   return delay !== undefined
     ? { className: composed, "data-entrance-delay": String(delay) }
     : { className: composed };
+}
+
+/**
+ * useUniversalReveal — site-wide auto-animation for texts and blocks.
+ *
+ * Mounted once in the shared <Layout> shell. Automatically tags every
+ * animatable content element inside <main> (headings, paragraphs, list
+ * items, blockquotes, figures, images, and card surfaces) with the
+ * `.entrance-up` class (rise-up + fade-in, defined in index.css), assigns a
+ * small per-sibling stagger via `data-entrance-delay`, then observes the
+ * whole document with the same IntersectionObserver + MutationObserver
+ * machinery as `useEntranceAnimation` so elements reveal as they scroll
+ * into view — on EVERY page, with no per-page markup required.
+ *
+ * Elements that already participate in the manual entrance system
+ * (`.entrance-left` / `.entrance-right`, or nested inside one) are skipped
+ * so the two systems never fight over the same node, as are elements inside
+ * `aria-hidden` containers (background video plates, decorative overlays)
+ * and anything carrying `data-no-reveal`.
+ *
+ * FOUC + reduced-motion safety are inherited from the shared system: the
+ * hidden initial state is gated behind the `.entrance-js` html marker, and
+ * the index.css prefers-reduced-motion block forces `.entrance-up` straight
+ * to its settled state.
+ */
+const AUTO_REVEAL_SELECTOR = [
+  "main h1",
+  "main h2",
+  "main h3",
+  "main h4",
+  "main p",
+  "main li",
+  "main blockquote",
+  "main figure",
+  "main img",
+  "main .article-card",
+  "main .ambient-card",
+].join(", ");
+
+export function useUniversalReveal(): void {
+  useEffect(() => {
+    document.documentElement.classList.add("entrance-js");
+
+    // Scope all scanning to <main> (the selectors only match inside it
+    // anyway). This keeps the MutationObserver from firing full-page
+    // re-scans for DOM churn outside the page content — e.g. the
+    // continuously auto-playing endorsements slider, toasts, or portals —
+    // which would otherwise burn CPU on every animation frame on mobile.
+    const scanRoot: ParentNode =
+      document.querySelector("main") ?? document.body;
+    const observeRoot: Node =
+      scanRoot instanceof Element ? scanRoot : document.body;
+
+    const tag = (root: ParentNode) => {
+      for (const el of root.querySelectorAll<HTMLElement>(
+        AUTO_REVEAL_SELECTOR,
+      )) {
+        if (
+          el.classList.contains("entrance-left") ||
+          el.classList.contains("entrance-right") ||
+          el.classList.contains("entrance-up") ||
+          el.closest(
+            ".entrance-left, .entrance-right, [data-no-reveal], [aria-hidden='true']",
+          )
+        ) {
+          continue;
+        }
+        el.classList.add("entrance-up");
+        if (!el.hasAttribute("data-entrance-delay")) {
+          // Small per-sibling stagger so grids/lists cascade instead of
+          // popping in as one block. Capped so late items never lag far
+          // behind the scroll.
+          const parent = el.parentElement;
+          const index = parent
+            ? Array.prototype.indexOf.call(parent.children, el)
+            : 0;
+          el.setAttribute(
+            "data-entrance-delay",
+            String(Math.min(Math.max(index, 0) * 60, 360)),
+          );
+        }
+      }
+    };
+
+    const reduced = prefersReducedMotion();
+
+    const reveal = (el: Element) => {
+      if (reduced) {
+        el.classList.add("entrance-visible");
+        return;
+      }
+      const delayAttr = el.getAttribute("data-entrance-delay");
+      const delay = delayAttr ? Number(delayAttr) : 0;
+      if (delay && Number.isFinite(delay) && delay > 0) {
+        window.setTimeout(() => el.classList.add("entrance-visible"), delay);
+      } else {
+        el.classList.add("entrance-visible");
+      }
+    };
+
+    tag(scanRoot);
+
+    // Coalesce mutation bursts into at most one scan per animation frame.
+    // Route transitions and data fetches fire dozens of mutations in a row;
+    // without this the full tag() pass would run once per mutation record.
+    let rafId = 0;
+    const scheduleScan = (work: () => void) => {
+      if (rafId) return;
+      rafId = window.requestAnimationFrame(() => {
+        rafId = 0;
+        work();
+      });
+    };
+
+    // Reduced motion: settle everything immediately, no observer.
+    if (reduced) {
+      for (const el of scanRoot.querySelectorAll(".entrance-up")) {
+        reveal(el);
+      }
+      // Still keep tagging new content so it never hides (tag + settle).
+      const settleMo = new MutationObserver(() =>
+        scheduleScan(() => {
+          tag(scanRoot);
+          for (const el of scanRoot.querySelectorAll(
+            ".entrance-up:not(.entrance-visible)",
+          )) {
+            reveal(el);
+          }
+        }),
+      );
+      settleMo.observe(observeRoot, { childList: true, subtree: true });
+      return () => {
+        settleMo.disconnect();
+        if (rafId) window.cancelAnimationFrame(rafId);
+      };
+    }
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            reveal(entry.target);
+            // Unobserve as soon as an element has revealed — reveals are
+            // one-shot, so keeping settled elements under observation would
+            // only cost memory/callback work on long pages.
+            io.unobserve(entry.target);
+          }
+        }
+      },
+      { rootMargin: "0px 0px -8% 0px", threshold: 0.05 },
+    );
+
+    const observeAll = () => {
+      for (const el of scanRoot.querySelectorAll<HTMLElement>(".entrance-up")) {
+        if (!el.classList.contains("entrance-visible")) {
+          io.observe(el);
+        }
+      }
+    };
+
+    observeAll();
+
+    // Re-tag + re-observe when the page content changes so route
+    // transitions and dynamically fetched content (blog grids, gallery
+    // tiles) are picked up — coalesced to one pass per frame.
+    const mo = new MutationObserver(() =>
+      scheduleScan(() => {
+        tag(scanRoot);
+        observeAll();
+      }),
+    );
+    mo.observe(observeRoot, { childList: true, subtree: true });
+
+    return () => {
+      io.disconnect();
+      mo.disconnect();
+      if (rafId) window.cancelAnimationFrame(rafId);
+    };
+  }, []);
 }

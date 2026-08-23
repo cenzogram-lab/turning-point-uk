@@ -3,7 +3,6 @@ import { Section } from "@/components/Section";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useEntranceAnimation } from "@/hooks/useEntranceAnimation";
 import { useSeoMeta } from "@/hooks/useSeoMeta";
-import { POSTER_FLAG_WAVING, VIDEO_FLAG_WAVING } from "@/lib/assets";
 import { ROUTES } from "@/lib/routes";
 import {
   BREADCRUMB_TRAILS,
@@ -78,8 +77,6 @@ export function BecomeAnActivistPage() {
         headline="BECOME AN ACTIVIST"
         sub="Stand up against the woke mob. Get trained, get equipped, get active."
         videoLabel="Become an activist hero video"
-        videoSrc={VIDEO_FLAG_WAVING}
-        posterSrc={POSTER_FLAG_WAVING}
         buttons={[
           {
             label: "SIGN UP NOW",
@@ -394,7 +391,7 @@ export function BecomeAnActivistPage() {
           heading above the player. */}
       <section
         data-ocid="section.standing-up-on-campus"
-        className="w-full bg-background px-6 py-24 sm:px-10"
+        className="w-full px-6 py-24 sm:px-10"
       >
         <div className="mx-auto w-full max-w-4xl">
           <div className="mb-10 flex flex-col gap-3">

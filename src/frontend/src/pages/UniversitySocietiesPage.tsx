@@ -3,7 +3,6 @@ import { Section } from "@/components/Section";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useEntranceAnimation } from "@/hooks/useEntranceAnimation";
 import { useSeoMeta } from "@/hooks/useSeoMeta";
-import { POSTER_FLAG_WAVING, VIDEO_FLAG_WAVING } from "@/lib/assets";
 import { ROUTES } from "@/lib/routes";
 import {
   BREADCRUMB_TRAILS,
@@ -294,8 +293,6 @@ export function UniversitySocietiesPage() {
           },
         ]}
         lazy={false}
-        videoSrc={VIDEO_FLAG_WAVING}
-        posterSrc={POSTER_FLAG_WAVING}
       />
 
       {/* Mission overview — introductory copy + quick-jump CTAs to the
@@ -513,7 +510,7 @@ export function UniversitySocietiesPage() {
           red TPUK accent glow. */}
       <section
         data-ocid="section.campus-debate-action"
-        className="w-full bg-background px-6 py-20 sm:px-10"
+        className="w-full px-6 py-20 sm:px-10"
       >
         <div className="mx-auto w-full max-w-4xl">
           <div className="mb-8 flex flex-col gap-3">

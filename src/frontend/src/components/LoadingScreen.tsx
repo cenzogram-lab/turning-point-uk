@@ -57,7 +57,7 @@ export function LoadingScreen({
       aria-hidden={hidden || undefined}
       tabIndex={hidden ? -1 : undefined}
       className={[
-        "loading-screen fixed inset-0 z-[9999] flex w-screen h-screen flex-col items-center justify-center overflow-hidden bg-blue-950 transition-opacity duration-500",
+        "loading-screen fixed inset-0 z-[9999] flex w-screen h-screen flex-col items-center justify-center overflow-hidden bg-[#030712] transition-opacity duration-500",
         fadeOut ? "pointer-events-none opacity-0" : "opacity-100",
         hidden ? "pointer-events-none" : "",
       ].join(" ")}

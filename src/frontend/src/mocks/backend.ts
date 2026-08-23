@@ -219,36 +219,44 @@ const SEED_NAV_ENTRIES: NavEntry[] = [
   { text: "Contact", href: "/contact", children: [] },
 ];
 
+// Poster/fallback images removed universally — every hero renders its HTML5
+// background video with no static image fallback, so posterUrl is always "".
 const SEED_HERO_VIDEO_SLOTS: HeroVideoSlot[] = [
   {
     key: "flag-waving",
-    videoUrl: "/videos/flag-waving.mp4",
-    posterUrl: "/assets/generated/poster-flag-waving.dim_1280x720.jpg",
+    videoUrl:
+      "https://file.garden/aoCNkzJZYxDjRiWz/TPUK%20BACKGROUND%20HER/0806.mp4",
+    posterUrl: "",
   },
   {
     key: "mascot-walk",
-    videoUrl: "/videos/mascot-walk.mp4",
-    posterUrl: "/assets/generated/poster-mascot-walk.dim_1280x720.jpg",
+    videoUrl:
+      "https://file.garden/aoCNkzJZYxDjRiWz/TPUK%20BACKGROUND%20HER/mcointpuk.mp4",
+    posterUrl: "",
   },
   {
     key: "newspaper-ad",
-    videoUrl: "/videos/newspaper-ad.mp4",
-    posterUrl: "/assets/generated/poster-newspaper-ad.dim_1280x720.jpg",
+    videoUrl:
+      "https://file.garden/aoCNkzJZYxDjRiWz/TPUK%20BACKGROUND%20HER/0803%284%29.mp4",
+    posterUrl: "",
   },
   {
     key: "historic-london",
-    videoUrl: "/videos/historic-london.mp4",
-    posterUrl: "/assets/generated/poster-historic-london.dim_1280x720.jpg",
+    videoUrl:
+      "https://file.garden/aoCNkzJZYxDjRiWz/TPUK%20BACKGROUND%20HER/0806%281%29.mp4",
+    posterUrl: "",
   },
   {
     key: "education-crowd",
-    videoUrl: "/videos/education-crowd.mp4",
-    posterUrl: "/assets/generated/poster-education-crowd.dim_1280x720.jpg",
+    videoUrl:
+      "https://file.garden/aoCNkzJZYxDjRiWz/TPUK%20BACKGROUND%20HER/hf_20260806_184005_968d6943-9d45-4c67-9926-2d826067622e.mp4",
+    posterUrl: "",
   },
   {
     key: "merch-display",
-    videoUrl: "/videos/merch-display.mp4",
-    posterUrl: "/assets/generated/poster-merch-display.dim_1280x720.jpg",
+    videoUrl:
+      "https://file.garden/aoCNkzJZYxDjRiWz/TPUK%20BACKGROUND%20HER/0806.mp4",
+    posterUrl: "",
   },
 ];
 

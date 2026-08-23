@@ -194,7 +194,6 @@ export function HomePage() {
   const merchDisplay = getSlot("merch-display");
   const historicLondon = getSlot("historic-london");
   const newspaperAd = getSlot("newspaper-ad");
-  const mascotWalk = getSlot("mascot-walk");
 
   // SEO meta — homepage gets the WebSite schema (Organization is handled
   // globally by Layout). No BreadcrumbList on the homepage (it is the
@@ -227,7 +226,6 @@ export function HomePage() {
           sub="Britain's fastest-growing conservative youth movement. Question. Challenge. Fight Back."
           videoLabel="Hero video 1 - Union Jack waving"
           videoSrc={flagWaving?.videoUrl}
-          posterSrc={flagWaving?.posterUrl}
           buttons={[
             {
               label: "JOIN THE MOVEMENT",
@@ -260,8 +258,9 @@ export function HomePage() {
           that establishes the parent commitment; the six aims follow as a
           responsive 1/2/3-column card grid, each card a hairline-bordered
           neutral panel that lifts its border to red on hover with a title
-          and description. The whole section sits on a near-black surface
-          (bg-navy) to zone it apart from the full-viewport heroes above and
+          and description. The section background is transparent so the
+          universal ambient midnight mesh (painted on <body>) shows through,
+          zoning it apart from the full-viewport heroes above and
           below. Universal entrance animations are preserved: the eyebrow,
           headline, definition, and each card carry entrance-left with
           staggered data-entrance-delay, observed by the single
@@ -269,7 +268,7 @@ export function HomePage() {
       <section
         id="pillars"
         data-ocid="section.pillars"
-        className="w-full bg-navy px-6 py-32 sm:px-10"
+        className="w-full px-6 py-32 sm:px-10"
       >
         <div className="mx-auto w-full max-w-7xl">
           {/* Movement definition block — the parent statement.
@@ -311,7 +310,7 @@ export function HomePage() {
                 <div
                   key={aim.title}
                   data-ocid={`section.pillars.card.${i + 1}`}
-                  className="entrance-left group flex flex-col gap-4 border border-border bg-card/40 p-8 backdrop-blur-md transition-colors hover:border-red-600"
+                  className="entrance-left group flex flex-col gap-4 border border-white/10 bg-slate-900/60 p-6 backdrop-blur-md transition-colors hover:border-red-600 sm:p-8"
                   data-entrance-delay={String(i * 80)}
                 >
                   {/* Flat solid red Lucide glyph (~28px) above the hairline
@@ -348,7 +347,6 @@ export function HomePage() {
         sub="Campus speeches, rallies, and a confidential channel to report classroom bias."
         videoLabel="Hero video 2 - modern London montage"
         videoSrc={educationCrowd?.videoUrl}
-        posterSrc={educationCrowd?.posterUrl}
         buttons={[
           { label: "VIEW CALENDAR", to: ROUTES.events, variant: "primary" },
           {
@@ -366,7 +364,6 @@ export function HomePage() {
         sub="Every order funds the movement. Shipped across the UK."
         videoLabel="Hero video 3 - merch flatlay on Union Jack"
         videoSrc={merchDisplay?.videoUrl}
-        posterSrc={merchDisplay?.posterUrl}
         buttons={[
           {
             label: "SHOP THE COLLECTION",
@@ -383,7 +380,6 @@ export function HomePage() {
         sub="Rooted in the story of Britain — and fighting for its future."
         videoLabel="Hero video 4 - black-and-white Victorian London"
         videoSrc={historicLondon?.videoUrl}
-        posterSrc={historicLondon?.posterUrl}
         buttons={[
           {
             label: "LEARN OUR HISTORY",
@@ -402,40 +398,36 @@ export function HomePage() {
           because the grid + header + CTA layout is not supported by the
           full-viewport Hero component.
 
-          Z-LAYERING matches the shared Hero scheme (positive z-index):
-            - background <video> at z-0 (positive — NOT -z-10, which hides
-              the video behind the parent section background)
-            - deep-blue gradient overlay at z-10
-            - content (header + grid + CTA) at z-20
+          Z-LAYERING: the section carries `isolate` (its own stacking
+          context) so the shared <BackgroundVideo> -z-10 wrapper paints
+          above the section's transparent background but below the content
+          at z-20. The bg-black/50 readability overlay is rendered by
+          <BackgroundVideo> directly over the video.
 
           The video uses autoPlay loop muted playsInline controls={false}
-          preload="auto" so it plays immediately as a background with no
-          lag and no user controls. */}
+          so it plays as a background with no lag and no user controls. */}
       <section
         data-ocid="section.blog-showcase"
-        className="relative w-full overflow-hidden bg-blue-950 px-6 py-20 sm:px-10 sm:py-28 lg:py-32"
+        className="relative isolate w-full overflow-hidden px-6 py-20 sm:px-10 sm:py-28 lg:py-32"
       >
         {/* Background video — rendered through the shared <BackgroundVideo>
             component so it inherits IntersectionObserver lazy loading
-            (preload="metadata" until near the viewport, then "auto" + play()),
-            the poster fallback while buffering / on load failure, and the
-            prefers-reduced-motion path (poster <img> only, no <video>).
-            Sits at z-0 (positive — NOT -z-10, which would hide the video
-            behind the parent section's bg-blue-950 background). lazy defaults
-            to true since this section is below the fold. */}
+            (preload="metadata" until near the viewport, then "auto" + play())
+            and the mobile play() retry path. lazy defaults to true since
+            this section is below the fold. */}
         <BackgroundVideo
           videoSrc={newspaperAd!.videoUrl}
-          posterSrc={newspaperAd!.posterUrl}
           ariaLabel="Background video - UK newspaper collage"
         />
 
-        {/* Deep blue gradient overlay — sits above the video (z-0) and
-            below the content (z-20). Same deep-blue gradient as the shared
-            Hero so all text and buttons stay crisp, bright white, and
-            fully legible. */}
+        {/* Extra readability tint — this section's text spans its full
+            height (unlike the bottom-anchored Hero), so a uniform midnight
+            tint on top of BackgroundVideo's bg-black/50 keeps all copy at
+            WCAG AA contrast against bright video frames. Later -z-10
+            sibling paints above the video container, below the content. */}
         <div
           aria-hidden="true"
-          className="bg-gradient-to-b from-blue-950/85 via-blue-950/65 to-blue-950 absolute inset-0 z-10"
+          className="absolute inset-0 -z-10 bg-[#030712]/35"
         />
 
         {/* Content — header + article grid + CTA, all at z-20 above the
@@ -560,38 +552,29 @@ export function HomePage() {
            <section> (not a Hero) because the left-aligned text + CTA
            layout is not supported by the full-viewport Hero component.
 
-           A native HTML5 background video (VIDEO_MASCOT_WALK) sits behind
-           the content at z-0 (positive — NOT -z-10, which would hide the
-           video behind the parent section background) with the deep-blue
-           gradient overlay at z-10 and the left-aligned content at z-20,
-           matching the shared Hero's z-layering scheme so the video is
-           always visible behind the scrim and the text stays crisp and
-           high-contrast. The mascot banner graphic and its glow halos were
-           removed; the header and CTA were moved to the left. */}
+           A native HTML5 background video (the $MBGA footage) sits at -z-10
+           inside the section's isolated stacking context, with the
+           bg-black/50 readability overlay rendered by <BackgroundVideo>
+           directly over the video and the left-aligned content at z-20. */}
       <section
         data-ocid="section.mbga"
-        className="relative w-full overflow-hidden bg-blue-950 px-6 py-20 sm:px-10 sm:py-28 lg:py-32"
+        className="relative isolate w-full overflow-hidden px-6 py-20 sm:px-10 sm:py-28 lg:py-32"
       >
         {/* Background video — rendered through the shared <BackgroundVideo>
             component so it inherits IntersectionObserver lazy loading
-            (preload="metadata" until near the viewport, then "auto" + play()),
-            the poster fallback while buffering / on load failure, and the
-            prefers-reduced-motion path (poster <img> only, no <video>).
-            Sits at z-0 (positive — NOT -z-10, which would hide the video
-            behind the parent section's bg-blue-950 background). lazy defaults
-            to true since this section is below the fold. */}
+            (preload="metadata" until near the viewport, then "auto" + play())
+            and the mobile play() retry path. lazy defaults to true since
+            this section is below the fold. */}
         <BackgroundVideo
           videoSrc={VIDEO_MBGA_HERO}
-          posterSrc={mascotWalk!.posterUrl}
           ariaLabel="Background video - $MBGA hero"
         />
 
-        {/* Deep gradient overlay — sits above the video (z-0) and below
-            the content (z-20). Same deep-blue gradient as the shared Hero
-            so all text stays crisp, bright white, and high-contrast. */}
+        {/* Extra readability tint — full-height text section; see the blog
+            showcase section above for the contrast rationale. */}
         <div
           aria-hidden="true"
-          className="bg-gradient-to-b from-blue-950/85 via-blue-950/65 to-blue-950 absolute inset-0 z-10"
+          className="absolute inset-0 -z-10 bg-[#030712]/35"
         />
 
         {/* Left-aligned content — eyebrow + h2 + paragraph + CTA, all
@@ -652,7 +635,7 @@ export function HomePage() {
            HomeFaq (Layout) -> Footer (Layout). */}
       <section
         data-ocid="section.achievements"
-        className="w-full bg-gradient-to-b from-[#00247D] to-blue-950 px-4 py-12 sm:px-6 sm:py-16 lg:py-20"
+        className="w-full px-4 py-12 sm:px-6 sm:py-16 lg:py-20"
       >
         <div className="mx-auto w-full max-w-7xl">
           {/* Section header — bold heading + short subtitle, each sliding in
@@ -692,7 +675,7 @@ export function HomePage() {
                 <div
                   key={achievement.title}
                   data-ocid={`section.achievements.card.${i + 1}`}
-                  className={`entrance-left group flex flex-col gap-4 border-l-4 bg-card/40 p-6 backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl sm:p-8 ${
+                  className={`entrance-left group flex flex-col gap-4 border-l-4 bg-slate-900/60 p-6 backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl sm:p-8 ${
                     isRed ? "border-red-600" : "border-blue-700"
                   }`}
                   data-entrance-delay={String(i * 80)}

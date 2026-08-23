@@ -9,7 +9,7 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { useEntranceAnimation } from "@/hooks/useEntranceAnimation";
 import { useSeoMeta } from "@/hooks/useSeoMeta";
-import { POSTER_EDUCATION_CROWD, VIDEO_EDUCATION_CROWD } from "@/lib/assets";
+import { VIDEO_EDUCATION_CROWD } from "@/lib/assets";
 import { ROUTES } from "@/lib/routes";
 import {
   BREADCRUMB_TRAILS,
@@ -104,7 +104,6 @@ export function EducationWatchPage() {
         ]}
         lazy={false}
         videoSrc={VIDEO_EDUCATION_CROWD}
-        posterSrc={POSTER_EDUCATION_CROWD}
       />
 
       {/* Student rights — confidential, no tracking. */}
@@ -216,7 +215,7 @@ export function EducationWatchPage() {
        * attribute pattern mirrors OnYouTube.tsx. */}
       <section
         data-ocid="section.exposing-indoctrination"
-        className="w-full bg-background px-6 py-24 sm:px-10"
+        className="w-full px-6 py-24 sm:px-10"
       >
         <div className="mx-auto w-full max-w-4xl">
           <div className="mb-10 flex flex-col items-center gap-3 text-center">

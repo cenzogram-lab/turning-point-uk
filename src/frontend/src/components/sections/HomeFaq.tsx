@@ -72,10 +72,7 @@ export function HomeFaq() {
   useEntranceAnimation();
 
   return (
-    <section
-      data-ocid="section.faq"
-      className="w-full bg-background px-6 py-32 sm:px-10"
-    >
+    <section data-ocid="section.faq" className="w-full px-6 py-32 sm:px-10">
       <div className="mx-auto w-full max-w-3xl">
         <div className="mb-16 flex flex-col gap-4">
           <span className="entrance-left text-eyebrow" data-entrance-delay="0">

@@ -342,7 +342,6 @@ export function PostArticlePage() {
     : "newspaper-ad";
   const heroSlot = getSlot(heroSlotKey);
   const heroVideo = heroSlot?.videoUrl;
-  const heroPoster = heroSlot?.posterUrl;
   const backLink = post
     ? resolveBackLink(alias, post.category)
     : { to: ROUTES.blog, label: "Back to Blog" };
@@ -360,7 +359,6 @@ export function PostArticlePage() {
         sub={post.excerpt}
         videoLabel={`${post.category} article hero video`}
         videoSrc={heroVideo}
-        posterSrc={heroPoster}
       />
 
       {/* Cinematic full-width cover — the article's coverImageUrl displayed
