@@ -3,12 +3,6 @@ import type {
   NavConfig as BackendNavConfig,
 } from "@/backend";
 import {
-  POSTER_EDUCATION_CROWD,
-  POSTER_FLAG_WAVING,
-  POSTER_HISTORIC_LONDON,
-  POSTER_MASCOT_WALK,
-  POSTER_MERCH_DISPLAY,
-  POSTER_NEWSPAPER_AD,
   VIDEO_EDUCATION_CROWD,
   VIDEO_FLAG_WAVING,
   VIDEO_HISTORIC_LONDON,
@@ -135,12 +129,14 @@ export function toHeroVideoSlotMap(
 }
 
 /**
- * Baked-in default hero video slots — the existing hardcoded `VIDEO_*` and
- * `POSTER_*` constants from `lib/assets.ts`. Used as the synchronous fallback
- * per slot while the backend hero video config is loading, on fetch error, or
- * when the backend returns an empty config (or a missing slot key). The
- * visual presentation is identical to the pre-dynamic version because the
- * defaults ARE the pre-dynamic values.
+ * Baked-in default hero video slots — the hardcoded `VIDEO_*` constants from
+ * `lib/assets.ts`. Used as the synchronous fallback per slot while the
+ * backend hero video config is loading, on fetch error, or when the backend
+ * returns an empty config (or a missing slot key).
+ *
+ * Poster/fallback images were removed universally: every hero renders its
+ * HTML5 background video with no static image fallback, so `posterUrl` is
+ * always the empty string (the backend candid type still carries the field).
  *
  * The keys match the backend seed contract (`flag-waving`, `mascot-walk`,
  * `newspaper-ad`, `historic-london`, `education-crowd`, `merch-display`).
@@ -149,32 +145,32 @@ export const DEFAULT_HERO_VIDEO_SLOTS: readonly HeroVideoSlot[] = [
   {
     key: "flag-waving",
     videoUrl: VIDEO_FLAG_WAVING,
-    posterUrl: POSTER_FLAG_WAVING,
+    posterUrl: "",
   },
   {
     key: "mascot-walk",
     videoUrl: VIDEO_MASCOT_WALK,
-    posterUrl: POSTER_MASCOT_WALK,
+    posterUrl: "",
   },
   {
     key: "newspaper-ad",
     videoUrl: VIDEO_NEWSPAPER_AD,
-    posterUrl: POSTER_NEWSPAPER_AD,
+    posterUrl: "",
   },
   {
     key: "historic-london",
     videoUrl: VIDEO_HISTORIC_LONDON,
-    posterUrl: POSTER_HISTORIC_LONDON,
+    posterUrl: "",
   },
   {
     key: "education-crowd",
     videoUrl: VIDEO_EDUCATION_CROWD,
-    posterUrl: POSTER_EDUCATION_CROWD,
+    posterUrl: "",
   },
   {
     key: "merch-display",
     videoUrl: VIDEO_MERCH_DISPLAY,
-    posterUrl: POSTER_MERCH_DISPLAY,
+    posterUrl: "",
   },
 ];
 

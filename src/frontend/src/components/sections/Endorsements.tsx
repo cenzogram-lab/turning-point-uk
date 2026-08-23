@@ -106,7 +106,7 @@ export function EndorsementsSlider() {
   return (
     <section
       data-ocid="section.endorsements"
-      className="w-full bg-background px-6 py-32 sm:px-10"
+      className="w-full px-6 py-32 sm:px-10"
     >
       <div className="mx-auto w-full max-w-7xl">
         <div className="mb-12 flex flex-col gap-4">

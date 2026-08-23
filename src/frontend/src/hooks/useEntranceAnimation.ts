@@ -40,7 +40,7 @@ export interface UseEntranceAnimationOptions {
   disabled?: boolean;
 }
 
-const ENTRANCE_SELECTOR = ".entrance-left, .entrance-right";
+const ENTRANCE_SELECTOR = ".entrance-left, .entrance-right, .entrance-up";
 
 function prefersReducedMotion(): boolean {
   if (typeof window === "undefined" || !window.matchMedia) return false;
@@ -185,4 +185,151 @@ export function entranceProps({
   return delay !== undefined
     ? { className: composed, "data-entrance-delay": String(delay) }
     : { className: composed };
+}
+
+/**
+ * useUniversalReveal — site-wide auto-animation for texts and blocks.
+ *
+ * Mounted once in the shared <Layout> shell. Automatically tags every
+ * animatable content element inside <main> (headings, paragraphs, list
+ * items, blockquotes, figures, images, and card surfaces) with the
+ * `.entrance-up` class (rise-up + fade-in, defined in index.css), assigns a
+ * small per-sibling stagger via `data-entrance-delay`, then observes the
+ * whole document with the same IntersectionObserver + MutationObserver
+ * machinery as `useEntranceAnimation` so elements reveal as they scroll
+ * into view — on EVERY page, with no per-page markup required.
+ *
+ * Elements that already participate in the manual entrance system
+ * (`.entrance-left` / `.entrance-right`, or nested inside one) are skipped
+ * so the two systems never fight over the same node, as are elements inside
+ * `aria-hidden` containers (background video plates, decorative overlays)
+ * and anything carrying `data-no-reveal`.
+ *
+ * FOUC + reduced-motion safety are inherited from the shared system: the
+ * hidden initial state is gated behind the `.entrance-js` html marker, and
+ * the index.css prefers-reduced-motion block forces `.entrance-up` straight
+ * to its settled state.
+ */
+const AUTO_REVEAL_SELECTOR = [
+  "main h1",
+  "main h2",
+  "main h3",
+  "main h4",
+  "main p",
+  "main li",
+  "main blockquote",
+  "main figure",
+  "main img",
+  "main .article-card",
+  "main .ambient-card",
+].join(", ");
+
+export function useUniversalReveal(): void {
+  useEffect(() => {
+    document.documentElement.classList.add("entrance-js");
+
+    const tag = (root: ParentNode) => {
+      for (const el of root.querySelectorAll<HTMLElement>(
+        AUTO_REVEAL_SELECTOR,
+      )) {
+        if (
+          el.classList.contains("entrance-left") ||
+          el.classList.contains("entrance-right") ||
+          el.classList.contains("entrance-up") ||
+          el.closest(
+            ".entrance-left, .entrance-right, [data-no-reveal], [aria-hidden='true']",
+          )
+        ) {
+          continue;
+        }
+        el.classList.add("entrance-up");
+        if (!el.hasAttribute("data-entrance-delay")) {
+          // Small per-sibling stagger so grids/lists cascade instead of
+          // popping in as one block. Capped so late items never lag far
+          // behind the scroll.
+          const parent = el.parentElement;
+          const index = parent
+            ? Array.prototype.indexOf.call(parent.children, el)
+            : 0;
+          el.setAttribute(
+            "data-entrance-delay",
+            String(Math.min(Math.max(index, 0) * 60, 360)),
+          );
+        }
+      }
+    };
+
+    const reduced = prefersReducedMotion();
+
+    const reveal = (el: Element) => {
+      if (reduced) {
+        el.classList.add("entrance-visible");
+        return;
+      }
+      const delayAttr = el.getAttribute("data-entrance-delay");
+      const delay = delayAttr ? Number(delayAttr) : 0;
+      if (delay && Number.isFinite(delay) && delay > 0) {
+        window.setTimeout(() => el.classList.add("entrance-visible"), delay);
+      } else {
+        el.classList.add("entrance-visible");
+      }
+    };
+
+    tag(document.body);
+
+    // Reduced motion: settle everything immediately, no observer.
+    if (reduced) {
+      for (const el of document.body.querySelectorAll(".entrance-up")) {
+        reveal(el);
+      }
+      // Still keep tagging new content so it never hides (tag + settle).
+      const settleMo = new MutationObserver(() => {
+        tag(document.body);
+        for (const el of document.body.querySelectorAll(
+          ".entrance-up:not(.entrance-visible)",
+        )) {
+          reveal(el);
+        }
+      });
+      settleMo.observe(document.body, { childList: true, subtree: true });
+      return () => settleMo.disconnect();
+    }
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            reveal(entry.target);
+            io.unobserve(entry.target);
+          }
+        }
+      },
+      { rootMargin: "0px 0px -8% 0px", threshold: 0.05 },
+    );
+
+    const observeAll = () => {
+      for (const el of document.body.querySelectorAll<HTMLElement>(
+        ".entrance-up",
+      )) {
+        if (!el.classList.contains("entrance-visible")) {
+          io.observe(el);
+        }
+      }
+    };
+
+    observeAll();
+
+    // Re-tag + re-observe when the DOM changes so route transitions and
+    // dynamically fetched content (blog grids, gallery tiles) are picked up.
+    const mo = new MutationObserver(() => {
+      tag(document.body);
+      observeAll();
+    });
+    mo.observe(document.body, { childList: true, subtree: true });
+
+    return () => {
+      io.disconnect();
+      mo.disconnect();
+    };
+  }, []);
 }

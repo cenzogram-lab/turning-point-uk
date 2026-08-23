@@ -1,4 +1,4 @@
-import { u as useActor, r as reactExports, E as ExternalBlob, c as createActor } from "./index-CIwUKotW.js";
+import { u as useActor, r as reactExports, E as ExternalBlob, c as createActor } from "./index-B49Pzxc5.js";
 const ACCEPTED_COVER_TYPES = [
   "image/jpeg",
   "image/png",

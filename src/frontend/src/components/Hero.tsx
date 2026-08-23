@@ -1,26 +1,32 @@
+import { VIDEO_DEFAULT_HERO } from "@/lib/assets";
 import { cn } from "@/lib/utils";
 import { Link } from "@tanstack/react-router";
 import type { MouseEvent } from "react";
 import { BackgroundVideo } from "./BackgroundVideo";
-import { VideoPlaceholder } from "./VideoPlaceholder";
 
 /**
- * Hero — full-viewport scroll-snap hero with a labelled video placeholder plate
- * OR a native HTML5 background video when `videoSrc` is provided.
+ * Hero — full-viewport scroll-snap hero with a native HTML5 background video.
  *
- * SpaceX discipline: full-bleed background video (or the cinematic placeholder
- * plate when no MP4 is wired), dark gradient scrim darkest at top and bottom,
+ * SpaceX discipline: full-bleed background video, dark readability scrim,
  * eyebrow + huge uppercase headline + one-line subhead + 1–2 buttons
  * positioned LOW on screen (flex-end), not centered.
  *
- * When `videoSrc` is set, a native <video autoPlay loop muted playsInline
- * controls={false} preload="auto"> renders at z-0 (behind the gradient overlay
- * at z-10 and the content at z-20). When `videoSrc` is omitted, the
- * <VideoPlaceholder> plate renders as before so existing call sites stay valid.
+ * EVERY hero renders a native <video autoPlay loop muted playsInline
+ * controls={false}> background. When `videoSrc` is omitted, the universal
+ * default hero video (VIDEO_DEFAULT_HERO — the main homepage hero footage)
+ * renders instead, so no hero anywhere on the site falls back to a static
+ * background, placeholder plate, or fallback image.
+ *
+ * Z-LAYERING: the section carries `isolate` so it establishes its own
+ * stacking context. <BackgroundVideo> renders at -z-10 INSIDE that context
+ * (with its own bg-black/50 readability overlay directly over the video),
+ * which paints above the section's (transparent) background but below the
+ * content at z-20. Without `isolate` a -z-10 child would escape behind the
+ * section entirely — which is exactly the "flat dark plate, no video" bug.
  *
  * Videos autoplay, loop, muted, playsinline. Heroes below the fold lazy-load.
  * The muted, looped, ambient background videos play even under
- * prefers-reduced-motion (the poster remains as a buffering fallback).
+ * prefers-reduced-motion.
  *
  * CTA buttons are rounded-full pills. Primary CTAs include an inline SVG of
  * the curved Turning Point UK arrow (clockwise arc sweeping from bottom-left
@@ -56,18 +62,13 @@ export interface HeroProps {
   /** Which video belongs here, e.g. "Home hero — crowd at rally". */
   videoLabel: string;
   /**
-   * Optional MP4 video source URL. When provided, a native HTML5 <video>
-   * element (autoPlay loop muted playsInline, controls disabled) renders
-   * INSTEAD of the <VideoPlaceholder> plate, sitting at z-0 behind the
-   * gradient overlay (z-10) and content (z-20). When omitted, the
-   * placeholder plate renders as before so existing call sites stay valid.
+   * Optional MP4 video source URL. A native HTML5 <video> element (autoPlay
+   * loop muted playsInline, controls disabled) always renders as the hero
+   * background; when this prop is omitted, the universal default hero video
+   * (VIDEO_DEFAULT_HERO) is used so every hero site-wide has moving footage
+   * with no static/fallback image.
    */
   videoSrc?: string;
-  /** Poster image fallback (also shown under reduced-motion and while the
-   *  video buffers). Strongly recommended for every video hero so the
-   *  background is never a flat dark plate on mobile or when an external
-   *  host is unreachable. */
-  posterSrc?: string;
   /**
    * Lazy-load this hero's video. When true (default), the video starts with
    * `preload="metadata"` and only begins autoplay when the section nears the
@@ -75,8 +76,7 @@ export interface HeroProps {
    * compete for mobile bandwidth at once. When false, the video starts with
    * `preload="auto"` and autoplays immediately — use for the top/first hero
    * only. The muted, looped, ambient hero video plays even under
-   * prefers-reduced-motion (the poster remains as a buffering fallback while
-   * the video loads or if the host is unreachable).
+   * prefers-reduced-motion.
    */
   lazy?: boolean;
   className?: string;
@@ -133,62 +133,42 @@ export function Hero({
   buttons = [],
   videoLabel,
   videoSrc,
-  posterSrc,
   lazy = true,
   className,
 }: HeroProps) {
   return (
     <section
       data-ocid="hero"
-      className={cn("scroll-snap-section relative overflow-hidden", className)}
-    >
-      {/* Background layer — native HTML5 <video> when videoSrc is provided,
-          otherwise the cinematic <VideoPlaceholder> plate.
-
-          CRITICAL Z-LAYERING: the video renders at z-0 (NOT -z-10). A child
-          with negative z-index paints BEHIND its parent's background, so the
-          section's background colour would hide the video entirely — which is
-          exactly the "flat dark blue, no video" bug. The video sits at z-0,
-          the gradient overlays at z-10, and the content at z-20, so the video
-          is always visible BEHIND the scrim and content.
-
-          The <BackgroundVideo> component handles:
-            - IntersectionObserver lazy loading (preload="metadata" until near
-              the viewport, then "auto" + play())
-            - poster fallback while buffering / on load failure
-            - prefers-reduced-motion: the muted, looped, ambient video still
-              plays (the poster remains as a buffering fallback while it loads
-              or if the host is unreachable)
-          autoPlay loop muted playsInline keep it playing as a background. */}
-      {videoSrc ? (
-        <BackgroundVideo
-          videoSrc={videoSrc}
-          posterSrc={posterSrc}
-          lazy={lazy}
-          ariaLabel={videoLabel}
-        />
-      ) : (
-        <div className="absolute inset-0 z-0" aria-hidden="true">
-          <VideoPlaceholder label={videoLabel} posterSrc={posterSrc} />
-        </div>
+      className={cn(
+        "scroll-snap-section relative isolate overflow-hidden",
+        className,
       )}
+    >
+      {/* Background layer — native HTML5 <video>, always. Falls back to the
+          universal default hero video when no specific source is assigned.
 
-      {/* Dark gradient overlay — sits above the video (z-0) and below the
-          content (z-20). Uses the exact Tailwind gradient classes specified
-          by the design contract: deep blue at 85% opacity at the top, fading
-          to 65% in the middle, back to full deep blue at the bottom for
-          maximum headline + CTA contrast. */}
-      <div
-        className="bg-gradient-to-b from-blue-950/85 via-blue-950/65 to-blue-950 absolute inset-0 z-10"
-        aria-hidden="true"
+          Z-LAYERING: the section carries `isolate` (its own stacking
+          context), so <BackgroundVideo>'s -z-10 wrapper paints above the
+          section's transparent background but below every other child. The
+          bg-black/50 readability overlay is rendered by <BackgroundVideo>
+          directly over the video.
+
+          The <BackgroundVideo> component handles IntersectionObserver lazy
+          loading (preload="metadata" until near the viewport, then "auto" +
+          play()) and the mobile play() retry path; autoPlay loop muted
+          playsInline keep it playing as an ambient background. */}
+      <BackgroundVideo
+        videoSrc={videoSrc ?? VIDEO_DEFAULT_HERO}
+        lazy={lazy}
+        ariaLabel={videoLabel}
       />
 
       {/* Bottom-edge fade — a thin gradient from transparent to the page's
-          deep-blue background so the hero's bottom edge blends smoothly into
-          the page content beneath it instead of cutting a hard line. Sits at
-          z-10 (above the video at z-0, below the content at z-20). */}
+          midnight background so the hero's bottom edge blends smoothly into
+          the ambient page beneath it instead of cutting a hard line. Sits at
+          z-10 (above the -z-10 video, below the content at z-20). */}
       <div
-        className="absolute bottom-0 inset-x-0 h-24 bg-gradient-to-b from-transparent to-blue-950 z-10"
+        className="absolute bottom-0 inset-x-0 h-24 bg-gradient-to-b from-transparent to-[#030712] z-10"
         aria-hidden="true"
       />
 

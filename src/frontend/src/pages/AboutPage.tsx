@@ -2,7 +2,7 @@ import { Hero } from "@/components/Hero";
 import { Section } from "@/components/Section";
 import { useEntranceAnimation } from "@/hooks/useEntranceAnimation";
 import { useSeoMeta } from "@/hooks/useSeoMeta";
-import { POSTER_FLAG_WAVING, VIDEO_FLAG_WAVING } from "@/lib/assets";
+import { VIDEO_FLAG_WAVING } from "@/lib/assets";
 import { ROUTES } from "@/lib/routes";
 import {
   BREADCRUMB_TRAILS,
@@ -105,39 +105,35 @@ export function AboutPage() {
         ]}
         lazy={false}
         videoSrc={VIDEO_FLAG_WAVING}
-        posterSrc={POSTER_FLAG_WAVING}
       />
 
-      {/* 2 — Light prose section with verbatim About copy.
-          The Section component has no "foreground" background variant, so
-          the background prop is omitted and the inverted surface is driven
-          entirely by the className (bg-foreground text-background) — the
-          prop and the className no longer fight. */}
-      <Section
-        variant="center"
-        noSnap
-        className="bg-foreground text-background"
-        id="what-we-do"
-      >
+      {/* 2 — Prose section with verbatim About copy. Previously an inverted
+          light surface (bg-foreground text-background); now transparent so
+          the universal ambient midnight mesh shows through, matching the
+          site-wide dark aesthetic, with the copy inside an ambient glass
+          card. */}
+      <Section variant="center" noSnap id="what-we-do">
         <div className="mx-auto w-full max-w-3xl px-6 py-24 sm:px-10 sm:py-32">
-          <span
-            className="entrance-left text-eyebrow text-background/60"
-            data-entrance-delay="0"
-          >
-            Who we are
-          </span>
-          <h2
-            className="entrance-left mt-4 font-display text-3xl font-bold uppercase leading-tight tracking-tight text-background sm:text-4xl"
-            data-entrance-delay="80"
-          >
-            Our Story
-          </h2>
-          <p
-            className="entrance-left mt-8 font-body text-lg font-light leading-relaxed text-background/85 sm:text-xl"
-            data-entrance-delay="200"
-          >
-            {ABOUT_COPY}
-          </p>
+          <div className="ambient-card p-8 sm:p-12">
+            <span
+              className="entrance-left text-eyebrow text-foreground/60"
+              data-entrance-delay="0"
+            >
+              Who we are
+            </span>
+            <h2
+              className="entrance-left mt-4 font-display text-3xl font-bold uppercase leading-tight tracking-tight text-foreground sm:text-4xl"
+              data-entrance-delay="80"
+            >
+              Our Story
+            </h2>
+            <p
+              className="entrance-left mt-8 font-body text-lg font-light leading-relaxed text-foreground/85 sm:text-xl"
+              data-entrance-delay="200"
+            >
+              {ABOUT_COPY}
+            </p>
+          </div>
         </div>
       </Section>
 

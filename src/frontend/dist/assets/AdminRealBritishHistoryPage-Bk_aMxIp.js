@@ -1,15 +1,9 @@
-import { a as useEntranceAnimation, j as jsxRuntimeExports, q as useAllBlogPosts, s as useCreateBlogPost, t as useUpdateBlogPost, v as useDeleteBlogPost, r as reactExports, S as Section } from "./index-CIwUKotW.js";
-import { u as useBlogUpload, A as ACCEPTED_COVER_EXTENSIONS } from "./useBlogUpload-BdZt6uAJ.js";
-function AdminBlogPage() {
+import { a as useEntranceAnimation, j as jsxRuntimeExports, q as useAllBlogPosts, s as useCreateBlogPost, t as useUpdateBlogPost, v as useDeleteBlogPost, r as reactExports, S as Section } from "./index-B49Pzxc5.js";
+import { u as useBlogUpload, A as ACCEPTED_COVER_EXTENSIONS } from "./useBlogUpload-2XvjpBnH.js";
+const CATEGORY_RBH = "Real British History";
+function AdminRealBritishHistoryPage() {
   const containerRef = useEntranceAnimation();
   return /* @__PURE__ */ jsxRuntimeExports.jsx(AdminDashboard, { containerRef });
-}
-const CATEGORY_BLOG = "Blog";
-const CATEGORY_RBH = "Real British History";
-const VALID_CATEGORIES = [CATEGORY_BLOG, CATEGORY_RBH];
-function normalizeCategory(category) {
-  if (VALID_CATEGORIES.includes(category)) return category;
-  return "";
 }
 const EMPTY_DRAFT = {
   id: null,
@@ -18,14 +12,15 @@ const EMPTY_DRAFT = {
   excerpt: "",
   content: "",
   coverImageUrl: "",
-  category: CATEGORY_BLOG,
+  category: CATEGORY_RBH,
   readTime: "",
   author: "",
   isPublished: false
 };
 function AdminDashboard({ containerRef }) {
   var _a;
-  const { posts, loading, error } = useAllBlogPosts();
+  const { posts: allPosts, loading, error } = useAllBlogPosts();
+  const posts = allPosts.filter((p) => p.category === CATEGORY_RBH);
   const createMutation = useCreateBlogPost();
   const updateMutation = useUpdateBlogPost();
   const deleteMutation = useDeleteBlogPost();
@@ -120,11 +115,10 @@ function AdminDashboard({ containerRef }) {
         excerpt: post.excerpt,
         content: post.content,
         coverImageUrl: post.coverImageUrl,
-        // Normalize legacy free-text categories to "" when they don't match
-        // one of the two valid dropdown values. The composer then shows a
-        // "Select a category" placeholder and blocks Save until the admin
-        // picks one — saving always writes a valid value.
-        category: normalizeCategory(post.category),
+        // Category is always RBH in this dashboard — force it on edit so
+        // a post that was somehow recategorized elsewhere snaps back to
+        // RBH when edited here (the composer dropdown is locked to RBH).
+        category: CATEGORY_RBH,
         readTime: post.readTime,
         author: post.author,
         isPublished: post.isPublished
@@ -154,8 +148,8 @@ function AdminDashboard({ containerRef }) {
       setSaveError("Title and slug are required.");
       return;
     }
-    if (!VALID_CATEGORIES.includes(draft.category)) {
-      setSaveError("Please select a category.");
+    if (!draft.category) {
+      setSaveError("Category is required.");
       return;
     }
     try {
@@ -175,7 +169,7 @@ function AdminDashboard({ containerRef }) {
           excerpt: draft.excerpt,
           content: draft.content,
           coverImageUrl,
-          category: draft.category,
+          category: CATEGORY_RBH,
           readTime: draft.readTime,
           author: draft.author,
           isPublished: draft.isPublished
@@ -187,7 +181,7 @@ function AdminDashboard({ containerRef }) {
           excerpt: draft.excerpt,
           content: draft.content,
           coverImageUrl,
-          category: draft.category,
+          category: CATEGORY_RBH,
           readTime: draft.readTime,
           author: draft.author,
           isPublished: draft.isPublished
@@ -222,7 +216,7 @@ function AdminDashboard({ containerRef }) {
     [deleteMutation, draft.id, handleCancelEdit]
   );
   const isDirty = draft.title.trim() !== "" || draft.slug.trim() !== "" || draft.content.trim() !== "" || draft.coverImageUrl !== "" || stagedCoverName !== null;
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { ref: containerRef, "data-ocid": "admin.blog.dashboard", children: [
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { ref: containerRef, "data-ocid": "admin.rbh.dashboard", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx(
       Section,
       {
@@ -232,13 +226,13 @@ function AdminDashboard({ containerRef }) {
         className: "min-h-[60dvh] items-center justify-center !justify-items-center pt-8",
         children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-auto flex w-full max-w-5xl flex-col items-center gap-8 px-6 pb-16 text-center", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-eyebrow entrance-left", children: "Admin" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "text-headline entrance-left", "data-entrance-delay": "80", children: "Blog Dashboard" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "text-headline entrance-left", "data-entrance-delay": "80", children: "Historic Preservation" }),
           /* @__PURE__ */ jsxRuntimeExports.jsx(
             "p",
             {
               className: "max-w-xl text-sm text-muted-foreground entrance-right",
               "data-entrance-delay": "160",
-              children: "Compose new articles and manage titles, covers, categories, and publish status for the public blog."
+              children: "Compose and manage historic-preservation articles for the Real British History hub. New posts are automatically categorised as “Real British History”."
             }
           ),
           /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -257,7 +251,6 @@ function AdminDashboard({ containerRef }) {
               uploadProgress: upload.progress,
               uploadError: upload.error,
               fileInputRef,
-              categoryInvalid: !VALID_CATEGORIES.includes(draft.category),
               onTitleChange,
               onSlugChange,
               onFieldChange: patchDraft,
@@ -283,7 +276,7 @@ function AdminDashboard({ containerRef }) {
         className: "min-h-[60dvh] !justify-start pb-24 pt-8",
         children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-auto w-full max-w-7xl px-6", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-8 flex items-center justify-between", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "font-display text-2xl uppercase tracking-wide text-foreground", children: "Manage Posts" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "font-display text-2xl uppercase tracking-wide text-foreground", children: "Manage Historic Articles" }),
             /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "text-eyebrow", children: [
               posts.length,
               " post",
@@ -293,23 +286,23 @@ function AdminDashboard({ containerRef }) {
           loading ? /* @__PURE__ */ jsxRuntimeExports.jsx(
             "div",
             {
-              "data-ocid": "admin.blog.loading_state",
+              "data-ocid": "admin.rbh.loading_state",
               className: "flex items-center justify-center py-24 text-sm text-muted-foreground",
               children: "Loading posts…"
             }
           ) : error ? /* @__PURE__ */ jsxRuntimeExports.jsxs(
             "div",
             {
-              "data-ocid": "admin.blog.error_state",
+              "data-ocid": "admin.rbh.error_state",
               className: "flex flex-col items-center gap-4 py-24 text-center",
               children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-destructive", children: "Failed to load blog posts." }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-destructive", children: "Failed to load historic articles." }),
                 /* @__PURE__ */ jsxRuntimeExports.jsx(
                   "button",
                   {
                     type: "button",
                     onClick: () => window.location.reload(),
-                    "data-ocid": "admin.blog.retry_button",
+                    "data-ocid": "admin.rbh.retry_button",
                     className: "btn-outline-invert",
                     children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Retry" })
                   }
@@ -319,9 +312,9 @@ function AdminDashboard({ containerRef }) {
           ) : posts.length === 0 ? /* @__PURE__ */ jsxRuntimeExports.jsx(
             "div",
             {
-              "data-ocid": "admin.blog.empty_state",
+              "data-ocid": "admin.rbh.empty_state",
               className: "flex flex-col items-center gap-4 py-24 text-center",
-              children: /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-muted-foreground", children: "No posts yet. Compose your first article above." })
+              children: /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-muted-foreground", children: "No historic articles yet. Compose your first article above." })
             }
           ) : /* @__PURE__ */ jsxRuntimeExports.jsx(
             PostsTable,
@@ -356,7 +349,6 @@ function ArticleComposer({
   uploadProgress,
   uploadError,
   fileInputRef,
-  categoryInvalid,
   onTitleChange,
   onSlugChange,
   onFieldChange,
@@ -386,7 +378,7 @@ function ArticleComposer({
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(
     "div",
     {
-      "data-ocid": "admin.blog.composer",
+      "data-ocid": "admin.rbh.composer",
       className: "blog-admin-composer entrance-left w-full max-w-3xl text-left",
       "data-entrance-delay": "240",
       children: [
@@ -398,114 +390,101 @@ function ArticleComposer({
               type: "button",
               onClick: onCancelEdit,
               disabled: isSaving,
-              "data-ocid": "admin.blog.cancel_edit_button",
+              "data-ocid": "admin.rbh.cancel_edit_button",
               className: "text-xs text-muted-foreground underline-offset-4 transition-smooth hover:text-foreground hover:underline disabled:cursor-not-allowed disabled:opacity-60",
               children: "Cancel edit"
             }
           ) : null
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "composer-field-group", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { htmlFor: "blog-title", className: "composer-label", children: "Title" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { htmlFor: "rbh-title", className: "composer-label", children: "Title" }),
           /* @__PURE__ */ jsxRuntimeExports.jsx(
             "input",
             {
-              id: "blog-title",
+              id: "rbh-title",
               type: "text",
               value: draft.title,
               onChange: (e) => onTitleChange(e.target.value),
               placeholder: "Article headline",
-              "data-ocid": "admin.blog.title_input",
+              "data-ocid": "admin.rbh.title_input",
               className: "admin-input"
             }
           )
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "composer-field-group", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { htmlFor: "blog-slug", className: "composer-label", children: "Slug" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { htmlFor: "rbh-slug", className: "composer-label", children: "Slug" }),
           /* @__PURE__ */ jsxRuntimeExports.jsx(
             "input",
             {
-              id: "blog-slug",
+              id: "rbh-slug",
               type: "text",
               value: draft.slug,
               onChange: (e) => onSlugChange(e.target.value),
               placeholder: "url-safe-slug",
-              "data-ocid": "admin.blog.slug_input",
+              "data-ocid": "admin.rbh.slug_input",
               className: "admin-input font-mono"
             }
           )
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid grid-cols-1 gap-4 sm:grid-cols-3", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "composer-field-group", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("label", { htmlFor: "blog-category", className: "composer-label", children: "Category" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            /* @__PURE__ */ jsxRuntimeExports.jsx("label", { htmlFor: "rbh-category", className: "composer-label", children: "Category" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
               "select",
               {
-                id: "blog-category",
-                value: draft.category,
-                onChange: (e) => onFieldChange({ category: e.target.value }),
-                "data-ocid": "admin.blog.category_select",
-                className: "admin-input",
-                "aria-invalid": categoryInvalid,
-                "aria-required": "true",
-                children: [
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "", disabled: true, children: "Select a category" }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: CATEGORY_BLOG, children: "Blog" }),
-                  /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: CATEGORY_RBH, children: "Real British History" })
-                ]
+                id: "rbh-category",
+                value: CATEGORY_RBH,
+                disabled: true,
+                "data-ocid": "admin.rbh.category_select",
+                className: "admin-select",
+                "aria-readonly": "true",
+                children: /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: CATEGORY_RBH, children: "Real British History" })
               }
             ),
-            categoryInvalid ? /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "p",
-              {
-                role: "alert",
-                "data-ocid": "admin.blog.category_error",
-                className: "text-xs text-destructive",
-                children: "Please select a category."
-              }
-            ) : null
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-[0.65rem] text-muted-foreground", children: "Locked — every post here is categorised as Real British History." })
           ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "composer-field-group", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("label", { htmlFor: "blog-readtime", className: "composer-label", children: "Read Time" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("label", { htmlFor: "rbh-readtime", className: "composer-label", children: "Read Time" }),
             /* @__PURE__ */ jsxRuntimeExports.jsx(
               "input",
               {
-                id: "blog-readtime",
+                id: "rbh-readtime",
                 type: "text",
                 value: draft.readTime,
                 onChange: (e) => onFieldChange({ readTime: e.target.value }),
                 placeholder: "6 min read",
-                "data-ocid": "admin.blog.readtime_input",
+                "data-ocid": "admin.rbh.readtime_input",
                 className: "admin-input"
               }
             )
           ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "composer-field-group", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("label", { htmlFor: "blog-author", className: "composer-label", children: "Author" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("label", { htmlFor: "rbh-author", className: "composer-label", children: "Author" }),
             /* @__PURE__ */ jsxRuntimeExports.jsx(
               "input",
               {
-                id: "blog-author",
+                id: "rbh-author",
                 type: "text",
                 value: draft.author,
                 onChange: (e) => onFieldChange({ author: e.target.value }),
                 placeholder: "Byline",
-                "data-ocid": "admin.blog.author_input",
+                "data-ocid": "admin.rbh.author_input",
                 className: "admin-input"
               }
             )
           ] })
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "composer-field-group", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { htmlFor: "blog-excerpt", className: "composer-label", children: "Excerpt" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { htmlFor: "rbh-excerpt", className: "composer-label", children: "Excerpt" }),
           /* @__PURE__ */ jsxRuntimeExports.jsx(
             "textarea",
             {
-              id: "blog-excerpt",
+              id: "rbh-excerpt",
               value: draft.excerpt,
               onChange: (e) => onFieldChange({ excerpt: e.target.value }),
               placeholder: "Short summary / standfirst shown on cards",
               rows: 2,
-              "data-ocid": "admin.blog.excerpt_input",
+              "data-ocid": "admin.rbh.excerpt_input",
               className: "admin-input resize-y"
             }
           )
@@ -515,7 +494,7 @@ function ArticleComposer({
           hasCover ? /* @__PURE__ */ jsxRuntimeExports.jsxs(
             "div",
             {
-              "data-ocid": "admin.blog.cover_preview",
+              "data-ocid": "admin.rbh.cover_preview",
               className: "flex flex-col gap-3 border border-border bg-[oklch(var(--upload-zone))] p-3",
               children: [
                 /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "relative aspect-video w-full overflow-hidden bg-image-fallback", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -542,7 +521,7 @@ function ArticleComposer({
                         type: "button",
                         onClick: openFilePicker,
                         disabled: isSaving,
-                        "data-ocid": "admin.blog.replace_cover_button",
+                        "data-ocid": "admin.rbh.replace_cover_button",
                         className: "text-xs text-primary underline-offset-4 transition-smooth hover:underline disabled:cursor-not-allowed disabled:opacity-60",
                         children: "Replace"
                       }
@@ -553,7 +532,7 @@ function ArticleComposer({
                         type: "button",
                         onClick: onClearCover,
                         disabled: isSaving,
-                        "data-ocid": "admin.blog.clear_cover_button",
+                        "data-ocid": "admin.rbh.clear_cover_button",
                         className: "text-xs text-muted-foreground underline-offset-4 transition-smooth hover:text-foreground hover:underline disabled:cursor-not-allowed disabled:opacity-60",
                         children: "Remove"
                       }
@@ -563,7 +542,7 @@ function ArticleComposer({
                 showProgress ? /* @__PURE__ */ jsxRuntimeExports.jsx(
                   "div",
                   {
-                    "data-ocid": "admin.blog.cover_progress",
+                    "data-ocid": "admin.rbh.cover_progress",
                     role: "progressbar",
                     tabIndex: 0,
                     "aria-valuenow": pct,
@@ -586,7 +565,7 @@ function ArticleComposer({
             "button",
             {
               type: "button",
-              "data-ocid": "admin.blog.dropzone",
+              "data-ocid": "admin.rbh.dropzone",
               className: `upload-dropzone w-full ${isDragActive ? "is-active" : ""}`,
               onDrop,
               onDragOver,
@@ -601,7 +580,7 @@ function ArticleComposer({
                   "span",
                   {
                     "aria-hidden": "true",
-                    "data-ocid": "admin.blog.select_cover_button",
+                    "data-ocid": "admin.rbh.select_cover_button",
                     className: "btn-primary-square group mt-2",
                     children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Select Cover" })
                   }
@@ -624,7 +603,7 @@ function ArticleComposer({
             "p",
             {
               role: "alert",
-              "data-ocid": "admin.blog.intake_error",
+              "data-ocid": "admin.rbh.intake_error",
               className: "text-xs text-destructive",
               children: intakeError
             }
@@ -633,23 +612,23 @@ function ArticleComposer({
             "p",
             {
               role: "alert",
-              "data-ocid": "admin.blog.upload_error",
+              "data-ocid": "admin.rbh.upload_error",
               className: "text-xs text-destructive",
               children: uploadError
             }
           ) : null
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "composer-field-group", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { htmlFor: "blog-content", className: "composer-label", children: "Content (Markdown)" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { htmlFor: "rbh-content", className: "composer-label", children: "Content (Markdown)" }),
           /* @__PURE__ */ jsxRuntimeExports.jsx(
             "textarea",
             {
-              id: "blog-content",
+              id: "rbh-content",
               value: draft.content,
               onChange: (e) => onFieldChange({ content: e.target.value }),
               placeholder: "Write the article body in Markdown…",
               rows: 12,
-              "data-ocid": "admin.blog.content_input",
+              "data-ocid": "admin.rbh.content_input",
               className: "admin-input"
             }
           )
@@ -664,7 +643,7 @@ function ArticleComposer({
                 role: "switch",
                 "aria-checked": draft.isPublished,
                 "aria-label": "Toggle published status",
-                "data-ocid": "admin.blog.publish_toggle",
+                "data-ocid": "admin.rbh.publish_toggle",
                 onClick: () => onTogglePublished(!draft.isPublished),
                 className: "relative inline-flex h-6 w-11 flex-shrink-0 items-center rounded-full border border-border bg-[oklch(var(--upload-zone))] transition-smooth focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-[oklch(var(--primary))]",
                 children: /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -679,7 +658,7 @@ function ArticleComposer({
               "span",
               {
                 className: `publish-status-badge ${draft.isPublished ? "is-published" : "is-draft"}`,
-                "data-ocid": "admin.blog.publish_status_badge",
+                "data-ocid": "admin.rbh.publish_status_badge",
                 children: draft.isPublished ? "Published" : "Draft"
               }
             )
@@ -688,7 +667,7 @@ function ArticleComposer({
         savedFlash ? /* @__PURE__ */ jsxRuntimeExports.jsx(
           "output",
           {
-            "data-ocid": "admin.blog.saved_confirmation",
+            "data-ocid": "admin.rbh.saved_confirmation",
             className: "text-xs text-primary",
             children: isEditing ? "Updated." : "Created."
           }
@@ -697,7 +676,7 @@ function ArticleComposer({
           "p",
           {
             role: "alert",
-            "data-ocid": "admin.blog.save_error",
+            "data-ocid": "admin.rbh.save_error",
             className: "text-xs text-destructive",
             children: saveError
           }
@@ -708,7 +687,7 @@ function ArticleComposer({
             type: "button",
             onClick: onSave,
             disabled: isSaving || !isDirty,
-            "data-ocid": "admin.blog.save_button",
+            "data-ocid": "admin.rbh.save_button",
             className: "btn-primary-square group disabled:cursor-not-allowed disabled:opacity-60",
             children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: isSaving ? "Saving…" : isEditing ? "Update Post" : "Create Post" })
           }
@@ -731,19 +710,11 @@ function PostsTable({
   return /* @__PURE__ */ jsxRuntimeExports.jsx(
     "div",
     {
-      "data-ocid": "admin.blog.table",
+      "data-ocid": "admin.rbh.table",
       className: "overflow-x-auto border border-border",
       children: /* @__PURE__ */ jsxRuntimeExports.jsxs("table", { className: "w-full border-collapse text-left", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx("thead", { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { className: "border-b border-border bg-[oklch(var(--upload-zone))]", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx("th", { scope: "col", className: "px-4 py-3 text-eyebrow text-[0.65rem]", children: "Title" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "th",
-            {
-              scope: "col",
-              className: "hidden px-4 py-3 text-eyebrow text-[0.65rem] md:table-cell",
-              children: "Category"
-            }
-          ),
           /* @__PURE__ */ jsxRuntimeExports.jsx(
             "th",
             {
@@ -784,7 +755,7 @@ function PostsTable({
           return /* @__PURE__ */ jsxRuntimeExports.jsxs(
             "tr",
             {
-              "data-ocid": `admin.blog.row.${index}`,
+              "data-ocid": `admin.rbh.row.${index}`,
               className: "border-b border-border/60 transition-smooth last:border-b-0 hover:bg-[oklch(var(--admin-card-hover))]",
               children: [
                 /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "px-4 py-3", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex min-w-0 flex-col gap-0.5", children: [
@@ -808,13 +779,12 @@ function PostsTable({
                     }
                   )
                 ] }) }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "hidden px-4 py-3 md:table-cell", children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-sm text-muted-foreground", children: post.category || "-" }) }),
                 /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "hidden px-4 py-3 md:table-cell", children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-sm text-muted-foreground", children: post.author || "-" }) }),
                 /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "px-4 py-3", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
                   "span",
                   {
                     className: `publish-status-badge ${post.isPublished ? "is-published" : "is-draft"}`,
-                    "data-ocid": `admin.blog.row.status.${index}`,
+                    "data-ocid": `admin.rbh.row.status.${index}`,
                     children: post.isPublished ? "Published" : "Draft"
                   }
                 ) }),
@@ -826,7 +796,7 @@ function PostsTable({
                       type: "button",
                       onClick: () => onConfirmDelete(post.id),
                       disabled: isDeleting,
-                      "data-ocid": `admin.blog.confirm_delete_button.${index}`,
+                      "data-ocid": `admin.rbh.confirm_delete_button.${index}`,
                       className: "bg-destructive-soft px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-foreground transition-smooth hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-60",
                       children: isDeleting ? "Deleting…" : "Confirm"
                     }
@@ -837,7 +807,7 @@ function PostsTable({
                       type: "button",
                       onClick: onCancelDelete,
                       disabled: isDeleting,
-                      "data-ocid": `admin.blog.cancel_delete_button.${index}`,
+                      "data-ocid": `admin.rbh.cancel_delete_button.${index}`,
                       className: "px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-muted-foreground transition-smooth hover:text-foreground disabled:cursor-not-allowed disabled:opacity-60",
                       children: "Cancel"
                     }
@@ -849,7 +819,7 @@ function PostsTable({
                       type: "button",
                       onClick: () => onEdit(post),
                       disabled: isSavingRow,
-                      "data-ocid": `admin.blog.edit_button.${index}`,
+                      "data-ocid": `admin.rbh.edit_button.${index}`,
                       className: "px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-primary underline-offset-4 transition-smooth hover:underline disabled:cursor-not-allowed disabled:opacity-60",
                       children: isEditingRow && isSavingRow ? "Saving…" : "Edit"
                     }
@@ -860,7 +830,7 @@ function PostsTable({
                       type: "button",
                       onClick: () => onDelete(post.id),
                       disabled: isDeleting,
-                      "data-ocid": `admin.blog.delete_button.${index}`,
+                      "data-ocid": `admin.rbh.delete_button.${index}`,
                       className: "bg-destructive-soft px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-foreground transition-smooth hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-60",
                       children: "Delete"
                     }
@@ -876,6 +846,6 @@ function PostsTable({
   );
 }
 export {
-  AdminBlogPage,
-  AdminBlogPage as default
+  AdminRealBritishHistoryPage,
+  AdminRealBritishHistoryPage as default
 };

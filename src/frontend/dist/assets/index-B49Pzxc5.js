@@ -1,4 +1,4 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/AdminBlogPage-De7OOpJj.js","assets/useBlogUpload-BdZt6uAJ.js","assets/AdminRealBritishHistoryPage-ChukX89U.js"])))=>i.map(i=>d[i]);
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/AdminBlogPage-Dpm5-yWU.js","assets/useBlogUpload-2XvjpBnH.js","assets/AdminRealBritishHistoryPage-Bk_aMxIp.js"])))=>i.map(i=>d[i]);
 var __defProp = Object.defineProperty;
 var __typeError = (msg) => {
   throw TypeError(msg);
@@ -40386,6 +40386,172 @@ function AdminHeader({ pathname }) {
     ] })
   ] }) });
 }
+const ENTRANCE_SELECTOR = ".entrance-left, .entrance-right, .entrance-up";
+function prefersReducedMotion() {
+  if (typeof window === "undefined" || !window.matchMedia) return false;
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+function useEntranceAnimation(options = {}) {
+  const {
+    rootMargin = "0px 0px -10% 0px",
+    threshold = 0.1,
+    stagger = 0,
+    disabled = false
+  } = options;
+  const containerRef = reactExports.useRef(null);
+  reactExports.useEffect(() => {
+    document.documentElement.classList.add("entrance-js");
+  }, []);
+  reactExports.useEffect(() => {
+    if (disabled) return;
+    const root2 = containerRef.current ?? document.body;
+    if (!root2) return;
+    const reduced = prefersReducedMotion();
+    const reveal = (el) => {
+      if (reduced) {
+        el.classList.add("entrance-visible");
+        return;
+      }
+      const delayAttr = el.getAttribute("data-entrance-delay");
+      const delay = delayAttr ? Number(delayAttr) : stagger;
+      if (delay && Number.isFinite(delay) && delay > 0) {
+        window.setTimeout(() => el.classList.add("entrance-visible"), delay);
+      } else {
+        el.classList.add("entrance-visible");
+      }
+    };
+    if (reduced) {
+      for (const el of root2.querySelectorAll(ENTRANCE_SELECTOR)) {
+        reveal(el);
+      }
+      return;
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            reveal(entry.target);
+            io.unobserve(entry.target);
+          }
+        }
+      },
+      { rootMargin, threshold }
+    );
+    const observeAll = () => {
+      for (const el of root2.querySelectorAll(ENTRANCE_SELECTOR)) {
+        if (!el.classList.contains("entrance-visible")) {
+          io.observe(el);
+        }
+      }
+    };
+    observeAll();
+    const mo = new MutationObserver(() => observeAll());
+    mo.observe(root2, { childList: true, subtree: true });
+    return () => {
+      io.disconnect();
+      mo.disconnect();
+    };
+  }, [rootMargin, threshold, stagger, disabled]);
+  return containerRef;
+}
+const AUTO_REVEAL_SELECTOR = [
+  "main h1",
+  "main h2",
+  "main h3",
+  "main h4",
+  "main p",
+  "main li",
+  "main blockquote",
+  "main figure",
+  "main img",
+  "main .article-card",
+  "main .ambient-card"
+].join(", ");
+function useUniversalReveal() {
+  reactExports.useEffect(() => {
+    document.documentElement.classList.add("entrance-js");
+    const tag = (root2) => {
+      for (const el of root2.querySelectorAll(
+        AUTO_REVEAL_SELECTOR
+      )) {
+        if (el.classList.contains("entrance-left") || el.classList.contains("entrance-right") || el.classList.contains("entrance-up") || el.closest(
+          ".entrance-left, .entrance-right, [data-no-reveal], [aria-hidden='true']"
+        )) {
+          continue;
+        }
+        el.classList.add("entrance-up");
+        if (!el.hasAttribute("data-entrance-delay")) {
+          const parent = el.parentElement;
+          const index2 = parent ? Array.prototype.indexOf.call(parent.children, el) : 0;
+          el.setAttribute(
+            "data-entrance-delay",
+            String(Math.min(Math.max(index2, 0) * 60, 360))
+          );
+        }
+      }
+    };
+    const reduced = prefersReducedMotion();
+    const reveal = (el) => {
+      if (reduced) {
+        el.classList.add("entrance-visible");
+        return;
+      }
+      const delayAttr = el.getAttribute("data-entrance-delay");
+      const delay = delayAttr ? Number(delayAttr) : 0;
+      if (delay && Number.isFinite(delay) && delay > 0) {
+        window.setTimeout(() => el.classList.add("entrance-visible"), delay);
+      } else {
+        el.classList.add("entrance-visible");
+      }
+    };
+    tag(document.body);
+    if (reduced) {
+      for (const el of document.body.querySelectorAll(".entrance-up")) {
+        reveal(el);
+      }
+      const settleMo = new MutationObserver(() => {
+        tag(document.body);
+        for (const el of document.body.querySelectorAll(
+          ".entrance-up:not(.entrance-visible)"
+        )) {
+          reveal(el);
+        }
+      });
+      settleMo.observe(document.body, { childList: true, subtree: true });
+      return () => settleMo.disconnect();
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            reveal(entry.target);
+            io.unobserve(entry.target);
+          }
+        }
+      },
+      { rootMargin: "0px 0px -8% 0px", threshold: 0.05 }
+    );
+    const observeAll = () => {
+      for (const el of document.body.querySelectorAll(
+        ".entrance-up"
+      )) {
+        if (!el.classList.contains("entrance-visible")) {
+          io.observe(el);
+        }
+      }
+    };
+    observeAll();
+    const mo = new MutationObserver(() => {
+      tag(document.body);
+      observeAll();
+    });
+    mo.observe(document.body, { childList: true, subtree: true });
+    return () => {
+      io.disconnect();
+      mo.disconnect();
+    };
+  }, []);
+}
 const SITE_BASE_URL = "https://www.tpointuk.co.uk";
 const OG_IMAGE_URL = "https://www.tpointuk.co.uk/assets/generated/og-image.dim_1200x630.jpg";
 const ORGANIZATION_LOGO_URL = "https://www.tpointuk.co.uk/assets/logos/tpuk-logo.webp";
@@ -40718,19 +40884,15 @@ const SOCIAL_ICONS = {
     }
   )
 };
-const VIDEO_MASCOT_WALK = "/videos/mascot-walk.mp4";
-const VIDEO_MBGA_HERO = "https://file.garden/aoCNkzJZYxDjRiWz/mcointpuk.mp4";
-const VIDEO_MERCH_DISPLAY = "/videos/merch-display.mp4";
-const VIDEO_HISTORIC_LONDON = "/videos/historic-london.mp4";
-const VIDEO_EDUCATION_CROWD = "/videos/education-crowd.mp4";
-const VIDEO_NEWSPAPER_AD = "/videos/newspaper-ad.mp4";
-const VIDEO_FLAG_WAVING = "/videos/flag-waving.mp4";
-const POSTER_FLAG_WAVING = "/assets/generated/poster-flag-waving.dim_1280x720.jpg";
-const POSTER_MASCOT_WALK = "/assets/generated/poster-mascot-walk.dim_1280x720.jpg";
-const POSTER_NEWSPAPER_AD = "/assets/generated/poster-newspaper-ad.dim_1280x720.jpg";
-const POSTER_HISTORIC_LONDON = "/assets/generated/poster-historic-london.dim_1280x720.jpg";
-const POSTER_EDUCATION_CROWD = "/assets/generated/poster-education-crowd.dim_1280x720.jpg";
-const POSTER_MERCH_DISPLAY = "/assets/generated/poster-merch-display.dim_1280x720.jpg";
+const VIDEO_BASE = "https://file.garden/aoCNkzJZYxDjRiWz/TPUK%20BACKGROUND%20HER";
+const VIDEO_FLAG_WAVING = `${VIDEO_BASE}/0806.mp4`;
+const VIDEO_MASCOT_WALK = `${VIDEO_BASE}/mcointpuk.mp4`;
+const VIDEO_MERCH_DISPLAY = `${VIDEO_BASE}/0806.mp4`;
+const VIDEO_HISTORIC_LONDON = `${VIDEO_BASE}/0806%281%29.mp4`;
+const VIDEO_EDUCATION_CROWD = `${VIDEO_BASE}/hf_20260806_184005_968d6943-9d45-4c67-9926-2d826067622e.mp4`;
+const VIDEO_NEWSPAPER_AD = `${VIDEO_BASE}/0803%284%29.mp4`;
+const VIDEO_MBGA_HERO = VIDEO_MASCOT_WALK;
+const VIDEO_DEFAULT_HERO = VIDEO_FLAG_WAVING;
 const ELON_MUSK_MBGA = "/assets/endorsements/elon-musk-mbga.jpg";
 const ELON_MUSK_MBGA_2 = "/assets/endorsements/elon-musk-mbga-2.jpg";
 const BLOG_COVER_FALLBACK = "/assets/generated/cover-free-speech.dim_1280x720.webp";
@@ -40757,32 +40919,32 @@ const DEFAULT_HERO_VIDEO_SLOTS = [
   {
     key: "flag-waving",
     videoUrl: VIDEO_FLAG_WAVING,
-    posterUrl: POSTER_FLAG_WAVING
+    posterUrl: ""
   },
   {
     key: "mascot-walk",
     videoUrl: VIDEO_MASCOT_WALK,
-    posterUrl: POSTER_MASCOT_WALK
+    posterUrl: ""
   },
   {
     key: "newspaper-ad",
     videoUrl: VIDEO_NEWSPAPER_AD,
-    posterUrl: POSTER_NEWSPAPER_AD
+    posterUrl: ""
   },
   {
     key: "historic-london",
     videoUrl: VIDEO_HISTORIC_LONDON,
-    posterUrl: POSTER_HISTORIC_LONDON
+    posterUrl: ""
   },
   {
     key: "education-crowd",
     videoUrl: VIDEO_EDUCATION_CROWD,
-    posterUrl: POSTER_EDUCATION_CROWD
+    posterUrl: ""
   },
   {
     key: "merch-display",
     videoUrl: VIDEO_MERCH_DISPLAY,
-    posterUrl: POSTER_MERCH_DISPLAY
+    posterUrl: ""
   }
 ];
 const DEFAULT_HERO_VIDEO_SLOT_MAP = new Map(DEFAULT_HERO_VIDEO_SLOTS.map((slot) => [slot.key, slot]));
@@ -41009,7 +41171,7 @@ function LoadingScreen({
       "aria-hidden": hidden || void 0,
       tabIndex: hidden ? -1 : void 0,
       className: [
-        "loading-screen fixed inset-0 z-[9999] flex w-screen h-screen flex-col items-center justify-center overflow-hidden bg-blue-950 transition-opacity duration-500",
+        "loading-screen fixed inset-0 z-[9999] flex w-screen h-screen flex-col items-center justify-center overflow-hidden bg-[#030712] transition-opacity duration-500",
         fadeOut ? "pointer-events-none opacity-0" : "opacity-100",
         hidden ? "pointer-events-none" : ""
       ].join(" "),
@@ -46595,74 +46757,6 @@ function Nav() {
     }
   );
 }
-const ENTRANCE_SELECTOR = ".entrance-left, .entrance-right";
-function prefersReducedMotion() {
-  if (typeof window === "undefined" || !window.matchMedia) return false;
-  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-}
-function useEntranceAnimation(options = {}) {
-  const {
-    rootMargin = "0px 0px -10% 0px",
-    threshold = 0.1,
-    stagger = 0,
-    disabled = false
-  } = options;
-  const containerRef = reactExports.useRef(null);
-  reactExports.useEffect(() => {
-    document.documentElement.classList.add("entrance-js");
-  }, []);
-  reactExports.useEffect(() => {
-    if (disabled) return;
-    const root2 = containerRef.current ?? document.body;
-    if (!root2) return;
-    const reduced = prefersReducedMotion();
-    const reveal = (el) => {
-      if (reduced) {
-        el.classList.add("entrance-visible");
-        return;
-      }
-      const delayAttr = el.getAttribute("data-entrance-delay");
-      const delay = delayAttr ? Number(delayAttr) : stagger;
-      if (delay && Number.isFinite(delay) && delay > 0) {
-        window.setTimeout(() => el.classList.add("entrance-visible"), delay);
-      } else {
-        el.classList.add("entrance-visible");
-      }
-    };
-    if (reduced) {
-      for (const el of root2.querySelectorAll(ENTRANCE_SELECTOR)) {
-        reveal(el);
-      }
-      return;
-    }
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            reveal(entry.target);
-            io.unobserve(entry.target);
-          }
-        }
-      },
-      { rootMargin, threshold }
-    );
-    const observeAll = () => {
-      for (const el of root2.querySelectorAll(ENTRANCE_SELECTOR)) {
-        if (!el.classList.contains("entrance-visible")) {
-          io.observe(el);
-        }
-      }
-    };
-    observeAll();
-    const mo = new MutationObserver(() => observeAll());
-    mo.observe(root2, { childList: true, subtree: true });
-    return () => {
-      io.disconnect();
-      mo.disconnect();
-    };
-  }, [rootMargin, threshold, stagger, disabled]);
-  return containerRef;
-}
 const defaultOptions$1 = {
   active: true,
   breakpoints: {},
@@ -48942,7 +49036,7 @@ function EndorsementsSlider() {
     "section",
     {
       "data-ocid": "section.endorsements",
-      className: "w-full bg-background px-6 py-32 sm:px-10",
+      className: "w-full px-6 py-32 sm:px-10",
       children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-auto w-full max-w-7xl", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-12 flex flex-col gap-4", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "entrance-left text-eyebrow", "data-entrance-delay": "0", children: "OUR ENDORSEMENTS" }),
@@ -49592,40 +49686,33 @@ const FAQ_ITEMS$1 = [
 ];
 function HomeFaq() {
   useEntranceAnimation();
-  return /* @__PURE__ */ jsxRuntimeExports.jsx(
-    "section",
-    {
-      "data-ocid": "section.faq",
-      className: "w-full bg-background px-6 py-32 sm:px-10",
-      children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-auto w-full max-w-3xl", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-16 flex flex-col gap-4", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "entrance-left text-eyebrow", "data-entrance-delay": "0", children: "FREQUENTLY ASKED QUESTIONS" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "h2",
-            {
-              className: "entrance-left text-headline text-foreground",
-              "data-entrance-delay": "80",
-              children: "Questions & Answers"
-            }
-          )
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Accordion, { type: "single", collapsible: true, className: "w-full", children: FAQ_ITEMS$1.map((item, i) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
-          AccordionItem,
-          {
-            value: `faq-${i + 1}`,
-            "data-ocid": `section.faq.item.${i + 1}`,
-            className: "entrance-left border-border",
-            "data-entrance-delay": String(i * 80),
-            children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx(AccordionTrigger, { className: "font-display uppercase tracking-wide text-foreground hover:text-primary hover:no-underline", children: item.question }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(AccordionContent, { className: "text-muted-foreground", children: /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-body text-base font-light leading-relaxed", children: item.answer }) })
-            ]
-          },
-          item.question
-        )) })
-      ] })
-    }
-  );
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("section", { "data-ocid": "section.faq", className: "w-full px-6 py-32 sm:px-10", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-auto w-full max-w-3xl", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-16 flex flex-col gap-4", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "entrance-left text-eyebrow", "data-entrance-delay": "0", children: "FREQUENTLY ASKED QUESTIONS" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "h2",
+        {
+          className: "entrance-left text-headline text-foreground",
+          "data-entrance-delay": "80",
+          children: "Questions & Answers"
+        }
+      )
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Accordion, { type: "single", collapsible: true, className: "w-full", children: FAQ_ITEMS$1.map((item, i) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+      AccordionItem,
+      {
+        value: `faq-${i + 1}`,
+        "data-ocid": `section.faq.item.${i + 1}`,
+        className: "entrance-left border-border",
+        "data-entrance-delay": String(i * 80),
+        children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(AccordionTrigger, { className: "font-display uppercase tracking-wide text-foreground hover:text-primary hover:no-underline", children: item.question }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(AccordionContent, { className: "text-muted-foreground", children: /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-body text-base font-light leading-relaxed", children: item.answer }) })
+        ]
+      },
+      item.question
+    )) })
+  ] }) });
 }
 const ORG_JSONLD_ID = "tpuk-org-jsonld";
 const ORG_JSONLD_ATTR = "data-tpuk-org-jsonld";
@@ -49665,6 +49752,7 @@ function Layout() {
   const location2 = useLocation();
   const isHomepage = location2.pathname === "/";
   const isAdmin = location2.pathname.startsWith("/admin");
+  useUniversalReveal();
   reactExports.useEffect(() => {
     const existing = document.head.querySelector(
       `script#${ORG_JSONLD_ID}`
@@ -49695,107 +49783,112 @@ function Layout() {
       }
     };
   }, []);
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex min-h-[100dvh] flex-col bg-background", children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx(InitialLoadPreloader, {}),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(RouteTransitionPreloader, {}),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs(
-      "div",
-      {
-        "data-ocid": "announcement_bar",
-        className: "fixed inset-x-0 top-0 z-[60] flex h-[var(--announcement-bar-height)] items-center justify-center gap-2 bg-primary px-4 text-center",
-        children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "truncate font-display text-xs font-semibold uppercase tracking-[0.08em] text-primary-foreground sm:text-sm", children: "🕯️ Charlie Kirk Vigil — Thursday 10th September 2026 | Montgomery Statue, Whitehall, London | Gather 18:30" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            Link,
-            {
-              to: ROUTES.home,
-              hash: "vigil",
-              "data-ocid": "announcement_bar.learn_more",
-              className: "shrink-0 font-display text-xs font-bold uppercase tracking-[0.08em] text-primary-foreground underline underline-offset-2 hover:opacity-80 transition-opacity sm:text-sm",
-              children: "Learn More"
-            }
-          )
-        ]
-      }
-    ),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(Nav, {}),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("main", { className: "flex-1 pb-24 lg:pb-0", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Outlet, {}) }),
-    !isAdmin && /* @__PURE__ */ jsxRuntimeExports.jsx(EndorsementsSlider, {}),
-    isHomepage && /* @__PURE__ */ jsxRuntimeExports.jsx(HomeFaq, {}),
-    !isAdmin && /* @__PURE__ */ jsxRuntimeExports.jsx(Footer, {}),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(CookieConsentBanner, {}),
-    typeof document !== "undefined" ? reactDomExports.createPortal(
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "fixed bottom-0 left-0 w-full z-[100] bg-navy border-t border-border/40 lg:hidden", children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
-        "form",
+  return (
+    // bg-transparent (NOT bg-background): the universal ambient midnight
+    // mesh + vignette are painted on fixed body::before / body::after layers
+    // at negative z-index; an opaque background here would cover them on
+    // every page. Sections/cards above paint translucent surfaces instead.
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex min-h-[100dvh] flex-col bg-transparent", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(InitialLoadPreloader, {}),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(RouteTransitionPreloader, {}),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        "div",
         {
-          action: "https://tpointuk.us3.list-manage.com/subscribe/post?u=6fe69c3d0521b617677c81700&id=2ce1dac979&f_id=0081c1e5f0",
-          method: "post",
-          target: "_blank",
-          className: "flex items-center gap-2 px-4 py-3",
-          "data-ocid": "mobile.subscribe_bar",
+          "data-ocid": "announcement_bar",
+          className: "fixed inset-x-0 top-0 z-[60] flex h-[var(--announcement-bar-height)] items-center justify-center gap-2 bg-primary px-4 text-center",
           children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("label", { htmlFor: "mce-EMAIL-mobile", className: "sr-only", children: "Email Address" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "truncate font-display text-xs font-semibold uppercase tracking-[0.08em] text-primary-foreground sm:text-sm", children: "🕯️ Charlie Kirk Vigil — Thursday 10th September 2026 | Montgomery Statue, Whitehall, London | Gather 18:30" }),
             /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "input",
+              Link,
               {
-                type: "email",
-                name: "EMAIL",
-                id: "mce-EMAIL-mobile",
-                required: true,
-                placeholder: "Email address",
-                className: "admin-input min-w-0 flex-1",
-                "data-ocid": "mobile.subscribe.email_input"
-              }
-            ),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "button",
-              {
-                type: "submit",
-                name: "subscribe",
-                className: "shrink-0 bg-red-600 hover:bg-red-700 px-4 py-3 font-display text-sm font-bold uppercase tracking-wider text-white transition-colors",
-                "data-ocid": "mobile.subscribe.submit_button",
-                children: "Subscribe"
+                to: ROUTES.home,
+                hash: "vigil",
+                "data-ocid": "announcement_bar.learn_more",
+                className: "shrink-0 font-display text-xs font-bold uppercase tracking-[0.08em] text-primary-foreground underline underline-offset-2 hover:opacity-80 transition-opacity sm:text-sm",
+                children: "Learn More"
               }
             )
           ]
         }
-      ) }),
-      document.body
-    ) : null,
-    /* @__PURE__ */ jsxRuntimeExports.jsxs(
-      "div",
-      {
-        className: "fixed top-1/2 right-0 -translate-y-1/2 z-[99] flex flex-col items-end",
-        "data-ocid": "floating.patreon_cta",
-        children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "span",
-            {
-              "data-ocid": "floating.patreon_cta.label",
-              className: "podcasts-bounce mb-2 mr-1 origin-center -rotate-90 whitespace-nowrap text-xs font-bold uppercase tracking-[0.18em] text-white [transform-origin:center] [writing-mode:vertical-rl] [text-orientation:mixed] sm:text-sm",
-              children: "Our podcasts"
-            }
-          ),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "a",
-            {
-              href: "https://www.patreon.com/tpointuk",
-              target: "_blank",
-              rel: "noopener noreferrer",
-              "data-ocid": "floating.patreon_cta.button",
-              className: "rounded-l-full py-3 pl-6 pr-3 bg-red-600 hover:bg-red-700 text-white font-bold shadow-lg transition-colors",
-              children: "Join our patreon"
-            }
-          )
-        ]
-      }
-    ),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(ScrollRestoration, {})
-  ] });
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Nav, {}),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("main", { className: "flex-1 pb-24 lg:pb-0", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Outlet, {}) }),
+      !isAdmin && /* @__PURE__ */ jsxRuntimeExports.jsx(EndorsementsSlider, {}),
+      isHomepage && /* @__PURE__ */ jsxRuntimeExports.jsx(HomeFaq, {}),
+      !isAdmin && /* @__PURE__ */ jsxRuntimeExports.jsx(Footer, {}),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(CookieConsentBanner, {}),
+      typeof document !== "undefined" ? reactDomExports.createPortal(
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "fixed bottom-0 left-0 w-full z-[100] bg-navy border-t border-border/40 lg:hidden", children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
+          "form",
+          {
+            action: "https://tpointuk.us3.list-manage.com/subscribe/post?u=6fe69c3d0521b617677c81700&id=2ce1dac979&f_id=0081c1e5f0",
+            method: "post",
+            target: "_blank",
+            className: "flex items-center gap-2 px-4 py-3",
+            "data-ocid": "mobile.subscribe_bar",
+            children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("label", { htmlFor: "mce-EMAIL-mobile", className: "sr-only", children: "Email Address" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "input",
+                {
+                  type: "email",
+                  name: "EMAIL",
+                  id: "mce-EMAIL-mobile",
+                  required: true,
+                  placeholder: "Email address",
+                  className: "admin-input min-w-0 flex-1",
+                  "data-ocid": "mobile.subscribe.email_input"
+                }
+              ),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
+                "button",
+                {
+                  type: "submit",
+                  name: "subscribe",
+                  className: "shrink-0 bg-red-600 hover:bg-red-700 px-4 py-3 font-display text-sm font-bold uppercase tracking-wider text-white transition-colors",
+                  "data-ocid": "mobile.subscribe.submit_button",
+                  children: "Subscribe"
+                }
+              )
+            ]
+          }
+        ) }),
+        document.body
+      ) : null,
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(
+        "div",
+        {
+          className: "fixed top-1/2 right-0 -translate-y-1/2 z-[99] flex flex-col items-end",
+          "data-ocid": "floating.patreon_cta",
+          children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "span",
+              {
+                "data-ocid": "floating.patreon_cta.label",
+                className: "podcasts-bounce mb-2 mr-1 origin-center -rotate-90 whitespace-nowrap text-xs font-bold uppercase tracking-[0.18em] text-white [transform-origin:center] [writing-mode:vertical-rl] [text-orientation:mixed] sm:text-sm",
+                children: "Our podcasts"
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "a",
+              {
+                href: "https://www.patreon.com/tpointuk",
+                target: "_blank",
+                rel: "noopener noreferrer",
+                "data-ocid": "floating.patreon_cta.button",
+                className: "rounded-l-full py-3 pl-6 pr-3 bg-red-600 hover:bg-red-700 text-white font-bold shadow-lg transition-colors",
+                children: "Join our patreon"
+              }
+            )
+          ]
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(ScrollRestoration, {})
+    ] })
+  );
 }
 function BackgroundVideo({
   videoSrc,
-  posterSrc,
   lazy = true,
   ariaLabel,
   className
@@ -49849,103 +49942,44 @@ function BackgroundVideo({
       window.clearTimeout(retryB);
     };
   }, [shouldPlay, requestPlay]);
-  return /* @__PURE__ */ jsxRuntimeExports.jsx(
-    "div",
-    {
-      ref: sectionRef,
-      className: cn("absolute inset-0 z-0 overflow-hidden", className),
-      "aria-hidden": "true",
-      children: shouldPlay ? /* @__PURE__ */ jsxRuntimeExports.jsx(
-        "video",
-        {
-          ref: videoRef,
-          src: videoSrc,
-          poster: posterSrc,
-          autoPlay: true,
-          loop: true,
-          muted: true,
-          playsInline: true,
-          preload: lazy ? "metadata" : "auto",
-          controls: false,
-          onCanPlayThrough: () => requestPlay(),
-          onCanPlay: () => requestPlay(),
-          onLoadedData: () => requestPlay(),
-          onLoadedMetadata: (e) => {
-            const v2 = e.currentTarget;
-            v2.muted = true;
-            requestPlay();
-          },
-          onPlay: () => {
-            playRequestedRef.current = true;
-          },
-          className: "absolute inset-0 h-full w-full object-cover",
-          children: /* @__PURE__ */ jsxRuntimeExports.jsx("source", { src: videoSrc, type: "video/mp4" })
-        }
-      ) : posterSrc ? (
-        // Below-the-fold lazy hero that has not yet entered the viewport:
-        // show the poster as a static placeholder so the hero is never a flat
-        // dark plate while waiting for the IntersectionObserver to fire.
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          "img",
-          {
-            src: posterSrc,
-            alt: ariaLabel ?? "",
-            className: "absolute inset-0 h-full w-full object-cover"
-          }
-        )
-      ) : /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute inset-0 bg-background" })
-    }
-  );
-}
-function VideoPlaceholder({
-  label,
-  posterSrc,
-  className
-}) {
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(
     "div",
     {
+      ref: sectionRef,
       className: cn(
-        "absolute inset-0 z-0 overflow-hidden bg-background",
+        "absolute inset-0 w-full h-full overflow-hidden -z-10",
         className
       ),
       "aria-hidden": "true",
-      "data-ocid": "video_placeholder",
+      "aria-label": ariaLabel,
       children: [
-        posterSrc ? /* @__PURE__ */ jsxRuntimeExports.jsx(
-          "img",
+        shouldPlay ? /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "video",
           {
-            src: posterSrc,
-            alt: "",
-            className: "h-full w-full object-cover opacity-50"
+            ref: videoRef,
+            src: videoSrc,
+            autoPlay: true,
+            loop: true,
+            muted: true,
+            playsInline: true,
+            preload: lazy ? "metadata" : "auto",
+            controls: false,
+            onCanPlayThrough: () => requestPlay(),
+            onCanPlay: () => requestPlay(),
+            onLoadedData: () => requestPlay(),
+            onLoadedMetadata: (e) => {
+              const v2 = e.currentTarget;
+              v2.muted = true;
+              requestPlay();
+            },
+            onPlay: () => {
+              playRequestedRef.current = true;
+            },
+            className: "w-full h-full object-cover",
+            children: /* @__PURE__ */ jsxRuntimeExports.jsx("source", { src: videoSrc, type: "video/mp4" })
           }
-        ) : /* @__PURE__ */ jsxRuntimeExports.jsx(
-          "div",
-          {
-            className: "absolute inset-0",
-            style: {
-              backgroundImage: "radial-gradient(circle at 50% 40%, oklch(0.22 0.08 255 / 0.55), oklch(0.20 0.08 255) 70%)"
-            }
-          }
-        ),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          "div",
-          {
-            className: "absolute inset-0 opacity-[0.08] mix-blend-overlay",
-            style: {
-              backgroundImage: "repeating-linear-gradient(0deg, oklch(0.98 0.005 250) 0px, oklch(0.98 0.005 250) 1px, transparent 1px, transparent 3px)"
-            }
-          }
-        ),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          "div",
-          {
-            className: "absolute inset-0",
-            style: {
-              background: "radial-gradient(ellipse at 50% 60%, transparent 40%, oklch(0.18 0.08 255 / 0.55) 100%)"
-            }
-          }
-        )
+        ) : null,
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute inset-0 bg-black/50" })
       ]
     }
   );
@@ -49957,7 +49991,6 @@ function Hero({
   buttons = [],
   videoLabel,
   videoSrc,
-  posterSrc,
   lazy = true,
   className
 }) {
@@ -49965,28 +49998,23 @@ function Hero({
     "section",
     {
       "data-ocid": "hero",
-      className: cn("scroll-snap-section relative overflow-hidden", className),
+      className: cn(
+        "scroll-snap-section relative isolate overflow-hidden",
+        className
+      ),
       children: [
-        videoSrc ? /* @__PURE__ */ jsxRuntimeExports.jsx(
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
           BackgroundVideo,
           {
-            videoSrc,
-            posterSrc,
+            videoSrc: videoSrc ?? VIDEO_DEFAULT_HERO,
             lazy,
             ariaLabel: videoLabel
-          }
-        ) : /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute inset-0 z-0", "aria-hidden": "true", children: /* @__PURE__ */ jsxRuntimeExports.jsx(VideoPlaceholder, { label: videoLabel, posterSrc }) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          "div",
-          {
-            className: "bg-gradient-to-b from-blue-950/85 via-blue-950/65 to-blue-950 absolute inset-0 z-10",
-            "aria-hidden": "true"
           }
         ),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           "div",
           {
-            className: "absolute bottom-0 inset-x-0 h-24 bg-gradient-to-b from-transparent to-blue-950 z-10",
+            className: "absolute bottom-0 inset-x-0 h-24 bg-gradient-to-b from-transparent to-[#030712] z-10",
             "aria-hidden": "true"
           }
         ),
@@ -50102,9 +50130,9 @@ function Section({
         "relative flex w-full flex-col overflow-hidden",
         noSnap ? "min-h-[100dvh]" : "scroll-snap-section",
         variant === "center" ? "items-center justify-center" : "justify-end",
-        background === "navy" && "bg-navy",
-        background === "card" && "bg-card",
-        background === "background" && "bg-background",
+        background === "navy" && "bg-navy/60",
+        background === "card" && "bg-card/60",
+        background === "background" && "bg-transparent",
         className
       ),
       children
@@ -50440,45 +50468,35 @@ function AboutPage() {
           }
         ],
         lazy: false,
-        videoSrc: VIDEO_FLAG_WAVING,
-        posterSrc: POSTER_FLAG_WAVING
+        videoSrc: VIDEO_FLAG_WAVING
       }
     ),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(
-      Section,
-      {
-        variant: "center",
-        noSnap: true,
-        className: "bg-foreground text-background",
-        id: "what-we-do",
-        children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-auto w-full max-w-3xl px-6 py-24 sm:px-10 sm:py-32", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "span",
-            {
-              className: "entrance-left text-eyebrow text-background/60",
-              "data-entrance-delay": "0",
-              children: "Who we are"
-            }
-          ),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "h2",
-            {
-              className: "entrance-left mt-4 font-display text-3xl font-bold uppercase leading-tight tracking-tight text-background sm:text-4xl",
-              "data-entrance-delay": "80",
-              children: "Our Story"
-            }
-          ),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "p",
-            {
-              className: "entrance-left mt-8 font-body text-lg font-light leading-relaxed text-background/85 sm:text-xl",
-              "data-entrance-delay": "200",
-              children: ABOUT_COPY
-            }
-          )
-        ] })
-      }
-    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Section, { variant: "center", noSnap: true, id: "what-we-do", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mx-auto w-full max-w-3xl px-6 py-24 sm:px-10 sm:py-32", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ambient-card p-8 sm:p-12", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "span",
+        {
+          className: "entrance-left text-eyebrow text-foreground/60",
+          "data-entrance-delay": "0",
+          children: "Who we are"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "h2",
+        {
+          className: "entrance-left mt-4 font-display text-3xl font-bold uppercase leading-tight tracking-tight text-foreground sm:text-4xl",
+          "data-entrance-delay": "80",
+          children: "Our Story"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "p",
+        {
+          className: "entrance-left mt-8 font-body text-lg font-light leading-relaxed text-foreground/85 sm:text-xl",
+          "data-entrance-delay": "200",
+          children: ABOUT_COPY
+        }
+      )
+    ] }) }) }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(Section, { variant: "center", noSnap: true, background: "background", id: "why-we-do", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-auto w-full max-w-5xl px-6 py-24 sm:px-10 sm:py-32", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col items-center text-center", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -50966,8 +50984,7 @@ function ActivismKitPage() {
           }
         ],
         lazy: false,
-        videoSrc: VIDEO_FLAG_WAVING,
-        posterSrc: POSTER_FLAG_WAVING
+        videoSrc: VIDEO_FLAG_WAVING
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -51602,8 +51619,7 @@ function ActivismPage() {
           }
         ],
         lazy: false,
-        videoSrc: VIDEO_FLAG_WAVING,
-        posterSrc: POSTER_FLAG_WAVING
+        videoSrc: VIDEO_FLAG_WAVING
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -51810,7 +51826,6 @@ function BecomeAnActivistPage() {
         sub: "Stand up against the woke mob. Get trained, get equipped, get active.",
         videoLabel: "Become an activist hero video",
         videoSrc: VIDEO_FLAG_WAVING,
-        posterSrc: POSTER_FLAG_WAVING,
         buttons: [
           {
             label: "SIGN UP NOW",
@@ -52160,7 +52175,7 @@ function BecomeAnActivistPage() {
       "section",
       {
         "data-ocid": "section.standing-up-on-campus",
-        className: "w-full bg-background px-6 py-24 sm:px-10",
+        className: "w-full px-6 py-24 sm:px-10",
         children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-auto w-full max-w-4xl", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-10 flex flex-col gap-3", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -52626,6 +52641,19 @@ function useBlogSeed({
   }, [isEmpty, createOne, queryClient2]);
   return { seeding };
 }
+function sanitizeSlotMap(map) {
+  const sanitized = /* @__PURE__ */ new Map();
+  for (const [key, slot] of map) {
+    const isRetiredUrl = slot.videoUrl.trim() === "" || slot.videoUrl.startsWith("/videos/");
+    const fallback = DEFAULT_HERO_VIDEO_SLOT_MAP.get(key);
+    sanitized.set(key, {
+      key,
+      videoUrl: isRetiredUrl && fallback ? fallback.videoUrl : slot.videoUrl,
+      posterUrl: ""
+    });
+  }
+  return sanitized;
+}
 function resolveActor$3(actor) {
   if (actor) return actor;
   return null;
@@ -52638,7 +52666,7 @@ function useHeroVideoConfig() {
     queryFn: async () => {
       if (!resolvedActor) return new Map(DEFAULT_HERO_VIDEO_SLOT_MAP);
       const config = await resolvedActor.getHeroVideoConfig();
-      const map = toHeroVideoSlotMap(config);
+      const map = sanitizeSlotMap(toHeroVideoSlotMap(config));
       return map.size > 0 ? map : new Map(DEFAULT_HERO_VIDEO_SLOT_MAP);
     },
     enabled: Boolean(resolvedActor) && !isFetching
@@ -52731,8 +52759,7 @@ function BlogPage() {
         headline: "BLOG",
         sub: "Commentary, campaign updates and news.",
         videoLabel: "Blog hero video",
-        videoSrc: newspaperAd == null ? void 0 : newspaperAd.videoUrl,
-        posterSrc: newspaperAd == null ? void 0 : newspaperAd.posterUrl
+        videoSrc: newspaperAd == null ? void 0 : newspaperAd.videoUrl
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -53238,8 +53265,7 @@ function ContactPage() {
         headline: "CONTACT",
         sub: "Questions, press enquiries, or ready to get involved?",
         videoLabel: "Contact hero video",
-        videoSrc: VIDEO_FLAG_WAVING,
-        posterSrc: POSTER_FLAG_WAVING
+        videoSrc: VIDEO_FLAG_WAVING
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -53493,7 +53519,6 @@ function DonatePage() {
         sub: "Every pound fuels the movement for Britain's future.",
         videoLabel: "Donate hero video",
         videoSrc: VIDEO_FLAG_WAVING,
-        posterSrc: POSTER_FLAG_WAVING,
         buttons: [
           {
             label: "DONATE NOW",
@@ -53747,8 +53772,7 @@ function EducationWatchPage() {
           { label: "READ THE FAQ", to: "#faq", variant: "outline" }
         ],
         lazy: false,
-        videoSrc: VIDEO_EDUCATION_CROWD,
-        posterSrc: POSTER_EDUCATION_CROWD
+        videoSrc: VIDEO_EDUCATION_CROWD
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -53866,7 +53890,7 @@ function EducationWatchPage() {
       "section",
       {
         "data-ocid": "section.exposing-indoctrination",
-        className: "w-full bg-background px-6 py-24 sm:px-10",
+        className: "w-full px-6 py-24 sm:px-10",
         children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-auto w-full max-w-4xl", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-10 flex flex-col items-center gap-3 text-center", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -54461,8 +54485,7 @@ function EventsPage() {
         sub: "Upcoming speeches, rallies and summits across the UK.",
         videoLabel: "Events hero video",
         lazy: false,
-        videoSrc: VIDEO_EDUCATION_CROWD,
-        posterSrc: POSTER_EDUCATION_CROWD
+        videoSrc: VIDEO_EDUCATION_CROWD
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsxs(
@@ -55072,8 +55095,7 @@ function GalleryPage() {
         headline: "GALLERY",
         sub: "Moments from campuses, rallies and direct action.",
         videoLabel: "Gallery hero video",
-        videoSrc: flagWaving == null ? void 0 : flagWaving.videoUrl,
-        posterSrc: flagWaving == null ? void 0 : flagWaving.posterUrl
+        videoSrc: flagWaving == null ? void 0 : flagWaving.videoUrl
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -55580,7 +55602,7 @@ function VigilSpotlight() {
     {
       id: "vigil",
       "data-ocid": "section.vigil_spotlight",
-      className: "w-full scroll-mt-[calc(var(--announcement-bar-height)+4rem)] bg-navy px-6 py-20 sm:px-10 sm:py-28",
+      className: "w-full scroll-mt-[calc(var(--announcement-bar-height)+4rem)] bg-navy/60 px-6 py-20 sm:px-10 sm:py-28",
       children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           "div",
@@ -55755,7 +55777,6 @@ function HomePage() {
   const merchDisplay = getSlot("merch-display");
   const historicLondon = getSlot("historic-london");
   const newspaperAd = getSlot("newspaper-ad");
-  const mascotWalk = getSlot("mascot-walk");
   useSeoMeta({
     title: PAGE_SEO["/"].title,
     description: PAGE_SEO["/"].description,
@@ -55778,7 +55799,6 @@ function HomePage() {
         sub: "Britain's fastest-growing conservative youth movement. Question. Challenge. Fight Back.",
         videoLabel: "Hero video 1 - Union Jack waving",
         videoSrc: flagWaving == null ? void 0 : flagWaving.videoUrl,
-        posterSrc: flagWaving == null ? void 0 : flagWaving.posterUrl,
         buttons: [
           {
             label: "JOIN THE MOVEMENT",
@@ -55805,7 +55825,7 @@ function HomePage() {
       {
         id: "pillars",
         "data-ocid": "section.pillars",
-        className: "w-full bg-navy px-6 py-32 sm:px-10",
+        className: "w-full px-6 py-32 sm:px-10",
         children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-auto w-full max-w-7xl", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-20 flex max-w-4xl flex-col gap-5", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -55839,7 +55859,7 @@ function HomePage() {
               "div",
               {
                 "data-ocid": `section.pillars.card.${i + 1}`,
-                className: "entrance-left group flex flex-col gap-4 border border-border bg-card/40 p-8 backdrop-blur-md transition-colors hover:border-red-600",
+                className: "entrance-left group flex flex-col gap-4 border border-white/10 bg-slate-900/60 p-8 backdrop-blur-md transition-colors hover:border-red-600",
                 "data-entrance-delay": String(i * 80),
                 children: [
                   /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -55869,7 +55889,6 @@ function HomePage() {
         sub: "Campus speeches, rallies, and a confidential channel to report classroom bias.",
         videoLabel: "Hero video 2 - modern London montage",
         videoSrc: educationCrowd == null ? void 0 : educationCrowd.videoUrl,
-        posterSrc: educationCrowd == null ? void 0 : educationCrowd.posterUrl,
         buttons: [
           { label: "VIEW CALENDAR", to: ROUTES.events, variant: "primary" },
           {
@@ -55888,7 +55907,6 @@ function HomePage() {
         sub: "Every order funds the movement. Shipped across the UK.",
         videoLabel: "Hero video 3 - merch flatlay on Union Jack",
         videoSrc: merchDisplay == null ? void 0 : merchDisplay.videoUrl,
-        posterSrc: merchDisplay == null ? void 0 : merchDisplay.posterUrl,
         buttons: [
           {
             label: "SHOP THE COLLECTION",
@@ -55906,7 +55924,6 @@ function HomePage() {
         sub: "Rooted in the story of Britain — and fighting for its future.",
         videoLabel: "Hero video 4 - black-and-white Victorian London",
         videoSrc: historicLondon == null ? void 0 : historicLondon.videoUrl,
-        posterSrc: historicLondon == null ? void 0 : historicLondon.posterUrl,
         buttons: [
           {
             label: "LEARN OUR HISTORY",
@@ -55920,21 +55937,13 @@ function HomePage() {
       "section",
       {
         "data-ocid": "section.blog-showcase",
-        className: "relative w-full overflow-hidden bg-blue-950 px-6 py-20 sm:px-10 sm:py-28 lg:py-32",
+        className: "relative isolate w-full overflow-hidden px-6 py-20 sm:px-10 sm:py-28 lg:py-32",
         children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(
             BackgroundVideo,
             {
               videoSrc: newspaperAd.videoUrl,
-              posterSrc: newspaperAd.posterUrl,
               ariaLabel: "Background video - UK newspaper collage"
-            }
-          ),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "div",
-            {
-              "aria-hidden": "true",
-              className: "bg-gradient-to-b from-blue-950/85 via-blue-950/65 to-blue-950 absolute inset-0 z-10"
             }
           ),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative z-20 mx-auto w-full max-w-7xl", children: [
@@ -56039,21 +56048,13 @@ function HomePage() {
       "section",
       {
         "data-ocid": "section.mbga",
-        className: "relative w-full overflow-hidden bg-blue-950 px-6 py-20 sm:px-10 sm:py-28 lg:py-32",
+        className: "relative isolate w-full overflow-hidden px-6 py-20 sm:px-10 sm:py-28 lg:py-32",
         children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(
             BackgroundVideo,
             {
               videoSrc: VIDEO_MBGA_HERO,
-              posterSrc: mascotWalk.posterUrl,
               ariaLabel: "Background video - $MBGA hero"
-            }
-          ),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "div",
-            {
-              "aria-hidden": "true",
-              className: "bg-gradient-to-b from-blue-950/85 via-blue-950/65 to-blue-950 absolute inset-0 z-10"
             }
           ),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative z-20 mx-auto flex w-full max-w-7xl flex-col items-start justify-start gap-6 text-left", children: [
@@ -56109,7 +56110,7 @@ function HomePage() {
       "section",
       {
         "data-ocid": "section.achievements",
-        className: "w-full bg-gradient-to-b from-[#00247D] to-blue-950 px-4 py-12 sm:px-6 sm:py-16 lg:py-20",
+        className: "w-full px-4 py-12 sm:px-6 sm:py-16 lg:py-20",
         children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-auto w-full max-w-7xl", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-12 flex max-w-3xl flex-col gap-4", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -56144,7 +56145,7 @@ function HomePage() {
               "div",
               {
                 "data-ocid": `section.achievements.card.${i + 1}`,
-                className: `entrance-left group flex flex-col gap-4 border-l-4 bg-card/40 p-6 backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl sm:p-8 ${isRed ? "border-red-600" : "border-blue-700"}`,
+                className: `entrance-left group flex flex-col gap-4 border-l-4 bg-slate-900/60 p-6 backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl sm:p-8 ${isRed ? "border-red-600" : "border-blue-700"}`,
                 "data-entrance-delay": String(i * 80),
                 children: [
                   /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -56527,8 +56528,7 @@ function JoinUsPage() {
         sub: "Fed up with the left-wing bias of your university? Don't just sit down and shut up.",
         videoLabel: "Join us hero video",
         lazy: false,
-        videoSrc: VIDEO_FLAG_WAVING,
-        posterSrc: POSTER_FLAG_WAVING
+        videoSrc: VIDEO_FLAG_WAVING
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(Section, { id: "tiers", variant: "center", className: "px-6 py-24 sm:px-10", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-auto w-full max-w-6xl", children: [
@@ -57000,10 +57000,8 @@ function HeroVideo() {
     BackgroundVideo,
     {
       videoSrc: VIDEO_MBGA_HERO,
-      posterSrc: POSTER_MASCOT_WALK,
       lazy: false,
-      ariaLabel: "$MBGA hero background video - lion mascots walking",
-      className: "z-0"
+      ariaLabel: "$MBGA hero background video - lion mascots walking"
     }
   );
 }
@@ -57021,16 +57019,9 @@ function MbgaPage() {
       "section",
       {
         "data-ocid": "mbga.hero",
-        className: "relative min-h-[65dvh] overflow-hidden bg-background sm:min-h-[75dvh] md:min-h-[85dvh] lg:min-h-screen",
+        className: "relative isolate min-h-[65dvh] overflow-hidden sm:min-h-[75dvh] md:min-h-[85dvh] lg:min-h-screen",
         children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(HeroVideo, {}),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "div",
-            {
-              "aria-hidden": "true",
-              className: "bg-gradient-to-b from-blue-950/85 via-blue-950/65 to-blue-950 absolute inset-0 z-10"
-            }
-          ),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative z-20 mx-auto flex min-h-[65dvh] w-full max-w-5xl flex-col items-center justify-center px-6 text-center sm:min-h-[75dvh] md:min-h-[85dvh] lg:min-h-screen", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(
               "img",
@@ -57204,40 +57195,33 @@ function MbgaPage() {
         }
       )
     ] }) }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(
-      "section",
-      {
-        "data-ocid": "mbga.chart",
-        className: "w-full bg-background px-6 py-16",
-        children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-auto w-full max-w-6xl", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col items-center text-center", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "span",
-              {
-                className: "entrance-left font-mono text-sm uppercase tracking-widest text-primary",
-                "data-entrance-delay": "0",
-                children: "Live Market"
-              }
-            ),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "h2",
-              {
-                className: "entrance-left mt-4 font-display text-3xl font-bold uppercase tracking-tight text-foreground sm:text-4xl",
-                "data-entrance-delay": "80",
-                children: "$MBGA Live Chart"
-              }
-            )
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(DexScreenerEmbed, {})
-        ] })
-      }
-    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("section", { "data-ocid": "mbga.chart", className: "w-full px-6 py-16", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-auto w-full max-w-6xl", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col items-center text-center", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "span",
+          {
+            className: "entrance-left font-mono text-sm uppercase tracking-widest text-primary",
+            "data-entrance-delay": "0",
+            children: "Live Market"
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "h2",
+          {
+            className: "entrance-left mt-4 font-display text-3xl font-bold uppercase tracking-tight text-foreground sm:text-4xl",
+            "data-entrance-delay": "80",
+            children: "$MBGA Live Chart"
+          }
+        )
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(DexScreenerEmbed, {})
+    ] }) }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
       "section",
       {
         id: "how-to-buy",
         "data-ocid": "mbga.how_to_buy",
-        className: "w-full scroll-mt-20 bg-background px-6 py-20",
+        className: "w-full scroll-mt-20 px-6 py-20",
         children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-auto w-full max-w-6xl", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col items-center text-center", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -57587,8 +57571,7 @@ function MerchandisePage() {
         headline: "WEAR THE MESSAGE",
         videoLabel: "Merchandise hero video",
         lazy: false,
-        videoSrc: VIDEO_MERCH_DISPLAY,
-        posterSrc: POSTER_MERCH_DISPLAY
+        videoSrc: VIDEO_MERCH_DISPLAY
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -57758,7 +57741,6 @@ function PatreonPage() {
         sub: "Independent British podcasting, funded by the people who listen. Back the movement, unlock the full feed, and keep the mic free of advertisers and algorithms.",
         videoLabel: "Patreon hero video",
         videoSrc: VIDEO_FLAG_WAVING,
-        posterSrc: POSTER_FLAG_WAVING,
         buttons: [
           {
             label: "BECOME A PATRON",
@@ -58087,8 +58069,7 @@ function PetitionPage() {
           }
         ],
         lazy: false,
-        videoSrc: VIDEO_FLAG_WAVING,
-        posterSrc: POSTER_FLAG_WAVING
+        videoSrc: VIDEO_FLAG_WAVING
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -58142,7 +58123,7 @@ function PetitionPage() {
       "section",
       {
         "data-ocid": "section.petition-video",
-        className: "w-full bg-background px-6 py-20 sm:px-10",
+        className: "w-full px-6 py-20 sm:px-10",
         children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-auto w-full max-w-4xl", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-8 flex flex-col items-center gap-3 text-center", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -58781,7 +58762,6 @@ function RealBritishHistoryPage() {
       Hero,
       {
         videoSrc: historicLondon == null ? void 0 : historicLondon.videoUrl,
-        posterSrc: historicLondon == null ? void 0 : historicLondon.posterUrl,
         videoLabel: "Real British History hero",
         eyebrow: "Turning Point UK",
         headline: "REAL BRITISH HISTORY",
@@ -59579,8 +59559,7 @@ function UniversitySocietiesPage() {
           }
         ],
         lazy: false,
-        videoSrc: VIDEO_FLAG_WAVING,
-        posterSrc: POSTER_FLAG_WAVING
+        videoSrc: VIDEO_FLAG_WAVING
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -59816,7 +59795,7 @@ function UniversitySocietiesPage() {
       "section",
       {
         "data-ocid": "section.campus-debate-action",
-        className: "w-full bg-background px-6 py-20 sm:px-10",
+        className: "w-full px-6 py-20 sm:px-10",
         children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-auto w-full max-w-4xl", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-8 flex flex-col gap-3", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -60358,37 +60337,37 @@ function UniversitySocietiesPage() {
   ] });
 }
 const AdminGalleryPage = reactExports.lazy(
-  () => __vitePreload(() => import("./AdminGalleryPage-BF1I_rJA.js"), true ? [] : void 0).then((m2) => ({
+  () => __vitePreload(() => import("./AdminGalleryPage-Bf4T_AYF.js"), true ? [] : void 0).then((m2) => ({
     default: m2.AdminGalleryPage
   }))
 );
 const PostArticlePage = reactExports.lazy(
-  () => __vitePreload(() => import("./PostArticlePage-BuwEx62a.js"), true ? [] : void 0).then((m2) => ({
+  () => __vitePreload(() => import("./PostArticlePage-D4q-8wjx.js"), true ? [] : void 0).then((m2) => ({
     default: m2.PostArticlePage
   }))
 );
 const AdminBlogPage = reactExports.lazy(
-  () => __vitePreload(() => import("./AdminBlogPage-De7OOpJj.js"), true ? __vite__mapDeps([0,1]) : void 0).then((m2) => ({
+  () => __vitePreload(() => import("./AdminBlogPage-Dpm5-yWU.js"), true ? __vite__mapDeps([0,1]) : void 0).then((m2) => ({
     default: m2.AdminBlogPage
   }))
 );
 const CheckoutSuccessPage = reactExports.lazy(
-  () => __vitePreload(() => import("./CheckoutSuccessPage-B_zDwMLw.js"), true ? [] : void 0).then((m2) => ({
+  () => __vitePreload(() => import("./CheckoutSuccessPage-BbeTx0ac.js"), true ? [] : void 0).then((m2) => ({
     default: m2.CheckoutSuccessPage
   }))
 );
 const CheckoutCancelPage = reactExports.lazy(
-  () => __vitePreload(() => import("./CheckoutCancelPage-aFEcHxSw.js"), true ? [] : void 0).then((m2) => ({
+  () => __vitePreload(() => import("./CheckoutCancelPage-DG661t7i.js"), true ? [] : void 0).then((m2) => ({
     default: m2.CheckoutCancelPage
   }))
 );
 const AdminRealBritishHistoryPage = reactExports.lazy(
-  () => __vitePreload(() => import("./AdminRealBritishHistoryPage-ChukX89U.js"), true ? __vite__mapDeps([2,1]) : void 0).then((m2) => ({
+  () => __vitePreload(() => import("./AdminRealBritishHistoryPage-Bk_aMxIp.js"), true ? __vite__mapDeps([2,1]) : void 0).then((m2) => ({
     default: m2.AdminRealBritishHistoryPage
   }))
 );
 const AdminStripePage = reactExports.lazy(
-  () => __vitePreload(() => import("./AdminStripePage-D0aOXpIa.js"), true ? [] : void 0).then((m2) => ({
+  () => __vitePreload(() => import("./AdminStripePage-CeDIgcv-.js"), true ? [] : void 0).then((m2) => ({
     default: m2.AdminStripePage
   }))
 );

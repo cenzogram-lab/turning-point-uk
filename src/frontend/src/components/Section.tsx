@@ -17,7 +17,10 @@ export interface SectionProps {
   variant?: "default" | "center";
   /** Optional id for in-page anchor navigation. */
   id?: string;
-  /** Background fill. Defaults to near-black background. */
+  /** Background fill. Under the universal ambient midnight theme the
+   *  "background" variant is fully transparent (the fixed body mesh IS the
+   *  page background); "navy" and "card" render as translucent tints so the
+   *  ambient glow still reads through while zoning the section. */
   background?: "background" | "navy" | "card";
   /** Disable scroll-snap on this section (for tall content pages). */
   noSnap?: boolean;
@@ -39,9 +42,9 @@ export function Section({
         "relative flex w-full flex-col overflow-hidden",
         noSnap ? "min-h-[100dvh]" : "scroll-snap-section",
         variant === "center" ? "items-center justify-center" : "justify-end",
-        background === "navy" && "bg-navy",
-        background === "card" && "bg-card",
-        background === "background" && "bg-background",
+        background === "navy" && "bg-navy/60",
+        background === "card" && "bg-card/60",
+        background === "background" && "bg-transparent",
         className,
       )}
     >

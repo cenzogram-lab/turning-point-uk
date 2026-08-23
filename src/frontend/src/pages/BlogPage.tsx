@@ -172,7 +172,6 @@ export function BlogPage() {
         sub="Commentary, campaign updates and news."
         videoLabel="Blog hero video"
         videoSrc={newspaperAd?.videoUrl}
-        posterSrc={newspaperAd?.posterUrl}
       />
 
       {/* Article grid — tall, no-snap section. */}

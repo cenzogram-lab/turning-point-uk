@@ -2,7 +2,7 @@ import { Hero } from "@/components/Hero";
 import { Section } from "@/components/Section";
 import { useEntranceAnimation } from "@/hooks/useEntranceAnimation";
 import { useSeoMeta } from "@/hooks/useSeoMeta";
-import { POSTER_FLAG_WAVING, VIDEO_FLAG_WAVING } from "@/lib/assets";
+import { VIDEO_FLAG_WAVING } from "@/lib/assets";
 import {
   BREADCRUMB_TRAILS,
   PAGE_SEO,
@@ -153,7 +153,6 @@ export function JoinUsPage() {
         videoLabel="Join us hero video"
         lazy={false}
         videoSrc={VIDEO_FLAG_WAVING}
-        posterSrc={POSTER_FLAG_WAVING}
       />
 
       {/* Membership tiers — one decisive screen. Each tier's select

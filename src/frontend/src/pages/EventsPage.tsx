@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import { useEntranceAnimation } from "@/hooks/useEntranceAnimation";
 import { useSeoMeta } from "@/hooks/useSeoMeta";
-import { POSTER_EDUCATION_CROWD, VIDEO_EDUCATION_CROWD } from "@/lib/assets";
+import { VIDEO_EDUCATION_CROWD } from "@/lib/assets";
 import { ROUTES } from "@/lib/routes";
 import {
   BREADCRUMB_TRAILS,
@@ -136,7 +136,6 @@ export function EventsPage() {
         videoLabel="Events hero video"
         lazy={false}
         videoSrc={VIDEO_EDUCATION_CROWD}
-        posterSrc={POSTER_EDUCATION_CROWD}
       />
 
       {/* Coming Soon banner — announcement above the event grid. */}

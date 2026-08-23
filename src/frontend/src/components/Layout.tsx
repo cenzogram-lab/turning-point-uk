@@ -1,3 +1,4 @@
+import { useUniversalReveal } from "@/hooks/useEntranceAnimation";
 import { ROUTES } from "@/lib/routes";
 import { buildOrganizationJsonLd } from "@/lib/seo";
 import {
@@ -117,6 +118,13 @@ export function Layout() {
   // misconfigured route can never surface them on admin pages.
   const isAdmin = location.pathname.startsWith("/admin");
 
+  // Universal animations — auto-tags every text/block element inside <main>
+  // with the rise-up reveal (.entrance-up) and observes the whole document,
+  // so every page gets scroll-triggered entrance animations with no
+  // per-page markup. Manual .entrance-left/.entrance-right elements are
+  // skipped by the hook so the two systems never double-animate a node.
+  useUniversalReveal();
+
   // Organization JSON-LD — injected on EVERY page (including admin) so the
   // Organization schema is always present. Uses a dedicated <script> tag
   // with a stable id (ORG_JSONLD_ID) and a private marker attribute
@@ -160,7 +168,11 @@ export function Layout() {
   }, []);
 
   return (
-    <div className="flex min-h-[100dvh] flex-col bg-background">
+    // bg-transparent (NOT bg-background): the universal ambient midnight
+    // mesh + vignette are painted on fixed body::before / body::after layers
+    // at negative z-index; an opaque background here would cover them on
+    // every page. Sections/cards above paint translucent surfaces instead.
+    <div className="flex min-h-[100dvh] flex-col bg-transparent">
       <InitialLoadPreloader />
       <RouteTransitionPreloader />
       {/* Persistent red announcement bar — fixed at the very top, above the

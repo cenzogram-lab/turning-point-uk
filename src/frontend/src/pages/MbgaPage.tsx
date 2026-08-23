@@ -5,7 +5,6 @@ import { useSeoMeta } from "@/hooks/useSeoMeta";
 import {
   ELON_MUSK_MBGA,
   ELON_MUSK_MBGA_2,
-  POSTER_MASCOT_WALK,
   VIDEO_MBGA_HERO,
 } from "@/lib/assets";
 import {
@@ -295,27 +294,23 @@ function DexScreenerEmbed() {
  *     BEFORE requestPlay() and re-asserted in onLoadedMetadata (mobile
  *     Safari autoplay policy requires the muted PROPERTY, not just the
  *     JSX attribute),
- *   - timed play() retries (600ms / 1500ms) for slow-buffering sources,
- *   - poster <img> fallback while buffering / lazy / unmounted.
+ *   - timed play() retries (600ms / 1500ms) for slow-buffering sources.
  *
  * The hero is the top section on /mbga, so lazy={false} makes it load +
  * autoplay immediately (preload="auto") instead of waiting for the
- * IntersectionObserver. The poster (POSTER_MASCOT_WALK) shows the
- * mascot still while the video buffers.
+ * IntersectionObserver. No poster/fallback image — the ambient page
+ * background shows while the video buffers.
  *
- * CRITICAL Z-LAYERING: <BackgroundVideo> renders the video at z-0
- * (positive — NOT -z-10, which would hide it behind the parent
- * section's bg-background). The gradient overlay sits at z-10 and the
- * content at z-20, matching the shared Hero z-layering scheme.
+ * Z-LAYERING: <BackgroundVideo> renders at -z-10 with its own bg-black/50
+ * readability overlay; the parent section carries `isolate` so the video
+ * paints above the section background but below the content at z-20.
  */
 function HeroVideo() {
   return (
     <BackgroundVideo
       videoSrc={VIDEO_MBGA_HERO}
-      posterSrc={POSTER_MASCOT_WALK}
       lazy={false}
       ariaLabel="$MBGA hero background video - lion mascots walking"
-      className="z-0"
     />
   );
 }
@@ -340,23 +335,11 @@ export function MbgaPage() {
           ───────────────────────────────────────────────────────────── */}
       <section
         data-ocid="mbga.hero"
-        className="relative min-h-[65dvh] overflow-hidden bg-background sm:min-h-[75dvh] md:min-h-[85dvh] lg:min-h-screen"
+        className="relative isolate min-h-[65dvh] overflow-hidden sm:min-h-[75dvh] md:min-h-[85dvh] lg:min-h-screen"
       >
-        {/* Background video plate (placeholder MP4 per user instruction).
-            HeroVideo degrades gracefully to the mascot poster <img> if the
-            MP4 source 404s, so the hero never shows a broken video control. */}
+        {/* Background video — native HTML5 <video> at -z-10 with its own
+            bg-black/50 readability overlay (rendered by BackgroundVideo). */}
         <HeroVideo />
-
-        {/* Dark gradient overlay — matches the shared Hero scheme exactly:
-            bg-gradient-to-b from-blue-950/85 via-blue-950/65 to-blue-950
-            absolute inset-0 z-10. Sits above the video plate (now at z-0)
-            and below the content (z-20). Replaces the previous
-            bg-gradient-to-t from-navy via-navy/80 to-transparent at z-[1]
-            which diverged from the site standard. */}
-        <div
-          aria-hidden="true"
-          className="bg-gradient-to-b from-blue-950/85 via-blue-950/65 to-blue-950 absolute inset-0 z-10"
-        />
 
         {/* Centered content. */}
         <div className="relative z-20 mx-auto flex min-h-[65dvh] w-full max-w-5xl flex-col items-center justify-center px-6 text-center sm:min-h-[75dvh] md:min-h-[85dvh] lg:min-h-screen">
@@ -520,10 +503,7 @@ export function MbgaPage() {
       {/* ─────────────────────────────────────────────────────────────
           SECTION C — LIVE CHART (DexScreener)
           ───────────────────────────────────────────────────────────── */}
-      <section
-        data-ocid="mbga.chart"
-        className="w-full bg-background px-6 py-16"
-      >
+      <section data-ocid="mbga.chart" className="w-full px-6 py-16">
         <div className="mx-auto w-full max-w-6xl">
           <div className="flex flex-col items-center text-center">
             <span
@@ -551,7 +531,7 @@ export function MbgaPage() {
       <section
         id="how-to-buy"
         data-ocid="mbga.how_to_buy"
-        className="w-full scroll-mt-20 bg-background px-6 py-20"
+        className="w-full scroll-mt-20 px-6 py-20"
       >
         <div className="mx-auto w-full max-w-6xl">
           <div className="flex flex-col items-center text-center">

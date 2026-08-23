@@ -184,7 +184,6 @@ export function GalleryPage() {
         sub="Moments from campuses, rallies and direct action."
         videoLabel="Gallery hero video"
         videoSrc={flagWaving?.videoUrl}
-        posterSrc={flagWaving?.posterUrl}
       />
 
       {/* Photo grid — tall, no-snap section so the whole wall reads at once. */}

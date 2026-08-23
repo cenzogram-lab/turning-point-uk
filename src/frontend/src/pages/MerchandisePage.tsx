@@ -3,7 +3,7 @@ import { Section } from "@/components/Section";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useEntranceAnimation } from "@/hooks/useEntranceAnimation";
 import { useSeoMeta } from "@/hooks/useSeoMeta";
-import { POSTER_MERCH_DISPLAY, VIDEO_MERCH_DISPLAY } from "@/lib/assets";
+import { VIDEO_MERCH_DISPLAY } from "@/lib/assets";
 import { ROUTES } from "@/lib/routes";
 import {
   BREADCRUMB_TRAILS,
@@ -387,7 +387,6 @@ export function MerchandisePage() {
         videoLabel="Merchandise hero video"
         lazy={false}
         videoSrc={VIDEO_MERCH_DISPLAY}
-        posterSrc={POSTER_MERCH_DISPLAY}
       />
 
       {/* Subscribe banner + Mailchimp subscribe form. Sits above the
