@@ -2,7 +2,6 @@ import { Hero } from "@/components/Hero";
 import { Section } from "@/components/Section";
 import { useEntranceAnimation } from "@/hooks/useEntranceAnimation";
 import { useSeoMeta } from "@/hooks/useSeoMeta";
-import { VIDEO_FLAG_WAVING } from "@/lib/assets";
 import {
   BREADCRUMB_TRAILS,
   PAGE_SEO,
@@ -112,7 +111,6 @@ export function DonatePage() {
         headline="FUND THE FIGHT"
         sub="Every pound fuels the movement for Britain's future."
         videoLabel="Donate hero video"
-        videoSrc={VIDEO_FLAG_WAVING}
         buttons={[
           {
             label: "DONATE NOW",

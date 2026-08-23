@@ -3,7 +3,6 @@ import { Hero } from "@/components/Hero";
 import { Section } from "@/components/Section";
 import { useEntranceAnimation } from "@/hooks/useEntranceAnimation";
 import { useSeoMeta } from "@/hooks/useSeoMeta";
-import { VIDEO_FLAG_WAVING } from "@/lib/assets";
 import {
   BREADCRUMB_TRAILS,
   PAGE_SEO,
@@ -154,7 +153,6 @@ export function ContactPage() {
         headline="CONTACT"
         sub="Questions, press enquiries, or ready to get involved?"
         videoLabel="Contact hero video"
-        videoSrc={VIDEO_FLAG_WAVING}
       />
 
       {/* Contact form zone — intro paragraphs, form embed, consent, press line. */}

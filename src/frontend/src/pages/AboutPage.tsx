@@ -2,7 +2,6 @@ import { Hero } from "@/components/Hero";
 import { Section } from "@/components/Section";
 import { useEntranceAnimation } from "@/hooks/useEntranceAnimation";
 import { useSeoMeta } from "@/hooks/useSeoMeta";
-import { VIDEO_FLAG_WAVING } from "@/lib/assets";
 import { ROUTES } from "@/lib/routes";
 import {
   BREADCRUMB_TRAILS,
@@ -104,7 +103,6 @@ export function AboutPage() {
           },
         ]}
         lazy={false}
-        videoSrc={VIDEO_FLAG_WAVING}
       />
 
       {/* 2 — Prose section with verbatim About copy. Previously an inverted

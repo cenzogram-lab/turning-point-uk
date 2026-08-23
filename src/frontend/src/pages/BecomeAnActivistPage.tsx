@@ -3,7 +3,6 @@ import { Section } from "@/components/Section";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useEntranceAnimation } from "@/hooks/useEntranceAnimation";
 import { useSeoMeta } from "@/hooks/useSeoMeta";
-import { VIDEO_FLAG_WAVING } from "@/lib/assets";
 import { ROUTES } from "@/lib/routes";
 import {
   BREADCRUMB_TRAILS,
@@ -78,7 +77,6 @@ export function BecomeAnActivistPage() {
         headline="BECOME AN ACTIVIST"
         sub="Stand up against the woke mob. Get trained, get equipped, get active."
         videoLabel="Become an activist hero video"
-        videoSrc={VIDEO_FLAG_WAVING}
         buttons={[
           {
             label: "SIGN UP NOW",

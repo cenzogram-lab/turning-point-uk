@@ -2,7 +2,6 @@ import { Hero } from "@/components/Hero";
 import { Section } from "@/components/Section";
 import { useEntranceAnimation } from "@/hooks/useEntranceAnimation";
 import { useSeoMeta } from "@/hooks/useSeoMeta";
-import { VIDEO_FLAG_WAVING } from "@/lib/assets";
 import {
   BREADCRUMB_TRAILS,
   PAGE_SEO,
@@ -152,7 +151,6 @@ export function JoinUsPage() {
         sub="Fed up with the left-wing bias of your university? Don't just sit down and shut up."
         videoLabel="Join us hero video"
         lazy={false}
-        videoSrc={VIDEO_FLAG_WAVING}
       />
 
       {/* Membership tiers — one decisive screen. Each tier's select

@@ -1,4 +1,4 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/AdminBlogPage-DA6YZmqn.js","assets/useBlogUpload-i5FgEKrn.js","assets/AdminRealBritishHistoryPage-CuTjcwFF.js"])))=>i.map(i=>d[i]);
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/AdminBlogPage-B8jLAi8V.js","assets/useBlogUpload-V1XNEm0t.js","assets/AdminRealBritishHistoryPage-Dp5L6v7e.js"])))=>i.map(i=>d[i]);
 var __defProp = Object.defineProperty;
 var __typeError = (msg) => {
   throw TypeError(msg);
@@ -50516,8 +50516,7 @@ function AboutPage() {
             variant: "outline"
           }
         ],
-        lazy: false,
-        videoSrc: VIDEO_FLAG_WAVING
+        lazy: false
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(Section, { variant: "center", noSnap: true, id: "what-we-do", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mx-auto w-full max-w-3xl px-6 py-24 sm:px-10 sm:py-32", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ambient-card p-6 sm:p-8 lg:p-12", children: [
@@ -51032,8 +51031,7 @@ function ActivismKitPage() {
             variant: "outline"
           }
         ],
-        lazy: false,
-        videoSrc: VIDEO_FLAG_WAVING
+        lazy: false
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -51667,8 +51665,7 @@ function ActivismPage() {
             variant: "primary"
           }
         ],
-        lazy: false,
-        videoSrc: VIDEO_FLAG_WAVING
+        lazy: false
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -51874,7 +51871,6 @@ function BecomeAnActivistPage() {
         headline: "BECOME AN ACTIVIST",
         sub: "Stand up against the woke mob. Get trained, get equipped, get active.",
         videoLabel: "Become an activist hero video",
-        videoSrc: VIDEO_FLAG_WAVING,
         buttons: [
           {
             label: "SIGN UP NOW",
@@ -53313,8 +53309,7 @@ function ContactPage() {
         eyebrow: "Get in touch",
         headline: "CONTACT",
         sub: "Questions, press enquiries, or ready to get involved?",
-        videoLabel: "Contact hero video",
-        videoSrc: VIDEO_FLAG_WAVING
+        videoLabel: "Contact hero video"
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -53567,7 +53562,6 @@ function DonatePage() {
         headline: "FUND THE FIGHT",
         sub: "Every pound fuels the movement for Britain's future.",
         videoLabel: "Donate hero video",
-        videoSrc: VIDEO_FLAG_WAVING,
         buttons: [
           {
             label: "DONATE NOW",
@@ -54533,8 +54527,7 @@ function EventsPage() {
         headline: "EVENTS",
         sub: "Upcoming speeches, rallies and summits across the UK.",
         videoLabel: "Events hero video",
-        lazy: false,
-        videoSrc: VIDEO_EDUCATION_CROWD
+        lazy: false
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsxs(
@@ -56590,8 +56583,7 @@ function JoinUsPage() {
         headline: "JOIN THE MOVEMENT",
         sub: "Fed up with the left-wing bias of your university? Don't just sit down and shut up.",
         videoLabel: "Join us hero video",
-        lazy: false,
-        videoSrc: VIDEO_FLAG_WAVING
+        lazy: false
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(Section, { id: "tiers", variant: "center", className: "px-6 py-24 sm:px-10", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-auto w-full max-w-6xl", children: [
@@ -57803,7 +57795,6 @@ function PatreonPage() {
         headline: "SUPPORT ON PATREON",
         sub: "Independent British podcasting, funded by the people who listen. Back the movement, unlock the full feed, and keep the mic free of advertisers and algorithms.",
         videoLabel: "Patreon hero video",
-        videoSrc: VIDEO_FLAG_WAVING,
         buttons: [
           {
             label: "BECOME A PATRON",
@@ -58131,8 +58122,7 @@ function PetitionPage() {
             variant: "outline"
           }
         ],
-        lazy: false,
-        videoSrc: VIDEO_FLAG_WAVING
+        lazy: false
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -59621,8 +59611,7 @@ function UniversitySocietiesPage() {
             variant: "primary"
           }
         ],
-        lazy: false,
-        videoSrc: VIDEO_FLAG_WAVING
+        lazy: false
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -60400,37 +60389,37 @@ function UniversitySocietiesPage() {
   ] });
 }
 const AdminGalleryPage = reactExports.lazy(
-  () => __vitePreload(() => import("./AdminGalleryPage-DO98Yt4B.js"), true ? [] : void 0).then((m2) => ({
+  () => __vitePreload(() => import("./AdminGalleryPage-XpAq8QgE.js"), true ? [] : void 0).then((m2) => ({
     default: m2.AdminGalleryPage
   }))
 );
 const PostArticlePage = reactExports.lazy(
-  () => __vitePreload(() => import("./PostArticlePage-zcC0f_w6.js"), true ? [] : void 0).then((m2) => ({
+  () => __vitePreload(() => import("./PostArticlePage-BuxWCps_.js"), true ? [] : void 0).then((m2) => ({
     default: m2.PostArticlePage
   }))
 );
 const AdminBlogPage = reactExports.lazy(
-  () => __vitePreload(() => import("./AdminBlogPage-DA6YZmqn.js"), true ? __vite__mapDeps([0,1]) : void 0).then((m2) => ({
+  () => __vitePreload(() => import("./AdminBlogPage-B8jLAi8V.js"), true ? __vite__mapDeps([0,1]) : void 0).then((m2) => ({
     default: m2.AdminBlogPage
   }))
 );
 const CheckoutSuccessPage = reactExports.lazy(
-  () => __vitePreload(() => import("./CheckoutSuccessPage-CvhCYLLF.js"), true ? [] : void 0).then((m2) => ({
+  () => __vitePreload(() => import("./CheckoutSuccessPage-cnOiXl2i.js"), true ? [] : void 0).then((m2) => ({
     default: m2.CheckoutSuccessPage
   }))
 );
 const CheckoutCancelPage = reactExports.lazy(
-  () => __vitePreload(() => import("./CheckoutCancelPage-DRSb4uJn.js"), true ? [] : void 0).then((m2) => ({
+  () => __vitePreload(() => import("./CheckoutCancelPage-CeBWBLm5.js"), true ? [] : void 0).then((m2) => ({
     default: m2.CheckoutCancelPage
   }))
 );
 const AdminRealBritishHistoryPage = reactExports.lazy(
-  () => __vitePreload(() => import("./AdminRealBritishHistoryPage-CuTjcwFF.js"), true ? __vite__mapDeps([2,1]) : void 0).then((m2) => ({
+  () => __vitePreload(() => import("./AdminRealBritishHistoryPage-Dp5L6v7e.js"), true ? __vite__mapDeps([2,1]) : void 0).then((m2) => ({
     default: m2.AdminRealBritishHistoryPage
   }))
 );
 const AdminStripePage = reactExports.lazy(
-  () => __vitePreload(() => import("./AdminStripePage-DJNYBxuH.js"), true ? [] : void 0).then((m2) => ({
+  () => __vitePreload(() => import("./AdminStripePage-CZsxZR9m.js"), true ? [] : void 0).then((m2) => ({
     default: m2.AdminStripePage
   }))
 );
