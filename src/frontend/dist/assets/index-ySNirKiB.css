@@ -693,6 +693,15 @@ video {
     /* Universal midnight base — painted on <html> (the canvas) so the fixed
        ambient mesh layers below can sit between the canvas and page content. */
     background-color: #030712;
+    /* Horizontal-scroll guard: entrance-right elements begin at
+       translateX(5rem) and can momentarily extend past the right viewport
+       edge on narrow phones (<380px) in sections without their own
+       overflow clipping. `clip` avoids creating a new scroll container;
+       `hidden` is the fallback for older WebKit. Vertical scrolling is
+       untouched. */
+    overflow-x: hidden;
+    overflow-x: clip;
+    max-width: 100%;
   }
 
   body {
@@ -708,6 +717,11 @@ video {
     font-feature-settings: "ss01", "cv01";
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+    /* Same horizontal-scroll guard as <html> (belt-and-braces: some mobile
+       browsers propagate overflow from body, others from html). */
+    overflow-x: hidden;
+    overflow-x: clip;
+    max-width: 100%;
 }
 
   /* ── Universal ambient background atmosphere ──────────────────────────
@@ -1666,6 +1680,9 @@ video {
 .h-3\.5 {
   height: 0.875rem;
 }
+.h-3\/5 {
+  height: 60%;
+}
 .h-4 {
   height: 1rem;
 }
@@ -2290,6 +2307,9 @@ video {
 .overflow-x-hidden {
   overflow-x: hidden;
 }
+.overflow-x-clip {
+  overflow-x: clip;
+}
 .truncate {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -2477,6 +2497,9 @@ video {
   --tw-bg-opacity: 1;
   background-color: rgb(3 7 18 / var(--tw-bg-opacity, 1));
 }
+.bg-\[\#030712\]\/35 {
+  background-color: rgb(3 7 18 / 0.35);
+}
 .bg-\[oklch\(var\(--status-draft\)\)\] {
   background-color: oklch(var(--status-draft));
 }
@@ -2598,22 +2621,23 @@ video {
 .bg-gradient-to-t {
   background-image: linear-gradient(to top, var(--tw-gradient-stops));
 }
+.from-\[\#030712\] {
+  --tw-gradient-from: #030712 var(--tw-gradient-from-position);
+  --tw-gradient-to: rgb(3 7 18 / 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
 .from-blue-950\/85 {
   --tw-gradient-from: rgb(23 37 84 / 0.85) var(--tw-gradient-from-position);
   --tw-gradient-to: rgb(23 37 84 / 0) var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
-.from-transparent {
-  --tw-gradient-from: transparent var(--tw-gradient-from-position);
-  --tw-gradient-to: rgb(0 0 0 / 0) var(--tw-gradient-to-position);
-  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+.via-\[\#030712\]\/55 {
+  --tw-gradient-to: rgb(3 7 18 / 0)  var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), rgb(3 7 18 / 0.55) var(--tw-gradient-via-position), var(--tw-gradient-to);
 }
 .via-blue-950\/65 {
   --tw-gradient-to: rgb(23 37 84 / 0)  var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), rgb(23 37 84 / 0.65) var(--tw-gradient-via-position), var(--tw-gradient-to);
-}
-.to-\[\#030712\] {
-  --tw-gradient-to: #030712 var(--tw-gradient-to-position);
 }
 .to-blue-950 {
   --tw-gradient-to: #172554 var(--tw-gradient-to-position);
@@ -3594,7 +3618,11 @@ video {
     transform: translateY(1.75rem);
     transition: opacity 700ms cubic-bezier(0.4, 0, 0.2, 1), transform 700ms
       cubic-bezier(0.4, 0, 0.2, 1);
-    will-change: opacity, transform;
+    /* Deliberately NO will-change here: this class is auto-applied to
+       potentially hundreds of elements per page by useUniversalReveal, and
+       a blanket will-change would force a GPU layer per element — a real
+       memory/battery cost on mobile. opacity + transform transitions are
+       compositor-friendly without the hint. */
   }
 .entrance-js .entrance-visible {
     opacity: 1;
@@ -6999,10 +7027,6 @@ button.article-share-button {
     padding: 2.5rem;
   }
 
-  .sm\:p-12 {
-    padding: 3rem;
-  }
-
   .sm\:p-8 {
     padding: 2rem;
   }
@@ -7338,6 +7362,10 @@ button.article-share-button {
 
   .lg\:gap-8 {
     gap: 2rem;
+  }
+
+  .lg\:p-12 {
+    padding: 3rem;
   }
 
   .lg\:px-10 {

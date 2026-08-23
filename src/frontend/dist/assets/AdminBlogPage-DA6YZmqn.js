@@ -1,5 +1,5 @@
-import { a as useEntranceAnimation, j as jsxRuntimeExports, q as useAllBlogPosts, s as useCreateBlogPost, t as useUpdateBlogPost, v as useDeleteBlogPost, r as reactExports, S as Section } from "./index-B49Pzxc5.js";
-import { u as useBlogUpload, A as ACCEPTED_COVER_EXTENSIONS } from "./useBlogUpload-2XvjpBnH.js";
+import { a as useEntranceAnimation, j as jsxRuntimeExports, q as useAllBlogPosts, s as useCreateBlogPost, t as useUpdateBlogPost, v as useDeleteBlogPost, r as reactExports, S as Section } from "./index-BGG8i21F.js";
+import { u as useBlogUpload, A as ACCEPTED_COVER_EXTENSIONS } from "./useBlogUpload-i5FgEKrn.js";
 function AdminBlogPage() {
   const containerRef = useEntranceAnimation();
   return /* @__PURE__ */ jsxRuntimeExports.jsx(AdminDashboard, { containerRef });

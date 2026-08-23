@@ -211,6 +211,15 @@
     /* Universal midnight base — painted on <html> (the canvas) so the fixed
        ambient mesh layers below can sit between the canvas and page content. */
     background-color: #030712;
+    /* Horizontal-scroll guard: entrance-right elements begin at
+       translateX(5rem) and can momentarily extend past the right viewport
+       edge on narrow phones (<380px) in sections without their own
+       overflow clipping. `clip` avoids creating a new scroll container;
+       `hidden` is the fallback for older WebKit. Vertical scrolling is
+       untouched. */
+    overflow-x: hidden;
+    overflow-x: clip;
+    max-width: 100%;
   }
 
   body {
@@ -224,6 +233,11 @@
     font-feature-settings: "ss01", "cv01";
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+    /* Same horizontal-scroll guard as <html> (belt-and-braces: some mobile
+       browsers propagate overflow from body, others from html). */
+    overflow-x: hidden;
+    overflow-x: clip;
+    max-width: 100%;
   }
 
   /* ── Universal ambient background atmosphere ──────────────────────────
@@ -460,7 +474,11 @@
     transform: translateY(1.75rem);
     transition: opacity 700ms cubic-bezier(0.4, 0, 0.2, 1), transform 700ms
       cubic-bezier(0.4, 0, 0.2, 1);
-    will-change: opacity, transform;
+    /* Deliberately NO will-change here: this class is auto-applied to
+       potentially hundreds of elements per page by useUniversalReveal, and
+       a blanket will-change would force a GPU layer per element — a real
+       memory/battery cost on mobile. opacity + transform transitions are
+       compositor-friendly without the hint. */
   }
   .entrance-js .entrance-visible {
     opacity: 1;

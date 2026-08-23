@@ -137,12 +137,23 @@ export function useEntranceAnimation<T extends HTMLElement = HTMLElement>(
 
     // Re-scan when the subtree changes so dynamically rendered content
     // (route transitions, lazy sections, fetched lists) is picked up.
-    const mo = new MutationObserver(() => observeAll());
+    // Coalesced to at most one scan per animation frame so mutation bursts
+    // (autoplaying carousels, streaming lists) don't trigger a full
+    // querySelectorAll pass per mutation record.
+    let rafId = 0;
+    const mo = new MutationObserver(() => {
+      if (rafId) return;
+      rafId = window.requestAnimationFrame(() => {
+        rafId = 0;
+        observeAll();
+      });
+    });
     mo.observe(root, { childList: true, subtree: true });
 
     return () => {
       io.disconnect();
       mo.disconnect();
+      if (rafId) window.cancelAnimationFrame(rafId);
     };
   }, [rootMargin, threshold, stagger, disabled]);
 
@@ -228,6 +239,16 @@ export function useUniversalReveal(): void {
   useEffect(() => {
     document.documentElement.classList.add("entrance-js");
 
+    // Scope all scanning to <main> (the selectors only match inside it
+    // anyway). This keeps the MutationObserver from firing full-page
+    // re-scans for DOM churn outside the page content — e.g. the
+    // continuously auto-playing endorsements slider, toasts, or portals —
+    // which would otherwise burn CPU on every animation frame on mobile.
+    const scanRoot: ParentNode =
+      document.querySelector("main") ?? document.body;
+    const observeRoot: Node =
+      scanRoot instanceof Element ? scanRoot : document.body;
+
     const tag = (root: ParentNode) => {
       for (const el of root.querySelectorAll<HTMLElement>(
         AUTO_REVEAL_SELECTOR,
@@ -275,24 +296,41 @@ export function useUniversalReveal(): void {
       }
     };
 
-    tag(document.body);
+    tag(scanRoot);
+
+    // Coalesce mutation bursts into at most one scan per animation frame.
+    // Route transitions and data fetches fire dozens of mutations in a row;
+    // without this the full tag() pass would run once per mutation record.
+    let rafId = 0;
+    const scheduleScan = (work: () => void) => {
+      if (rafId) return;
+      rafId = window.requestAnimationFrame(() => {
+        rafId = 0;
+        work();
+      });
+    };
 
     // Reduced motion: settle everything immediately, no observer.
     if (reduced) {
-      for (const el of document.body.querySelectorAll(".entrance-up")) {
+      for (const el of scanRoot.querySelectorAll(".entrance-up")) {
         reveal(el);
       }
       // Still keep tagging new content so it never hides (tag + settle).
-      const settleMo = new MutationObserver(() => {
-        tag(document.body);
-        for (const el of document.body.querySelectorAll(
-          ".entrance-up:not(.entrance-visible)",
-        )) {
-          reveal(el);
-        }
-      });
-      settleMo.observe(document.body, { childList: true, subtree: true });
-      return () => settleMo.disconnect();
+      const settleMo = new MutationObserver(() =>
+        scheduleScan(() => {
+          tag(scanRoot);
+          for (const el of scanRoot.querySelectorAll(
+            ".entrance-up:not(.entrance-visible)",
+          )) {
+            reveal(el);
+          }
+        }),
+      );
+      settleMo.observe(observeRoot, { childList: true, subtree: true });
+      return () => {
+        settleMo.disconnect();
+        if (rafId) window.cancelAnimationFrame(rafId);
+      };
     }
 
     const io = new IntersectionObserver(
@@ -300,6 +338,9 @@ export function useUniversalReveal(): void {
         for (const entry of entries) {
           if (entry.isIntersecting) {
             reveal(entry.target);
+            // Unobserve as soon as an element has revealed — reveals are
+            // one-shot, so keeping settled elements under observation would
+            // only cost memory/callback work on long pages.
             io.unobserve(entry.target);
           }
         }
@@ -308,9 +349,7 @@ export function useUniversalReveal(): void {
     );
 
     const observeAll = () => {
-      for (const el of document.body.querySelectorAll<HTMLElement>(
-        ".entrance-up",
-      )) {
+      for (const el of scanRoot.querySelectorAll<HTMLElement>(".entrance-up")) {
         if (!el.classList.contains("entrance-visible")) {
           io.observe(el);
         }
@@ -319,17 +358,21 @@ export function useUniversalReveal(): void {
 
     observeAll();
 
-    // Re-tag + re-observe when the DOM changes so route transitions and
-    // dynamically fetched content (blog grids, gallery tiles) are picked up.
-    const mo = new MutationObserver(() => {
-      tag(document.body);
-      observeAll();
-    });
-    mo.observe(document.body, { childList: true, subtree: true });
+    // Re-tag + re-observe when the page content changes so route
+    // transitions and dynamically fetched content (blog grids, gallery
+    // tiles) are picked up — coalesced to one pass per frame.
+    const mo = new MutationObserver(() =>
+      scheduleScan(() => {
+        tag(scanRoot);
+        observeAll();
+      }),
+    );
+    mo.observe(observeRoot, { childList: true, subtree: true });
 
     return () => {
       io.disconnect();
       mo.disconnect();
+      if (rafId) window.cancelAnimationFrame(rafId);
     };
   }, []);
 }

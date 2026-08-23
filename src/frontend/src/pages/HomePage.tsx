@@ -310,7 +310,7 @@ export function HomePage() {
                 <div
                   key={aim.title}
                   data-ocid={`section.pillars.card.${i + 1}`}
-                  className="entrance-left group flex flex-col gap-4 border border-white/10 bg-slate-900/60 p-8 backdrop-blur-md transition-colors hover:border-red-600"
+                  className="entrance-left group flex flex-col gap-4 border border-white/10 bg-slate-900/60 p-6 backdrop-blur-md transition-colors hover:border-red-600 sm:p-8"
                   data-entrance-delay={String(i * 80)}
                 >
                   {/* Flat solid red Lucide glyph (~28px) above the hairline
@@ -418,6 +418,16 @@ export function HomePage() {
         <BackgroundVideo
           videoSrc={newspaperAd!.videoUrl}
           ariaLabel="Background video - UK newspaper collage"
+        />
+
+        {/* Extra readability tint — this section's text spans its full
+            height (unlike the bottom-anchored Hero), so a uniform midnight
+            tint on top of BackgroundVideo's bg-black/50 keeps all copy at
+            WCAG AA contrast against bright video frames. Later -z-10
+            sibling paints above the video container, below the content. */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 -z-10 bg-[#030712]/35"
         />
 
         {/* Content — header + article grid + CTA, all at z-20 above the
@@ -558,6 +568,13 @@ export function HomePage() {
         <BackgroundVideo
           videoSrc={VIDEO_MBGA_HERO}
           ariaLabel="Background video - $MBGA hero"
+        />
+
+        {/* Extra readability tint — full-height text section; see the blog
+            showcase section above for the contrast rationale. */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 -z-10 bg-[#030712]/35"
         />
 
         {/* Left-aligned content — eyebrow + h2 + paragraph + CTA, all

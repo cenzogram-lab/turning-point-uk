@@ -114,7 +114,7 @@ export function AboutPage() {
           card. */}
       <Section variant="center" noSnap id="what-we-do">
         <div className="mx-auto w-full max-w-3xl px-6 py-24 sm:px-10 sm:py-32">
-          <div className="ambient-card p-8 sm:p-12">
+          <div className="ambient-card p-6 sm:p-8 lg:p-12">
             <span
               className="entrance-left text-eyebrow text-foreground/60"
               data-entrance-delay="0"

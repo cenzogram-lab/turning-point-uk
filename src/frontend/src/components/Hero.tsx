@@ -163,12 +163,15 @@ export function Hero({
         ariaLabel={videoLabel}
       />
 
-      {/* Bottom-edge fade — a thin gradient from transparent to the page's
-          midnight background so the hero's bottom edge blends smoothly into
-          the ambient page beneath it instead of cutting a hard line. Sits at
-          z-10 (above the -z-10 video, below the content at z-20). */}
+      {/* Bottom text-protection scrim — the hero content is anchored low
+          (flex-end), so a taller bottom-up gradient sits behind the text
+          zone. Combined with BackgroundVideo's bg-black/50 overlay it keeps
+          white/80 body copy above the WCAG 2.1 AA 4.5:1 ratio even against
+          the brightest video frames on sunlit mobile screens, and it doubles
+          as the blend into the ambient midnight page below. Sits at z-10
+          (above the -z-10 video, below the content at z-20). */}
       <div
-        className="absolute bottom-0 inset-x-0 h-24 bg-gradient-to-b from-transparent to-[#030712] z-10"
+        className="absolute bottom-0 inset-x-0 h-3/5 bg-gradient-to-t from-[#030712] via-[#030712]/55 to-transparent z-10"
         aria-hidden="true"
       />
 

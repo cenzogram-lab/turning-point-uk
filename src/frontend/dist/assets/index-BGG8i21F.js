@@ -1,4 +1,4 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/AdminBlogPage-Dpm5-yWU.js","assets/useBlogUpload-2XvjpBnH.js","assets/AdminRealBritishHistoryPage-Bk_aMxIp.js"])))=>i.map(i=>d[i]);
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/AdminBlogPage-DA6YZmqn.js","assets/useBlogUpload-i5FgEKrn.js","assets/AdminRealBritishHistoryPage-CuTjcwFF.js"])))=>i.map(i=>d[i]);
 var __defProp = Object.defineProperty;
 var __typeError = (msg) => {
   throw TypeError(msg);
@@ -40445,11 +40445,19 @@ function useEntranceAnimation(options = {}) {
       }
     };
     observeAll();
-    const mo = new MutationObserver(() => observeAll());
+    let rafId = 0;
+    const mo = new MutationObserver(() => {
+      if (rafId) return;
+      rafId = window.requestAnimationFrame(() => {
+        rafId = 0;
+        observeAll();
+      });
+    });
     mo.observe(root2, { childList: true, subtree: true });
     return () => {
       io.disconnect();
       mo.disconnect();
+      if (rafId) window.cancelAnimationFrame(rafId);
     };
   }, [rootMargin, threshold, stagger, disabled]);
   return containerRef;
@@ -40470,6 +40478,8 @@ const AUTO_REVEAL_SELECTOR = [
 function useUniversalReveal() {
   reactExports.useEffect(() => {
     document.documentElement.classList.add("entrance-js");
+    const scanRoot = document.querySelector("main") ?? document.body;
+    const observeRoot = scanRoot instanceof Element ? scanRoot : document.body;
     const tag = (root2) => {
       for (const el of root2.querySelectorAll(
         AUTO_REVEAL_SELECTOR
@@ -40504,21 +40514,34 @@ function useUniversalReveal() {
         el.classList.add("entrance-visible");
       }
     };
-    tag(document.body);
+    tag(scanRoot);
+    let rafId = 0;
+    const scheduleScan = (work) => {
+      if (rafId) return;
+      rafId = window.requestAnimationFrame(() => {
+        rafId = 0;
+        work();
+      });
+    };
     if (reduced) {
-      for (const el of document.body.querySelectorAll(".entrance-up")) {
+      for (const el of scanRoot.querySelectorAll(".entrance-up")) {
         reveal(el);
       }
-      const settleMo = new MutationObserver(() => {
-        tag(document.body);
-        for (const el of document.body.querySelectorAll(
-          ".entrance-up:not(.entrance-visible)"
-        )) {
-          reveal(el);
-        }
-      });
-      settleMo.observe(document.body, { childList: true, subtree: true });
-      return () => settleMo.disconnect();
+      const settleMo = new MutationObserver(
+        () => scheduleScan(() => {
+          tag(scanRoot);
+          for (const el of scanRoot.querySelectorAll(
+            ".entrance-up:not(.entrance-visible)"
+          )) {
+            reveal(el);
+          }
+        })
+      );
+      settleMo.observe(observeRoot, { childList: true, subtree: true });
+      return () => {
+        settleMo.disconnect();
+        if (rafId) window.cancelAnimationFrame(rafId);
+      };
     }
     const io = new IntersectionObserver(
       (entries) => {
@@ -40532,23 +40555,24 @@ function useUniversalReveal() {
       { rootMargin: "0px 0px -8% 0px", threshold: 0.05 }
     );
     const observeAll = () => {
-      for (const el of document.body.querySelectorAll(
-        ".entrance-up"
-      )) {
+      for (const el of scanRoot.querySelectorAll(".entrance-up")) {
         if (!el.classList.contains("entrance-visible")) {
           io.observe(el);
         }
       }
     };
     observeAll();
-    const mo = new MutationObserver(() => {
-      tag(document.body);
-      observeAll();
-    });
-    mo.observe(document.body, { childList: true, subtree: true });
+    const mo = new MutationObserver(
+      () => scheduleScan(() => {
+        tag(scanRoot);
+        observeAll();
+      })
+    );
+    mo.observe(observeRoot, { childList: true, subtree: true });
     return () => {
       io.disconnect();
       mo.disconnect();
+      if (rafId) window.cancelAnimationFrame(rafId);
     };
   }, []);
 }
@@ -49036,7 +49060,7 @@ function EndorsementsSlider() {
     "section",
     {
       "data-ocid": "section.endorsements",
-      className: "w-full px-6 py-32 sm:px-10",
+      className: "w-full overflow-x-clip px-6 py-32 sm:px-10",
       children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mx-auto w-full max-w-7xl", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-12 flex flex-col gap-4", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "entrance-left text-eyebrow", "data-entrance-delay": "0", children: "OUR ENDORSEMENTS" }),
@@ -49897,6 +49921,7 @@ function BackgroundVideo({
   const sectionRef = reactExports.useRef(null);
   const [shouldPlay, setShouldPlay] = reactExports.useState(!lazy);
   const playRequestedRef = reactExports.useRef(false);
+  const inViewRef = reactExports.useRef(!lazy);
   reactExports.useEffect(() => {
     if (!lazy) {
       setShouldPlay(true);
@@ -49908,6 +49933,7 @@ function BackgroundVideo({
       (entries) => {
         for (const entry of entries) {
           if (entry.isIntersecting) {
+            inViewRef.current = true;
             setShouldPlay(true);
             io.disconnect();
           }
@@ -49921,11 +49947,34 @@ function BackgroundVideo({
   const requestPlay = reactExports.useCallback(() => {
     const video = videoRef.current;
     if (!video) return;
+    if (!inViewRef.current) return;
     if (!video.paused && !video.ended) return;
     const p2 = video.play();
     if (p2 && typeof p2.catch === "function") p2.catch(() => {
     });
   }, []);
+  reactExports.useEffect(() => {
+    if (!shouldPlay) return;
+    const section = sectionRef.current;
+    if (!section) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          inViewRef.current = entry.isIntersecting;
+          const video = videoRef.current;
+          if (!video) continue;
+          if (entry.isIntersecting) {
+            requestPlay();
+          } else if (!video.paused) {
+            video.pause();
+          }
+        }
+      },
+      { rootMargin: "200px 0px 200px 0px", threshold: 0 }
+    );
+    io.observe(section);
+    return () => io.disconnect();
+  }, [shouldPlay, requestPlay]);
   reactExports.useEffect(() => {
     if (!shouldPlay) return;
     const video = videoRef.current;
@@ -50014,7 +50063,7 @@ function Hero({
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           "div",
           {
-            className: "absolute bottom-0 inset-x-0 h-24 bg-gradient-to-b from-transparent to-[#030712] z-10",
+            className: "absolute bottom-0 inset-x-0 h-3/5 bg-gradient-to-t from-[#030712] via-[#030712]/55 to-transparent z-10",
             "aria-hidden": "true"
           }
         ),
@@ -50471,7 +50520,7 @@ function AboutPage() {
         videoSrc: VIDEO_FLAG_WAVING
       }
     ),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(Section, { variant: "center", noSnap: true, id: "what-we-do", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mx-auto w-full max-w-3xl px-6 py-24 sm:px-10 sm:py-32", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ambient-card p-8 sm:p-12", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Section, { variant: "center", noSnap: true, id: "what-we-do", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mx-auto w-full max-w-3xl px-6 py-24 sm:px-10 sm:py-32", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "ambient-card p-6 sm:p-8 lg:p-12", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(
         "span",
         {
@@ -55859,7 +55908,7 @@ function HomePage() {
               "div",
               {
                 "data-ocid": `section.pillars.card.${i + 1}`,
-                className: "entrance-left group flex flex-col gap-4 border border-white/10 bg-slate-900/60 p-8 backdrop-blur-md transition-colors hover:border-red-600",
+                className: "entrance-left group flex flex-col gap-4 border border-white/10 bg-slate-900/60 p-6 backdrop-blur-md transition-colors hover:border-red-600 sm:p-8",
                 "data-entrance-delay": String(i * 80),
                 children: [
                   /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -55944,6 +55993,13 @@ function HomePage() {
             {
               videoSrc: newspaperAd.videoUrl,
               ariaLabel: "Background video - UK newspaper collage"
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "div",
+            {
+              "aria-hidden": "true",
+              className: "absolute inset-0 -z-10 bg-[#030712]/35"
             }
           ),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative z-20 mx-auto w-full max-w-7xl", children: [
@@ -56055,6 +56111,13 @@ function HomePage() {
             {
               videoSrc: VIDEO_MBGA_HERO,
               ariaLabel: "Background video - $MBGA hero"
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "div",
+            {
+              "aria-hidden": "true",
+              className: "absolute inset-0 -z-10 bg-[#030712]/35"
             }
           ),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative z-20 mx-auto flex w-full max-w-7xl flex-col items-start justify-start gap-6 text-left", children: [
@@ -60337,37 +60400,37 @@ function UniversitySocietiesPage() {
   ] });
 }
 const AdminGalleryPage = reactExports.lazy(
-  () => __vitePreload(() => import("./AdminGalleryPage-Bf4T_AYF.js"), true ? [] : void 0).then((m2) => ({
+  () => __vitePreload(() => import("./AdminGalleryPage-DO98Yt4B.js"), true ? [] : void 0).then((m2) => ({
     default: m2.AdminGalleryPage
   }))
 );
 const PostArticlePage = reactExports.lazy(
-  () => __vitePreload(() => import("./PostArticlePage-D4q-8wjx.js"), true ? [] : void 0).then((m2) => ({
+  () => __vitePreload(() => import("./PostArticlePage-zcC0f_w6.js"), true ? [] : void 0).then((m2) => ({
     default: m2.PostArticlePage
   }))
 );
 const AdminBlogPage = reactExports.lazy(
-  () => __vitePreload(() => import("./AdminBlogPage-Dpm5-yWU.js"), true ? __vite__mapDeps([0,1]) : void 0).then((m2) => ({
+  () => __vitePreload(() => import("./AdminBlogPage-DA6YZmqn.js"), true ? __vite__mapDeps([0,1]) : void 0).then((m2) => ({
     default: m2.AdminBlogPage
   }))
 );
 const CheckoutSuccessPage = reactExports.lazy(
-  () => __vitePreload(() => import("./CheckoutSuccessPage-BbeTx0ac.js"), true ? [] : void 0).then((m2) => ({
+  () => __vitePreload(() => import("./CheckoutSuccessPage-CvhCYLLF.js"), true ? [] : void 0).then((m2) => ({
     default: m2.CheckoutSuccessPage
   }))
 );
 const CheckoutCancelPage = reactExports.lazy(
-  () => __vitePreload(() => import("./CheckoutCancelPage-DG661t7i.js"), true ? [] : void 0).then((m2) => ({
+  () => __vitePreload(() => import("./CheckoutCancelPage-DRSb4uJn.js"), true ? [] : void 0).then((m2) => ({
     default: m2.CheckoutCancelPage
   }))
 );
 const AdminRealBritishHistoryPage = reactExports.lazy(
-  () => __vitePreload(() => import("./AdminRealBritishHistoryPage-Bk_aMxIp.js"), true ? __vite__mapDeps([2,1]) : void 0).then((m2) => ({
+  () => __vitePreload(() => import("./AdminRealBritishHistoryPage-CuTjcwFF.js"), true ? __vite__mapDeps([2,1]) : void 0).then((m2) => ({
     default: m2.AdminRealBritishHistoryPage
   }))
 );
 const AdminStripePage = reactExports.lazy(
-  () => __vitePreload(() => import("./AdminStripePage-CeDIgcv-.js"), true ? [] : void 0).then((m2) => ({
+  () => __vitePreload(() => import("./AdminStripePage-DJNYBxuH.js"), true ? [] : void 0).then((m2) => ({
     default: m2.AdminStripePage
   }))
 );

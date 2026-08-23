@@ -83,6 +83,13 @@ export function BackgroundVideo({
   // event once the video is already playing. It is reset when the video
   // element is (re)mounted so a fresh element gets a fresh play attempt.
   const playRequestedRef = useRef(false);
+  // Tracks whether the section is currently near/inside the viewport. Battery
+  // + memory guard for mobile: once a video has started, the visibility
+  // observer below PAUSES it when it scrolls fully offscreen and resumes it
+  // when it returns. requestPlay() checks this ref so the buffer-readiness
+  // retries (canplay/loadeddata/timers) can never resurrect a video that was
+  // deliberately paused while offscreen.
+  const inViewRef = useRef(!lazy);
 
   useEffect(() => {
     // Non-lazy top hero: render + play immediately.
@@ -100,6 +107,7 @@ export function BackgroundVideo({
       (entries) => {
         for (const entry of entries) {
           if (entry.isIntersecting) {
+            inViewRef.current = true;
             setShouldPlay(true);
             io.disconnect();
           }
@@ -119,11 +127,44 @@ export function BackgroundVideo({
   const requestPlay = useCallback(() => {
     const video = videoRef.current;
     if (!video) return;
+    // Never (re)start playback while the section is offscreen — the
+    // visibility observer paused it on purpose to save battery/CPU.
+    if (!inViewRef.current) return;
     // If it is already playing, do not re-issue play().
     if (!video.paused && !video.ended) return;
     const p = video.play();
     if (p && typeof p.catch === "function") p.catch(() => {});
   }, []);
+
+  // Visibility-driven pause/resume — once the <video> exists, keep watching
+  // the section: fully offscreen (beyond a 200px margin) → pause decoding;
+  // back in view → resume. Looping muted background videos otherwise keep
+  // decoding for the whole session, which drains battery on mobile when a
+  // page stacks several heroes. The observer stays attached for the
+  // component's lifetime and is disconnected on unmount.
+  useEffect(() => {
+    if (!shouldPlay) return;
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          inViewRef.current = entry.isIntersecting;
+          const video = videoRef.current;
+          if (!video) continue;
+          if (entry.isIntersecting) {
+            requestPlay();
+          } else if (!video.paused) {
+            video.pause();
+          }
+        }
+      },
+      { rootMargin: "200px 0px 200px 0px", threshold: 0 },
+    );
+    io.observe(section);
+    return () => io.disconnect();
+  }, [shouldPlay, requestPlay]);
 
   // Once the <video> is rendered (shouldPlay true), escalate preload to "auto"
   // and call play() so it begins buffering and playing immediately. This runs
