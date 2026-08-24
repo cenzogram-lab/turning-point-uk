@@ -1,4 +1,4 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/AdminBlogPage-B8jLAi8V.js","assets/useBlogUpload-V1XNEm0t.js","assets/AdminRealBritishHistoryPage-Dp5L6v7e.js"])))=>i.map(i=>d[i]);
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/AdminBlogPage-DDyJF-aT.js","assets/useBlogUpload-DYRChk1Q.js","assets/AdminRealBritishHistoryPage-1mjeb04b.js"])))=>i.map(i=>d[i]);
 var __defProp = Object.defineProperty;
 var __typeError = (msg) => {
   throw TypeError(msg);
@@ -610,10 +610,10 @@ function concatBytes(...arrays) {
     sum += a2.length;
   }
   const res = new Uint8Array(sum);
-  for (let i = 0, pad = 0; i < arrays.length; i++) {
+  for (let i = 0, pad2 = 0; i < arrays.length; i++) {
     const a2 = arrays[i];
-    res.set(a2, pad);
-    pad += a2.length;
+    res.set(a2, pad2);
+    pad2 += a2.length;
   }
   return res;
 }
@@ -34677,7 +34677,7 @@ function seedBlogPosts() {
 let blogPosts = seedBlogPosts();
 BigInt(blogPosts.length + 1);
 const IS_ADMIN_QUERY_KEY = ["admin", "isAdmin"];
-function resolveActor$6(actor) {
+function resolveActor$5(actor) {
   if (actor) return actor;
   return null;
 }
@@ -34690,7 +34690,7 @@ async function safeIsAdmin(actor, principalText) {
 }
 function useIsAdmin(principalText) {
   const { actor, isFetching } = useActor(createActor);
-  const resolvedActor = resolveActor$6(actor);
+  const resolvedActor = resolveActor$5(actor);
   const adminQuery = useQuery({
     queryKey: [...IS_ADMIN_QUERY_KEY, principalText],
     queryFn: async () => {
@@ -40932,13 +40932,6 @@ function toNavEntries(config) {
   return config.entries.map(toNavEntry);
 }
 const DEFAULT_NAV_ENTRIES = NAV_ENTRIES;
-function toHeroVideoSlotMap(config) {
-  const map = /* @__PURE__ */ new Map();
-  for (const slot of config.slots) {
-    map.set(slot.key, slot);
-  }
-  return map;
-}
 const DEFAULT_HERO_VIDEO_SLOTS = [
   {
     key: "flag-waving",
@@ -40971,19 +40964,15 @@ const DEFAULT_HERO_VIDEO_SLOTS = [
     posterUrl: ""
   }
 ];
-const DEFAULT_HERO_VIDEO_SLOT_MAP = new Map(DEFAULT_HERO_VIDEO_SLOTS.map((slot) => [slot.key, slot]));
+new Map(DEFAULT_HERO_VIDEO_SLOTS.map((slot) => [slot.key, slot]));
 const NAV_CONFIG_QUERY_KEY = ["site-config", "nav"];
-const HERO_VIDEO_CONFIG_QUERY_KEY = [
-  "site-config",
-  "hero-videos"
-];
-function resolveActor$5(actor) {
+function resolveActor$4(actor) {
   if (actor) return actor;
   return null;
 }
 function useNavConfig() {
   const { actor, isFetching } = useActor(createActor);
-  const resolvedActor = resolveActor$5(actor);
+  const resolvedActor = resolveActor$4(actor);
   const query = useQuery({
     queryKey: NAV_CONFIG_QUERY_KEY,
     queryFn: async () => {
@@ -43333,67 +43322,67 @@ const createLucideIcon = (iconName, iconNode) => {
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$f = [
+const __iconNode$h = [
   ["path", { d: "m12 19-7-7 7-7", key: "1l729n" }],
   ["path", { d: "M19 12H5", key: "x3x0zl" }]
 ];
-const ArrowLeft = createLucideIcon("arrow-left", __iconNode$f);
+const ArrowLeft = createLucideIcon("arrow-left", __iconNode$h);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$e = [
+const __iconNode$g = [
   ["path", { d: "M5 12h14", key: "1ays0h" }],
   ["path", { d: "m12 5 7 7-7 7", key: "xquz4c" }]
 ];
-const ArrowRight = createLucideIcon("arrow-right", __iconNode$e);
+const ArrowRight = createLucideIcon("arrow-right", __iconNode$g);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$d = [
+const __iconNode$f = [
   ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
   ["path", { d: "m4.9 4.9 14.2 14.2", key: "1m5liu" }]
 ];
-const Ban = createLucideIcon("ban", __iconNode$d);
+const Ban = createLucideIcon("ban", __iconNode$f);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$c = [["path", { d: "M20 6 9 17l-5-5", key: "1gmf2c" }]];
-const Check = createLucideIcon("check", __iconNode$c);
+const __iconNode$e = [["path", { d: "M20 6 9 17l-5-5", key: "1gmf2c" }]];
+const Check = createLucideIcon("check", __iconNode$e);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$b = [["path", { d: "m6 9 6 6 6-6", key: "qrunsl" }]];
-const ChevronDown = createLucideIcon("chevron-down", __iconNode$b);
+const __iconNode$d = [["path", { d: "m6 9 6 6 6-6", key: "qrunsl" }]];
+const ChevronDown = createLucideIcon("chevron-down", __iconNode$d);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$a = [
+const __iconNode$c = [
   ["path", { d: "M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z", key: "i9b6wo" }],
   ["line", { x1: "4", x2: "4", y1: "22", y2: "15", key: "1cm3nv" }]
 ];
-const Flag = createLucideIcon("flag", __iconNode$a);
+const Flag = createLucideIcon("flag", __iconNode$c);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$9 = [
+const __iconNode$b = [
   [
     "path",
     {
@@ -43404,14 +43393,14 @@ const __iconNode$9 = [
   ["path", { d: "M22 10v6", key: "1lu8f3" }],
   ["path", { d: "M6 12.5V16a6 3 0 0 0 12 0v-3.5", key: "1r8lef" }]
 ];
-const GraduationCap = createLucideIcon("graduation-cap", __iconNode$9);
+const GraduationCap = createLucideIcon("graduation-cap", __iconNode$b);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$8 = [
+const __iconNode$a = [
   ["path", { d: "M18 12.5V10a2 2 0 0 0-2-2a2 2 0 0 0-2 2v1.4", key: "wc6myp" }],
   ["path", { d: "M14 11V9a2 2 0 1 0-4 0v2", key: "94qvcw" }],
   ["path", { d: "M10 10.5V5a2 2 0 1 0-4 0v9", key: "m1ah89" }],
@@ -43423,14 +43412,39 @@ const __iconNode$8 = [
     }
   ]
 ];
-const HandMetal = createLucideIcon("hand-metal", __iconNode$8);
+const HandMetal = createLucideIcon("hand-metal", __iconNode$a);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$7 = [
+const __iconNode$9 = [
+  [
+    "path",
+    {
+      d: "M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z",
+      key: "c3ymky"
+    }
+  ],
+  [
+    "path",
+    {
+      d: "M12 5 9.04 7.96a2.17 2.17 0 0 0 0 3.08c.82.82 2.13.85 3 .07l2.07-1.9a2.82 2.82 0 0 1 3.79 0l2.96 2.66",
+      key: "4oyue0"
+    }
+  ],
+  ["path", { d: "m18 15-2-2", key: "60u0ii" }],
+  ["path", { d: "m15 18-2-2", key: "6p76be" }]
+];
+const HeartHandshake = createLucideIcon("heart-handshake", __iconNode$9);
+/**
+ * @license lucide-react v0.511.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+const __iconNode$8 = [
   ["path", { d: "M10 18v-7", key: "wt116b" }],
   [
     "path",
@@ -43444,14 +43458,14 @@ const __iconNode$7 = [
   ["path", { d: "M3 22h18", key: "8prr45" }],
   ["path", { d: "M6 18v-7", key: "1ivflk" }]
 ];
-const Landmark = createLucideIcon("landmark", __iconNode$7);
+const Landmark = createLucideIcon("landmark", __iconNode$8);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$6 = [
+const __iconNode$7 = [
   [
     "path",
     {
@@ -43465,7 +43479,18 @@ const __iconNode$6 = [
   ["circle", { cx: "12", cy: "17", r: "5", key: "qbz8iq" }],
   ["path", { d: "M12 18v-2h-.5", key: "fawc4q" }]
 ];
-const Medal = createLucideIcon("medal", __iconNode$6);
+const Medal = createLucideIcon("medal", __iconNode$7);
+/**
+ * @license lucide-react v0.511.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+const __iconNode$6 = [
+  ["path", { d: "m3 11 18-5v12L3 14v-3z", key: "n962bs" }],
+  ["path", { d: "M11.6 16.8a3 3 0 1 1-5.8-1.6", key: "1yl0tm" }]
+];
+const Megaphone = createLucideIcon("megaphone", __iconNode$6);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -43473,10 +43498,11 @@ const Medal = createLucideIcon("medal", __iconNode$6);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$5 = [
-  ["path", { d: "m3 11 18-5v12L3 14v-3z", key: "n962bs" }],
-  ["path", { d: "M11.6 16.8a3 3 0 1 1-5.8-1.6", key: "1yl0tm" }]
+  ["path", { d: "M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z", key: "131961" }],
+  ["path", { d: "M19 10v2a7 7 0 0 1-14 0v-2", key: "1vc78b" }],
+  ["line", { x1: "12", x2: "12", y1: "19", y2: "22", key: "x3vr5v" }]
 ];
-const Megaphone = createLucideIcon("megaphone", __iconNode$5);
+const Mic = createLucideIcon("mic", __iconNode$5);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -43484,11 +43510,10 @@ const Megaphone = createLucideIcon("megaphone", __iconNode$5);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$4 = [
-  ["path", { d: "M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z", key: "131961" }],
-  ["path", { d: "M19 10v2a7 7 0 0 1-14 0v-2", key: "1vc78b" }],
-  ["line", { x1: "12", x2: "12", y1: "19", y2: "22", key: "x3vr5v" }]
+  ["path", { d: "m21 21-4.34-4.34", key: "14j7rj" }],
+  ["circle", { cx: "11", cy: "11", r: "8", key: "4ej97u" }]
 ];
-const Mic = createLucideIcon("mic", __iconNode$4);
+const Search = createLucideIcon("search", __iconNode$4);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -43496,10 +43521,16 @@ const Mic = createLucideIcon("mic", __iconNode$4);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$3 = [
-  ["path", { d: "m21 21-4.34-4.34", key: "14j7rj" }],
-  ["circle", { cx: "11", cy: "11", r: "8", key: "4ej97u" }]
+  [
+    "path",
+    {
+      d: "M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z",
+      key: "oel41y"
+    }
+  ],
+  ["path", { d: "m9 12 2 2 4-4", key: "dzmm74" }]
 ];
-const Search = createLucideIcon("search", __iconNode$3);
+const ShieldCheck = createLucideIcon("shield-check", __iconNode$3);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -49812,7 +49843,12 @@ function Layout() {
     // mesh + vignette are painted on fixed body::before / body::after layers
     // at negative z-index; an opaque background here would cover them on
     // every page. Sections/cards above paint translucent surfaces instead.
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex min-h-[100dvh] flex-col bg-transparent", children: [
+    // pb-32 lg:pb-0 on the ROOT (not on <main>): the mobile bottom bar is
+    // fixed, and the Footer / EndorsementsSlider / HomeFaq are SIBLINGS of
+    // <main>, so padding <main> alone left the last ~114px of the footer
+    // sitting under the bar at the very bottom of the page. Padding the shell
+    // root reserves the space for every child.
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex min-h-[100dvh] flex-col bg-transparent pb-32 lg:pb-0", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(InitialLoadPreloader, {}),
       /* @__PURE__ */ jsxRuntimeExports.jsx(RouteTransitionPreloader, {}),
       /* @__PURE__ */ jsxRuntimeExports.jsxs(
@@ -49836,53 +49872,83 @@ function Layout() {
         }
       ),
       /* @__PURE__ */ jsxRuntimeExports.jsx(Nav, {}),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("main", { className: "flex-1 pb-24 lg:pb-0", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Outlet, {}) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("main", { className: "flex-1", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Outlet, {}) }),
       !isAdmin && /* @__PURE__ */ jsxRuntimeExports.jsx(EndorsementsSlider, {}),
       isHomepage && /* @__PURE__ */ jsxRuntimeExports.jsx(HomeFaq, {}),
       !isAdmin && /* @__PURE__ */ jsxRuntimeExports.jsx(Footer, {}),
       /* @__PURE__ */ jsxRuntimeExports.jsx(CookieConsentBanner, {}),
       typeof document !== "undefined" ? reactDomExports.createPortal(
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "fixed bottom-0 left-0 w-full z-[100] bg-navy border-t border-border/40 lg:hidden", children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
-          "form",
-          {
-            action: "https://tpointuk.us3.list-manage.com/subscribe/post?u=6fe69c3d0521b617677c81700&id=2ce1dac979&f_id=0081c1e5f0",
-            method: "post",
-            target: "_blank",
-            className: "flex items-center gap-2 px-4 py-3",
-            "data-ocid": "mobile.subscribe_bar",
-            children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("label", { htmlFor: "mce-EMAIL-mobile", className: "sr-only", children: "Email Address" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                "input",
-                {
-                  type: "email",
-                  name: "EMAIL",
-                  id: "mce-EMAIL-mobile",
-                  required: true,
-                  placeholder: "Email address",
-                  className: "admin-input min-w-0 flex-1",
-                  "data-ocid": "mobile.subscribe.email_input"
-                }
-              ),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                "button",
-                {
-                  type: "submit",
-                  name: "subscribe",
-                  className: "shrink-0 bg-red-600 hover:bg-red-700 px-4 py-3 font-display text-sm font-bold uppercase tracking-wider text-white transition-colors",
-                  "data-ocid": "mobile.subscribe.submit_button",
-                  children: "Subscribe"
-                }
-              )
-            ]
-          }
-        ) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "fixed bottom-0 left-0 w-full z-[100] bg-navy border-t border-border/40 lg:hidden", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            "div",
+            {
+              "data-ocid": "mobile.patreon_cta",
+              className: "flex items-center justify-center gap-3 border-b border-border/30 px-4 py-2",
+              children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "span",
+                  {
+                    "data-ocid": "mobile.patreon_cta.label",
+                    className: "whitespace-nowrap font-display text-[0.65rem] font-bold uppercase tracking-[0.18em] text-white/75",
+                    children: "Our podcasts"
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "a",
+                  {
+                    href: "https://www.patreon.com/tpointuk",
+                    target: "_blank",
+                    rel: "noopener noreferrer",
+                    "data-ocid": "mobile.patreon_cta.button",
+                    className: "shrink-0 rounded-full bg-red-600 px-4 py-1.5 font-display text-xs font-bold uppercase tracking-wider text-white transition-colors hover:bg-red-700",
+                    children: "Join our Patreon"
+                  }
+                )
+              ]
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            "form",
+            {
+              action: "https://tpointuk.us3.list-manage.com/subscribe/post?u=6fe69c3d0521b617677c81700&id=2ce1dac979&f_id=0081c1e5f0",
+              method: "post",
+              target: "_blank",
+              className: "flex items-center gap-2 px-4 py-3",
+              "data-ocid": "mobile.subscribe_bar",
+              children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("label", { htmlFor: "mce-EMAIL-mobile", className: "sr-only", children: "Email Address" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "input",
+                  {
+                    type: "email",
+                    name: "EMAIL",
+                    id: "mce-EMAIL-mobile",
+                    required: true,
+                    placeholder: "Email address",
+                    className: "admin-input min-w-0 flex-1",
+                    "data-ocid": "mobile.subscribe.email_input"
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "button",
+                  {
+                    type: "submit",
+                    name: "subscribe",
+                    className: "shrink-0 bg-red-600 hover:bg-red-700 px-4 py-3 font-display text-sm font-bold uppercase tracking-wider text-white transition-colors",
+                    "data-ocid": "mobile.subscribe.submit_button",
+                    children: "Subscribe"
+                  }
+                )
+              ]
+            }
+          )
+        ] }),
         document.body
       ) : null,
       /* @__PURE__ */ jsxRuntimeExports.jsxs(
         "div",
         {
-          className: "fixed top-1/2 right-0 -translate-y-1/2 z-[99] flex flex-col items-end",
+          className: "fixed top-1/2 right-0 -translate-y-1/2 z-[99] hidden flex-col items-end lg:flex",
           "data-ocid": "floating.patreon_cta",
           children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -49917,6 +49983,7 @@ function BackgroundVideo({
   ariaLabel,
   className
 }) {
+  const resolvedSrc = (videoSrc == null ? void 0 : videoSrc.trim()) ? videoSrc : VIDEO_DEFAULT_HERO;
   const videoRef = reactExports.useRef(null);
   const sectionRef = reactExports.useRef(null);
   const [shouldPlay, setShouldPlay] = reactExports.useState(!lazy);
@@ -49996,7 +50063,7 @@ function BackgroundVideo({
     {
       ref: sectionRef,
       className: cn(
-        "absolute inset-0 w-full h-full overflow-hidden -z-10",
+        "absolute inset-0 w-full h-full overflow-hidden -z-10 pointer-events-none",
         className
       ),
       "aria-hidden": "true",
@@ -50006,13 +50073,15 @@ function BackgroundVideo({
           "video",
           {
             ref: videoRef,
-            src: videoSrc,
+            src: resolvedSrc,
             autoPlay: true,
             loop: true,
             muted: true,
             playsInline: true,
             preload: lazy ? "metadata" : "auto",
             controls: false,
+            disablePictureInPicture: true,
+            disableRemotePlayback: true,
             onCanPlayThrough: () => requestPlay(),
             onCanPlay: () => requestPlay(),
             onLoadedData: () => requestPlay(),
@@ -50024,8 +50093,8 @@ function BackgroundVideo({
             onPlay: () => {
               playRequestedRef.current = true;
             },
-            className: "w-full h-full object-cover",
-            children: /* @__PURE__ */ jsxRuntimeExports.jsx("source", { src: videoSrc, type: "video/mp4" })
+            className: "w-full h-full object-cover object-center",
+            children: /* @__PURE__ */ jsxRuntimeExports.jsx("source", { src: resolvedSrc, type: "video/mp4" })
           }
         ) : null,
         /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute inset-0 bg-black/50" })
@@ -52504,13 +52573,13 @@ function useDeleteBlogPost() {
     }
   });
 }
-function resolveActor$4(actor) {
+function resolveActor$3(actor) {
   if (actor) return actor;
   return null;
 }
 function useAllBlogPosts() {
   const { actor, isFetching } = useActor(createActor);
-  const resolvedActor = resolveActor$4(actor);
+  const resolvedActor = resolveActor$3(actor);
   const query = useQuery({
     queryKey: BLOG_ADMIN_QUERY_KEY,
     queryFn: async () => {
@@ -52535,7 +52604,7 @@ function usePublishedPostsByCategory({
 }) {
   var _a2, _b2;
   const { actor, isFetching } = useActor(createActor);
-  const resolvedActor = resolveActor$4(actor);
+  const resolvedActor = resolveActor$3(actor);
   const query = useQuery({
     queryKey: [...BLOG_CATEGORY_QUERY_KEY, category, offset, limit],
     queryFn: async () => {
@@ -52563,7 +52632,7 @@ function usePublishedPostsByCategory({
 }
 function useBlogPostBySlug(slug) {
   const { actor, isFetching } = useActor(createActor);
-  const resolvedActor = resolveActor$4(actor);
+  const resolvedActor = resolveActor$3(actor);
   const query = useQuery({
     queryKey: [...BLOG_SLUG_QUERY_KEY, slug],
     queryFn: async () => {
@@ -52686,49 +52755,6 @@ function useBlogSeed({
   }, [isEmpty, createOne, queryClient2]);
   return { seeding };
 }
-function sanitizeSlotMap(map) {
-  const sanitized = /* @__PURE__ */ new Map();
-  for (const [key, slot] of map) {
-    const isRetiredUrl = slot.videoUrl.trim() === "" || slot.videoUrl.startsWith("/videos/");
-    const fallback = DEFAULT_HERO_VIDEO_SLOT_MAP.get(key);
-    sanitized.set(key, {
-      key,
-      videoUrl: isRetiredUrl && fallback ? fallback.videoUrl : slot.videoUrl,
-      posterUrl: ""
-    });
-  }
-  return sanitized;
-}
-function resolveActor$3(actor) {
-  if (actor) return actor;
-  return null;
-}
-function useHeroVideoConfig() {
-  const { actor, isFetching } = useActor(createActor);
-  const resolvedActor = resolveActor$3(actor);
-  const query = useQuery({
-    queryKey: HERO_VIDEO_CONFIG_QUERY_KEY,
-    queryFn: async () => {
-      if (!resolvedActor) return new Map(DEFAULT_HERO_VIDEO_SLOT_MAP);
-      const config = await resolvedActor.getHeroVideoConfig();
-      const map = sanitizeSlotMap(toHeroVideoSlotMap(config));
-      return map.size > 0 ? map : new Map(DEFAULT_HERO_VIDEO_SLOT_MAP);
-    },
-    enabled: Boolean(resolvedActor) && !isFetching
-  });
-  const realMap = query.data;
-  const activeMap = realMap && realMap.size > 0 ? realMap : DEFAULT_HERO_VIDEO_SLOT_MAP;
-  const getSlot = (key) => activeMap.get(key);
-  const slots = Array.from(activeMap.values());
-  return {
-    getSlot,
-    slots,
-    loading: isFetching || query.isLoading,
-    error: query.error,
-    refetch: query.refetch,
-    isFetching: query.isFetching
-  };
-}
 const CATEGORY_BLOG = "Blog";
 const PAGE_SIZE$1 = 9;
 const SKELETON_KEYS$2 = [
@@ -52745,8 +52771,6 @@ const SKELETON_KEYS$2 = [
 function BlogPage() {
   const entranceRef = useEntranceAnimation();
   const createMutation = useCreateBlogPost();
-  const { getSlot } = useHeroVideoConfig();
-  const newspaperAd = getSlot("newspaper-ad");
   useSeoMeta({
     title: PAGE_SEO["/blog"].title,
     description: PAGE_SEO["/blog"].description,
@@ -52804,7 +52828,7 @@ function BlogPage() {
         headline: "BLOG",
         sub: "Commentary, campaign updates and news.",
         videoLabel: "Blog hero video",
-        videoSrc: newspaperAd == null ? void 0 : newspaperAd.videoUrl
+        videoSrc: VIDEO_NEWSPAPER_AD
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -55104,8 +55128,6 @@ function GalleryPage() {
   const entranceRef = useEntranceAnimation();
   const { items, loading, error, backendEmpty } = useGalleryItems();
   const createMutation = useCreateGalleryItem();
-  const { getSlot } = useHeroVideoConfig();
-  const flagWaving = getSlot("flag-waving");
   useSeoMeta({
     title: PAGE_SEO["/gallery"].title,
     description: PAGE_SEO["/gallery"].description,
@@ -55137,7 +55159,7 @@ function GalleryPage() {
         headline: "GALLERY",
         sub: "Moments from campuses, rallies and direct action.",
         videoLabel: "Gallery hero video",
-        videoSrc: flagWaving == null ? void 0 : flagWaving.videoUrl
+        videoSrc: VIDEO_DEFAULT_HERO
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -55632,6 +55654,181 @@ function GalleryLightbox({ item, onClose }) {
     }
   );
 }
+const CAMPAIGN_URL = "https://www.crowdfunder.co.uk/p/urgent-medical-care-for-success";
+const CAMPAIGN_DEADLINE_ISO = "2026-10-01T23:59:59Z";
+function getRemaining(deadlineMs, nowMs) {
+  const diff = deadlineMs - nowMs;
+  if (!Number.isFinite(diff) || diff <= 0) {
+    return { days: 0, hours: 0, minutes: 0, seconds: 0, expired: true };
+  }
+  const totalSeconds = Math.floor(diff / 1e3);
+  return {
+    days: Math.floor(totalSeconds / 86400),
+    hours: Math.floor(totalSeconds % 86400 / 3600),
+    minutes: Math.floor(totalSeconds % 3600 / 60),
+    seconds: totalSeconds % 60,
+    expired: false
+  };
+}
+function pad(value) {
+  return String(Math.max(0, value)).padStart(2, "0");
+}
+function CountdownBadge({
+  value,
+  label,
+  ocid
+}) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(
+    "div",
+    {
+      "data-ocid": ocid,
+      className: "flex min-w-0 flex-col items-center gap-1 rounded-xl border border-red-500/25 bg-slate-950/60 px-2 py-3 backdrop-blur-sm sm:px-5 sm:py-4",
+      children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-display text-[1.6rem] font-bold tabular-nums leading-none text-white sm:text-4xl md:text-5xl", children: value }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-mono text-[0.55rem] uppercase tracking-[0.12em] text-white/60 sm:text-xs sm:tracking-[0.18em]", children: label })
+      ]
+    }
+  );
+}
+function CampaignCountdown() {
+  const deadlineMs = reactExports.useMemo(() => Date.parse(CAMPAIGN_DEADLINE_ISO), []);
+  const [remaining, setRemaining] = reactExports.useState(
+    () => getRemaining(deadlineMs, Date.now())
+  );
+  reactExports.useEffect(() => {
+    const id = window.setInterval(() => {
+      setRemaining(getRemaining(deadlineMs, Date.now()));
+    }, 1e3);
+    return () => window.clearInterval(id);
+  }, [deadlineMs]);
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(
+    "section",
+    {
+      "data-ocid": "section.campaign_countdown",
+      "aria-labelledby": "campaign-countdown-heading",
+      className: "w-full px-4 py-12 sm:px-6 sm:py-16",
+      children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mx-auto w-full max-w-5xl", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative overflow-hidden rounded-2xl border border-red-500/30 bg-slate-900/70 p-6 text-center backdrop-blur-md md:p-10", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "div",
+          {
+            "aria-hidden": "true",
+            className: "pointer-events-none absolute -left-24 -top-24 h-72 w-72 rounded-full bg-[radial-gradient(circle,rgba(225,29,72,0.28),transparent_70%)] blur-2xl"
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "div",
+          {
+            "aria-hidden": "true",
+            className: "pointer-events-none absolute -bottom-28 -right-20 h-80 w-80 rounded-full bg-[radial-gradient(circle,rgba(185,28,28,0.24),transparent_70%)] blur-2xl"
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative z-10 flex flex-col items-center gap-5", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            "span",
+            {
+              "data-ocid": "section.campaign_countdown.badge",
+              className: "inline-flex items-center gap-2 rounded-full border border-red-500/40 bg-red-600/15 px-4 py-1.5 font-mono text-[0.65rem] uppercase tracking-[0.18em] text-red-200 sm:text-xs",
+              children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(ShieldCheck, { className: "h-3.5 w-3.5", "aria-hidden": "true" }),
+                "Official Crowdfunder Initiative"
+              ]
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "h2",
+            {
+              id: "campaign-countdown-heading",
+              className: "entrance-left font-display text-3xl font-bold uppercase leading-tight tracking-tight text-white sm:text-4xl lg:text-5xl",
+              "data-entrance-delay": "0",
+              children: "Urgent Medical Care Campaign"
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "p",
+            {
+              className: "entrance-left max-w-2xl font-body text-base font-light leading-relaxed text-white/75 sm:text-lg",
+              "data-entrance-delay": "80",
+              children: "Time remaining to reach our funding goal for essential medical care and support."
+            }
+          ),
+          remaining.expired ? /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "p",
+            {
+              "data-ocid": "section.campaign_countdown.closed",
+              className: "font-display text-xl font-bold uppercase tracking-wide text-white sm:text-2xl",
+              children: "This campaign has now closed — thank you for your support."
+            }
+          ) : /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              "div",
+              {
+                role: "timer",
+                "aria-live": "off",
+                "data-ocid": "section.campaign_countdown.timer",
+                className: "mt-1 grid w-full max-w-md grid-cols-4 gap-2 sm:gap-3",
+                children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    CountdownBadge,
+                    {
+                      value: pad(remaining.days),
+                      label: "Days",
+                      ocid: "section.campaign_countdown.days"
+                    }
+                  ),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    CountdownBadge,
+                    {
+                      value: pad(remaining.hours),
+                      label: "Hours",
+                      ocid: "section.campaign_countdown.hours"
+                    }
+                  ),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    CountdownBadge,
+                    {
+                      value: pad(remaining.minutes),
+                      label: "Minutes",
+                      ocid: "section.campaign_countdown.minutes"
+                    }
+                  ),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    CountdownBadge,
+                    {
+                      value: pad(remaining.seconds),
+                      label: "Seconds",
+                      ocid: "section.campaign_countdown.seconds"
+                    }
+                  )
+                ]
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "sr-only", children: [
+              remaining.days,
+              " days remaining to support this campaign."
+            ] })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-2 flex flex-col items-center gap-3", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              "a",
+              {
+                href: CAMPAIGN_URL,
+                target: "_blank",
+                rel: "noopener noreferrer",
+                "data-ocid": "section.campaign_countdown.donate_button",
+                className: "btn-primary-square group inline-flex items-center gap-2 rounded-full",
+                children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(HeartHandshake, { className: "h-4 w-4", "aria-hidden": "true" }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Support the Campaign" })
+                ]
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-mono text-[0.65rem] uppercase tracking-[0.15em] text-white/45", children: "Secure donations via Crowdfunder" })
+          ] })
+        ] })
+      ] }) })
+    }
+  );
+}
 const VIGIL_DETAILS = [
   { label: "Date", value: "Thursday 10th Sept 2026" },
   { label: "Gather", value: "18:30" },
@@ -55813,12 +56010,6 @@ const ACHIEVEMENTS = [
 ];
 function HomePage() {
   const containerRef = useEntranceAnimation();
-  const { getSlot } = useHeroVideoConfig();
-  const flagWaving = getSlot("flag-waving");
-  const educationCrowd = getSlot("education-crowd");
-  const merchDisplay = getSlot("merch-display");
-  const historicLondon = getSlot("historic-london");
-  const newspaperAd = getSlot("newspaper-ad");
   useSeoMeta({
     title: PAGE_SEO["/"].title,
     description: PAGE_SEO["/"].description,
@@ -55840,7 +56031,7 @@ function HomePage() {
         headline: "WINNING THE CULTURAL WAR",
         sub: "Britain's fastest-growing conservative youth movement. Question. Challenge. Fight Back.",
         videoLabel: "Hero video 1 - Union Jack waving",
-        videoSrc: flagWaving == null ? void 0 : flagWaving.videoUrl,
+        videoSrc: VIDEO_FLAG_WAVING,
         buttons: [
           {
             label: "JOIN THE MOVEMENT",
@@ -55861,6 +56052,7 @@ function HomePage() {
         lazy: false
       }
     ) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(CampaignCountdown, {}),
     /* @__PURE__ */ jsxRuntimeExports.jsx(VigilSpotlight, {}),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
       "section",
@@ -55930,7 +56122,7 @@ function HomePage() {
         headline: "EVENTS & EDUCATION WATCH",
         sub: "Campus speeches, rallies, and a confidential channel to report classroom bias.",
         videoLabel: "Hero video 2 - modern London montage",
-        videoSrc: educationCrowd == null ? void 0 : educationCrowd.videoUrl,
+        videoSrc: VIDEO_EDUCATION_CROWD,
         buttons: [
           { label: "VIEW CALENDAR", to: ROUTES.events, variant: "primary" },
           {
@@ -55948,7 +56140,7 @@ function HomePage() {
         headline: "WEAR THE MESSAGE",
         sub: "Every order funds the movement. Shipped across the UK.",
         videoLabel: "Hero video 3 - merch flatlay on Union Jack",
-        videoSrc: merchDisplay == null ? void 0 : merchDisplay.videoUrl,
+        videoSrc: VIDEO_MERCH_DISPLAY,
         buttons: [
           {
             label: "SHOP THE COLLECTION",
@@ -55965,7 +56157,7 @@ function HomePage() {
         headline: "PRESERVING OUR HERITAGE",
         sub: "Rooted in the story of Britain — and fighting for its future.",
         videoLabel: "Hero video 4 - black-and-white Victorian London",
-        videoSrc: historicLondon == null ? void 0 : historicLondon.videoUrl,
+        videoSrc: VIDEO_HISTORIC_LONDON,
         buttons: [
           {
             label: "LEARN OUR HISTORY",
@@ -55984,7 +56176,7 @@ function HomePage() {
           /* @__PURE__ */ jsxRuntimeExports.jsx(
             BackgroundVideo,
             {
-              videoSrc: newspaperAd.videoUrl,
+              videoSrc: VIDEO_NEWSPAPER_AD,
               ariaLabel: "Background video - UK newspaper collage"
             }
           ),
@@ -58764,8 +58956,6 @@ const SKELETON_KEYS = [
 ];
 function RealBritishHistoryPage() {
   const entranceRef = useEntranceAnimation();
-  const { getSlot } = useHeroVideoConfig();
-  const historicLondon = getSlot("historic-london");
   const [offset, setOffset] = reactExports.useState(0);
   const {
     posts: pagePosts,
@@ -58814,7 +59004,7 @@ function RealBritishHistoryPage() {
     /* @__PURE__ */ jsxRuntimeExports.jsx(
       Hero,
       {
-        videoSrc: historicLondon == null ? void 0 : historicLondon.videoUrl,
+        videoSrc: VIDEO_HISTORIC_LONDON,
         videoLabel: "Real British History hero",
         eyebrow: "Turning Point UK",
         headline: "REAL BRITISH HISTORY",
@@ -60389,37 +60579,37 @@ function UniversitySocietiesPage() {
   ] });
 }
 const AdminGalleryPage = reactExports.lazy(
-  () => __vitePreload(() => import("./AdminGalleryPage-XpAq8QgE.js"), true ? [] : void 0).then((m2) => ({
+  () => __vitePreload(() => import("./AdminGalleryPage-auopp-1f.js"), true ? [] : void 0).then((m2) => ({
     default: m2.AdminGalleryPage
   }))
 );
 const PostArticlePage = reactExports.lazy(
-  () => __vitePreload(() => import("./PostArticlePage-BuxWCps_.js"), true ? [] : void 0).then((m2) => ({
+  () => __vitePreload(() => import("./PostArticlePage-D-MW84y0.js"), true ? [] : void 0).then((m2) => ({
     default: m2.PostArticlePage
   }))
 );
 const AdminBlogPage = reactExports.lazy(
-  () => __vitePreload(() => import("./AdminBlogPage-B8jLAi8V.js"), true ? __vite__mapDeps([0,1]) : void 0).then((m2) => ({
+  () => __vitePreload(() => import("./AdminBlogPage-DDyJF-aT.js"), true ? __vite__mapDeps([0,1]) : void 0).then((m2) => ({
     default: m2.AdminBlogPage
   }))
 );
 const CheckoutSuccessPage = reactExports.lazy(
-  () => __vitePreload(() => import("./CheckoutSuccessPage-cnOiXl2i.js"), true ? [] : void 0).then((m2) => ({
+  () => __vitePreload(() => import("./CheckoutSuccessPage-B9EZfDyp.js"), true ? [] : void 0).then((m2) => ({
     default: m2.CheckoutSuccessPage
   }))
 );
 const CheckoutCancelPage = reactExports.lazy(
-  () => __vitePreload(() => import("./CheckoutCancelPage-CeBWBLm5.js"), true ? [] : void 0).then((m2) => ({
+  () => __vitePreload(() => import("./CheckoutCancelPage-kmzOSmfi.js"), true ? [] : void 0).then((m2) => ({
     default: m2.CheckoutCancelPage
   }))
 );
 const AdminRealBritishHistoryPage = reactExports.lazy(
-  () => __vitePreload(() => import("./AdminRealBritishHistoryPage-Dp5L6v7e.js"), true ? __vite__mapDeps([2,1]) : void 0).then((m2) => ({
+  () => __vitePreload(() => import("./AdminRealBritishHistoryPage-1mjeb04b.js"), true ? __vite__mapDeps([2,1]) : void 0).then((m2) => ({
     default: m2.AdminRealBritishHistoryPage
   }))
 );
 const AdminStripePage = reactExports.lazy(
-  () => __vitePreload(() => import("./AdminStripePage-CZsxZR9m.js"), true ? [] : void 0).then((m2) => ({
+  () => __vitePreload(() => import("./AdminStripePage-C3a6JKN1.js"), true ? [] : void 0).then((m2) => ({
     default: m2.AdminStripePage
   }))
 );
@@ -60650,6 +60840,7 @@ export {
   OG_IMAGE_URL as O,
   ROUTES as R,
   Section as S,
+  VIDEO_HISTORIC_LONDON as V,
   useEntranceAnimation as a,
   useGalleryItems as b,
   createActor as c,
@@ -60662,10 +60853,10 @@ export {
   jsxRuntimeExports as j,
   useLocation as k,
   useBlogPostBySlug as l,
-  useHeroVideoConfig as m,
-  useSeoMeta as n,
-  buildBreadcrumbJsonLd as o,
-  SITE_BASE_URL as p,
+  useSeoMeta as m,
+  buildBreadcrumbJsonLd as n,
+  SITE_BASE_URL as o,
+  VIDEO_NEWSPAPER_AD as p,
   useAllBlogPosts as q,
   reactExports as r,
   useCreateBlogPost as s,

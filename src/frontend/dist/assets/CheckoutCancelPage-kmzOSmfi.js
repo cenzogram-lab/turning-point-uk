@@ -1,4 +1,4 @@
-import { a as useEntranceAnimation, n as useSeoMeta, j as jsxRuntimeExports, S as Section, L as Link, R as ROUTES } from "./index-DnMuymy2.js";
+import { a as useEntranceAnimation, m as useSeoMeta, j as jsxRuntimeExports, S as Section, L as Link, R as ROUTES } from "./index-Bit4PJ4S.js";
 function CheckoutCancelPage() {
   const ref = useEntranceAnimation();
   useSeoMeta({

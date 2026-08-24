@@ -6,3 +6,12 @@ dist/
 .pnpm-store/
 .cache/
 .icp/
+
+# Heavy local video files — hero backgrounds stream from the hosted
+# file.garden URLs (see src/frontend/src/lib/assets.ts), so no video binaries
+# belong in the repo or the build output.
+*.mp4
+*.webm
+*.mov
+src/frontend/public/videos/
+src/frontend/dist/videos/

@@ -5,8 +5,8 @@ import { useCreateBlogPost } from "@/hooks/useBlogMutations";
 import { usePublishedPostsByCategory } from "@/hooks/useBlogPosts";
 import { useBlogSeed } from "@/hooks/useBlogSeed";
 import { useEntranceAnimation } from "@/hooks/useEntranceAnimation";
-import { useHeroVideoConfig } from "@/hooks/useHeroVideoConfig";
 import { useSeoMeta } from "@/hooks/useSeoMeta";
+import { VIDEO_NEWSPAPER_AD } from "@/lib/assets";
 import { BLOG_COVER_FALLBACK } from "@/lib/assets";
 import { ROUTES } from "@/lib/routes";
 import {
@@ -70,15 +70,6 @@ const SKELETON_KEYS = [
 export function BlogPage() {
   const entranceRef = useEntranceAnimation<HTMLDivElement>();
   const createMutation = useCreateBlogPost();
-
-  // Hero video config — backend-driven via useHeroVideoConfig().getSlot(key)
-  // returns the { videoUrl, posterUrl } for the slot, falling back to the
-  // baked-in DEFAULT_HERO_VIDEO_SLOT_MAP while loading / on error / on
-  // missing key so the hero never blanks out. The rendered hero video
-  // presentation is unchanged — only the data source moves from static
-  // VIDEO_* / POSTER_* constants to a backend query.
-  const { getSlot } = useHeroVideoConfig();
-  const newspaperAd = getSlot("newspaper-ad");
 
   useSeoMeta({
     title: PAGE_SEO["/blog"].title,
@@ -171,7 +162,7 @@ export function BlogPage() {
         headline="BLOG"
         sub="Commentary, campaign updates and news."
         videoLabel="Blog hero video"
-        videoSrc={newspaperAd?.videoUrl}
+        videoSrc={VIDEO_NEWSPAPER_AD}
       />
 
       {/* Article grid — tall, no-snap section. */}

@@ -4,8 +4,8 @@ import { useEntranceAnimation } from "@/hooks/useEntranceAnimation";
 import { useGalleryItems } from "@/hooks/useGalleryItems";
 import { useCreateGalleryItem } from "@/hooks/useGalleryMutations";
 import { useGallerySeed } from "@/hooks/useGallerySeed";
-import { useHeroVideoConfig } from "@/hooks/useHeroVideoConfig";
 import { useSeoMeta } from "@/hooks/useSeoMeta";
+import { VIDEO_DEFAULT_HERO } from "@/lib/assets";
 import { getFallbackImageUrl } from "@/lib/galleryFallback";
 import {
   BREADCRUMB_TRAILS,
@@ -111,15 +111,6 @@ export function GalleryPage() {
   const { items, loading, error, backendEmpty } = useGalleryItems();
   const createMutation = useCreateGalleryItem();
 
-  // Hero video config — backend-driven via useHeroVideoConfig().getSlot(key)
-  // returns the { videoUrl, posterUrl } for the slot, falling back to the
-  // baked-in DEFAULT_HERO_VIDEO_SLOT_MAP while loading / on error / on
-  // missing key so the hero never blanks out. The rendered hero video
-  // presentation is unchanged — only the data source moves from static
-  // VIDEO_* / POSTER_* constants to a backend query.
-  const { getSlot } = useHeroVideoConfig();
-  const flagWaving = getSlot("flag-waving");
-
   useSeoMeta({
     title: PAGE_SEO["/gallery"].title,
     description: PAGE_SEO["/gallery"].description,
@@ -183,7 +174,7 @@ export function GalleryPage() {
         headline="GALLERY"
         sub="Moments from campuses, rallies and direct action."
         videoLabel="Gallery hero video"
-        videoSrc={flagWaving?.videoUrl}
+        videoSrc={VIDEO_DEFAULT_HERO}
       />
 
       {/* Photo grid — tall, no-snap section so the whole wall reads at once. */}

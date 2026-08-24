@@ -369,6 +369,7 @@ function ProductCard({
 
 export function MerchandisePage() {
   const ref = useEntranceAnimation<HTMLDivElement>();
+
   useSeoMeta({
     title: PAGE_SEO["/merchandise"].title,
     description: PAGE_SEO["/merchandise"].description,

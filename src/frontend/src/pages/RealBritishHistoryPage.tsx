@@ -3,8 +3,8 @@ import { Hero } from "@/components/Hero";
 import { Section } from "@/components/Section";
 import { usePublishedPostsByCategory } from "@/hooks/useBlogPosts";
 import { useEntranceAnimation } from "@/hooks/useEntranceAnimation";
-import { useHeroVideoConfig } from "@/hooks/useHeroVideoConfig";
 import { useSeoMeta } from "@/hooks/useSeoMeta";
+import { VIDEO_HISTORIC_LONDON } from "@/lib/assets";
 import {
   BREADCRUMB_TRAILS,
   PAGE_SEO,
@@ -65,15 +65,6 @@ const SKELETON_KEYS = [
 
 export function RealBritishHistoryPage() {
   const entranceRef = useEntranceAnimation<HTMLDivElement>();
-
-  // Hero video config — backend-driven via useHeroVideoConfig().getSlot(key)
-  // returns the { videoUrl, posterUrl } for the slot, falling back to the
-  // baked-in DEFAULT_HERO_VIDEO_SLOT_MAP while loading / on error / on
-  // missing key so the hero never blanks out. The rendered hero video
-  // presentation is unchanged — only the data source moves from static
-  // VIDEO_* / POSTER_* constants to a backend query.
-  const { getSlot } = useHeroVideoConfig();
-  const historicLondon = getSlot("historic-london");
 
   // Pagination state — offset increments by PAGE_SIZE on each Load More.
   const [offset, setOffset] = useState(0);
@@ -165,7 +156,7 @@ export function RealBritishHistoryPage() {
           overlay at z-10, and the eyebrow + headline + sub at z-20, with
           a bottom-edge fade that blends into the hub-header beneath it. */}
       <Hero
-        videoSrc={historicLondon?.videoUrl}
+        videoSrc={VIDEO_HISTORIC_LONDON}
         videoLabel="Real British History hero"
         eyebrow="Turning Point UK"
         headline="REAL BRITISH HISTORY"

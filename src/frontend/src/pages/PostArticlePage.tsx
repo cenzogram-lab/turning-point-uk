@@ -2,8 +2,8 @@ import { Hero } from "@/components/Hero";
 import { MarkdownRenderer } from "@/components/MarkdownRenderer";
 import { useBlogPostBySlug } from "@/hooks/useBlogPosts";
 import { useEntranceAnimation } from "@/hooks/useEntranceAnimation";
-import { useHeroVideoConfig } from "@/hooks/useHeroVideoConfig";
 import { useSeoMeta } from "@/hooks/useSeoMeta";
+import { VIDEO_HISTORIC_LONDON, VIDEO_NEWSPAPER_AD } from "@/lib/assets";
 import { BLOG_COVER_FALLBACK } from "@/lib/assets";
 import { ROUTES } from "@/lib/routes";
 import { OG_IMAGE_URL, SITE_BASE_URL, buildBreadcrumbJsonLd } from "@/lib/seo";
@@ -113,6 +113,16 @@ function resolveBackLink(
  * The slug param is read with `useParams({ strict: false })` because the
  * route is registered as a flat child of the root route.
  */
+/**
+ * HERO_VIDEO_BY_SLOT — in-code mapping from the article hero slot key to its
+ * hosted background video. Embedded directly here (not fetched from the
+ * backend config) so the article hero always renders the intended footage.
+ */
+const HERO_VIDEO_BY_SLOT: Record<string, string> = {
+  "newspaper-ad": VIDEO_NEWSPAPER_AD,
+  "historic-london": VIDEO_HISTORIC_LONDON,
+};
+
 export function PostArticlePage() {
   const { slug } = useParams({ strict: false });
   const safeSlug = typeof slug === "string" ? slug : "";
@@ -121,18 +131,6 @@ export function PostArticlePage() {
 
   const { post, loading, error } = useBlogPostBySlug(safeSlug);
   const containerRef = useEntranceAnimation<HTMLDivElement>();
-
-  // Hero video config — backend-driven via useHeroVideoConfig().getSlot(key)
-  // returns the { videoUrl, posterUrl } for the slot, falling back to the
-  // baked-in DEFAULT_HERO_VIDEO_SLOT_MAP while loading / on error / on
-  // missing key so the hero never blanks out. The rendered hero video
-  // presentation is unchanged — only the data source moves from static
-  // VIDEO_* / POSTER_* constants to a backend query. Called unconditionally
-  // (before the loading / not-found early returns) so the hook order stays
-  // stable across renders; getSlot always returns a usable slot via the
-  // baked-in fallback, so the loading / not-found paths still render a real
-  // hero video plate when they reach the ready branch.
-  const { getSlot } = useHeroVideoConfig();
 
   // Tracks whether the cinematic cover <img> failed to load so we can swap it
   // to the bundled BLOG_COVER_FALLBACK asset instead of leaving a broken
@@ -332,16 +330,10 @@ export function PostArticlePage() {
   // Resolve the hero video / poster slot for the article page. The slot key
   // is chosen from the arrival alias (blog alias → newspaper-ad, RBH alias →
   // historic-london, canonical /post/ arrival → category-driven) and then
-  // resolved through getSlot(key) so the URLs come from the backend-driven
-  // config (with the baked-in DEFAULT_HERO_VIDEO_SLOT_MAP fallback). When
-  // the post is absent (loading / not-found paths that still reach this
-  // branch), the newspaper-ad slot is used as a sensible default so the
-  // hero always renders a real background video plate.
   const heroSlotKey = post
     ? pickHeroVideoSlotKey(alias, post.category)
     : "newspaper-ad";
-  const heroSlot = getSlot(heroSlotKey);
-  const heroVideo = heroSlot?.videoUrl;
+  const heroVideo = HERO_VIDEO_BY_SLOT[heroSlotKey] ?? VIDEO_NEWSPAPER_AD;
   const backLink = post
     ? resolveBackLink(alias, post.category)
     : { to: ROUTES.blog, label: "Back to Blog" };
