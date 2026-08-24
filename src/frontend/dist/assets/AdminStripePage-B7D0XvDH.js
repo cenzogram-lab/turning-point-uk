@@ -1,4 +1,4 @@
-import { a as useEntranceAnimation, j as jsxRuntimeExports, S as Section, z as StripeSetupPanel } from "./index-DnMuymy2.js";
+import { a as useEntranceAnimation, j as jsxRuntimeExports, S as Section, z as StripeSetupPanel } from "./index-BK-5O9Rg.js";
 function AdminStripePage() {
   const containerRef = useEntranceAnimation();
   return /* @__PURE__ */ jsxRuntimeExports.jsx(AdminStripeDashboard, { containerRef });

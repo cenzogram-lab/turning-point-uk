@@ -1,4 +1,4 @@
-import { h as createLucideIcon, r as reactExports, j as jsxRuntimeExports, i as useParams, k as useLocation, l as useBlogPostBySlug, a as useEntranceAnimation, m as useHeroVideoConfig, B as BLOG_COVER_FALLBACK, n as useSeoMeta, o as buildBreadcrumbJsonLd, p as SITE_BASE_URL, O as OG_IMAGE_URL, L as Link, R as ROUTES, H as Hero, A as ArrowLeft, C as Check } from "./index-DnMuymy2.js";
+import { h as createLucideIcon, r as reactExports, j as jsxRuntimeExports, i as useParams, k as useLocation, l as useBlogPostBySlug, a as useEntranceAnimation, B as BLOG_COVER_FALLBACK, m as useSeoMeta, n as buildBreadcrumbJsonLd, o as SITE_BASE_URL, O as OG_IMAGE_URL, L as Link, R as ROUTES, H as Hero, V as VIDEO_HISTORIC_LONDON, p as VIDEO_NEWSPAPER_AD, A as ArrowLeft, C as Check } from "./index-BK-5O9Rg.js";
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -191,6 +191,10 @@ function resolveBackLink(alias, category) {
   }
   return { to: ROUTES.blog, label: "Back to Blog" };
 }
+const HERO_VIDEO_BY_SLOT = {
+  "newspaper-ad": VIDEO_NEWSPAPER_AD,
+  "historic-london": VIDEO_HISTORIC_LONDON
+};
 function PostArticlePage() {
   var _a;
   const { slug } = useParams({ strict: false });
@@ -199,7 +203,6 @@ function PostArticlePage() {
   const alias = detectAlias(location.pathname);
   const { post, loading, error } = useBlogPostBySlug(safeSlug);
   const containerRef = useEntranceAnimation();
-  const { getSlot } = useHeroVideoConfig();
   const [coverFailed, setCoverFailed] = reactExports.useState(false);
   const handleCoverError = reactExports.useCallback(
     (e) => {
@@ -340,8 +343,7 @@ function PostArticlePage() {
   });
   const createdIso = Number.isNaN(createdDate.getTime()) ? void 0 : createdDate.toISOString();
   const heroSlotKey = post ? pickHeroVideoSlotKey(alias, post.category) : "newspaper-ad";
-  const heroSlot = getSlot(heroSlotKey);
-  const heroVideo = heroSlot == null ? void 0 : heroSlot.videoUrl;
+  const heroVideo = HERO_VIDEO_BY_SLOT[heroSlotKey] ?? VIDEO_NEWSPAPER_AD;
   const backLink = post ? resolveBackLink(alias, post.category) : { to: ROUTES.blog, label: "Back to Blog" };
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { ref: containerRef, className: "w-full", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx(

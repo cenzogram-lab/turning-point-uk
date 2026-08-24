@@ -1,3 +1,4 @@
+import { VIDEO_DEFAULT_HERO } from "@/lib/assets";
 import { cn } from "@/lib/utils";
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -52,8 +53,15 @@ import { useCallback, useEffect, useRef, useState } from "react";
  * LOCKED CONSTRAINT: the video source URL is identical on mobile and desktop.
  */
 export interface BackgroundVideoProps {
-  /** MP4 video source URL. Identical on mobile and desktop (locked). */
-  videoSrc: string;
+  /**
+   * MP4 video source URL. Identical on mobile and desktop (locked).
+   *
+   * Optional so a still-loading backend slot lookup can pass `undefined`
+   * without the hero rendering a sourceless <video>: the universal default
+   * hero video (VIDEO_DEFAULT_HERO) is substituted instead. Every background
+   * container therefore always has real footage.
+   */
+  videoSrc?: string;
   /**
    * Lazy-load this video. When true (default), the video only mounts and
    * begins autoplay when the section nears the viewport. When false, the
@@ -72,6 +80,9 @@ export function BackgroundVideo({
   ariaLabel,
   className,
 }: BackgroundVideoProps) {
+  // Guarantee a source: a slot lookup that has not resolved yet (or an empty
+  // stored value) falls back to the universal default hero video.
+  const resolvedSrc = videoSrc?.trim() ? videoSrc : VIDEO_DEFAULT_HERO;
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const sectionRef = useRef<HTMLDivElement | null>(null);
   // `shouldPlay` flips true once the IntersectionObserver fires (lazy) or on
@@ -208,7 +219,7 @@ export function BackgroundVideo({
     <div
       ref={sectionRef}
       className={cn(
-        "absolute inset-0 w-full h-full overflow-hidden -z-10",
+        "absolute inset-0 w-full h-full overflow-hidden -z-10 pointer-events-none",
         className,
       )}
       aria-hidden="true"
@@ -217,7 +228,7 @@ export function BackgroundVideo({
       {shouldPlay ? (
         <video
           ref={videoRef}
-          src={videoSrc}
+          src={resolvedSrc}
           autoPlay
           loop
           muted
@@ -227,6 +238,11 @@ export function BackgroundVideo({
           // start at "auto" directly so the top hero loads immediately.
           preload={lazy ? "metadata" : "auto"}
           controls={false}
+          // Background decoration: never offer PiP / AirPlay / remote playback
+          // controls, and never intercept taps or long-presses meant for the
+          // foreground content.
+          disablePictureInPicture
+          disableRemotePlayback
           // Reliability hooks for the in-view hero on mobile: the initial
           // play() call frequently rejects while the source is still
           // buffering. These buffer-readiness events each retry play() so the
@@ -244,9 +260,12 @@ export function BackgroundVideo({
           onPlay={() => {
             playRequestedRef.current = true;
           }}
-          className="w-full h-full object-cover"
+          // object-cover + centred object-position keeps the crop centred on
+          // every aspect ratio, from a 320px phone to a 3440px ultra-wide, with
+          // no letterboxing or edge gaps.
+          className="w-full h-full object-cover object-center"
         >
-          <source src={videoSrc} type="video/mp4" />
+          <source src={resolvedSrc} type="video/mp4" />
         </video>
       ) : null}
       {/* Readability overlay — sits directly over the video so foreground

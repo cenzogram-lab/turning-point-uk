@@ -76,6 +76,7 @@ const FAQ_SCHEMA = {
 
 export function EducationWatchPage() {
   const ref = useEntranceAnimation<HTMLDivElement>();
+
   // Pure local UI state — no analytics, no tracking, no persistence beyond
   // this component. Honors the CRITICAL CONSTRAINT on this page.
   const [consent, setConsent] = useState(false);

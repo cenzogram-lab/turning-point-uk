@@ -1,4 +1,4 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/AdminBlogPage-B8jLAi8V.js","assets/useBlogUpload-V1XNEm0t.js","assets/AdminRealBritishHistoryPage-Dp5L6v7e.js"])))=>i.map(i=>d[i]);
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/AdminBlogPage-BzlicnKD.js","assets/useBlogUpload-gMvQx8SI.js","assets/AdminRealBritishHistoryPage-KmwTnK_r.js"])))=>i.map(i=>d[i]);
 var __defProp = Object.defineProperty;
 var __typeError = (msg) => {
   throw TypeError(msg);
@@ -34677,7 +34677,7 @@ function seedBlogPosts() {
 let blogPosts = seedBlogPosts();
 BigInt(blogPosts.length + 1);
 const IS_ADMIN_QUERY_KEY = ["admin", "isAdmin"];
-function resolveActor$6(actor) {
+function resolveActor$5(actor) {
   if (actor) return actor;
   return null;
 }
@@ -34690,7 +34690,7 @@ async function safeIsAdmin(actor, principalText) {
 }
 function useIsAdmin(principalText) {
   const { actor, isFetching } = useActor(createActor);
-  const resolvedActor = resolveActor$6(actor);
+  const resolvedActor = resolveActor$5(actor);
   const adminQuery = useQuery({
     queryKey: [...IS_ADMIN_QUERY_KEY, principalText],
     queryFn: async () => {
@@ -40932,13 +40932,6 @@ function toNavEntries(config) {
   return config.entries.map(toNavEntry);
 }
 const DEFAULT_NAV_ENTRIES = NAV_ENTRIES;
-function toHeroVideoSlotMap(config) {
-  const map = /* @__PURE__ */ new Map();
-  for (const slot of config.slots) {
-    map.set(slot.key, slot);
-  }
-  return map;
-}
 const DEFAULT_HERO_VIDEO_SLOTS = [
   {
     key: "flag-waving",
@@ -40971,19 +40964,15 @@ const DEFAULT_HERO_VIDEO_SLOTS = [
     posterUrl: ""
   }
 ];
-const DEFAULT_HERO_VIDEO_SLOT_MAP = new Map(DEFAULT_HERO_VIDEO_SLOTS.map((slot) => [slot.key, slot]));
+new Map(DEFAULT_HERO_VIDEO_SLOTS.map((slot) => [slot.key, slot]));
 const NAV_CONFIG_QUERY_KEY = ["site-config", "nav"];
-const HERO_VIDEO_CONFIG_QUERY_KEY = [
-  "site-config",
-  "hero-videos"
-];
-function resolveActor$5(actor) {
+function resolveActor$4(actor) {
   if (actor) return actor;
   return null;
 }
 function useNavConfig() {
   const { actor, isFetching } = useActor(createActor);
-  const resolvedActor = resolveActor$5(actor);
+  const resolvedActor = resolveActor$4(actor);
   const query = useQuery({
     queryKey: NAV_CONFIG_QUERY_KEY,
     queryFn: async () => {
@@ -49917,6 +49906,7 @@ function BackgroundVideo({
   ariaLabel,
   className
 }) {
+  const resolvedSrc = (videoSrc == null ? void 0 : videoSrc.trim()) ? videoSrc : VIDEO_DEFAULT_HERO;
   const videoRef = reactExports.useRef(null);
   const sectionRef = reactExports.useRef(null);
   const [shouldPlay, setShouldPlay] = reactExports.useState(!lazy);
@@ -49996,7 +49986,7 @@ function BackgroundVideo({
     {
       ref: sectionRef,
       className: cn(
-        "absolute inset-0 w-full h-full overflow-hidden -z-10",
+        "absolute inset-0 w-full h-full overflow-hidden -z-10 pointer-events-none",
         className
       ),
       "aria-hidden": "true",
@@ -50006,13 +49996,15 @@ function BackgroundVideo({
           "video",
           {
             ref: videoRef,
-            src: videoSrc,
+            src: resolvedSrc,
             autoPlay: true,
             loop: true,
             muted: true,
             playsInline: true,
             preload: lazy ? "metadata" : "auto",
             controls: false,
+            disablePictureInPicture: true,
+            disableRemotePlayback: true,
             onCanPlayThrough: () => requestPlay(),
             onCanPlay: () => requestPlay(),
             onLoadedData: () => requestPlay(),
@@ -50024,8 +50016,8 @@ function BackgroundVideo({
             onPlay: () => {
               playRequestedRef.current = true;
             },
-            className: "w-full h-full object-cover",
-            children: /* @__PURE__ */ jsxRuntimeExports.jsx("source", { src: videoSrc, type: "video/mp4" })
+            className: "w-full h-full object-cover object-center",
+            children: /* @__PURE__ */ jsxRuntimeExports.jsx("source", { src: resolvedSrc, type: "video/mp4" })
           }
         ) : null,
         /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute inset-0 bg-black/50" })
@@ -52504,13 +52496,13 @@ function useDeleteBlogPost() {
     }
   });
 }
-function resolveActor$4(actor) {
+function resolveActor$3(actor) {
   if (actor) return actor;
   return null;
 }
 function useAllBlogPosts() {
   const { actor, isFetching } = useActor(createActor);
-  const resolvedActor = resolveActor$4(actor);
+  const resolvedActor = resolveActor$3(actor);
   const query = useQuery({
     queryKey: BLOG_ADMIN_QUERY_KEY,
     queryFn: async () => {
@@ -52535,7 +52527,7 @@ function usePublishedPostsByCategory({
 }) {
   var _a2, _b2;
   const { actor, isFetching } = useActor(createActor);
-  const resolvedActor = resolveActor$4(actor);
+  const resolvedActor = resolveActor$3(actor);
   const query = useQuery({
     queryKey: [...BLOG_CATEGORY_QUERY_KEY, category, offset, limit],
     queryFn: async () => {
@@ -52563,7 +52555,7 @@ function usePublishedPostsByCategory({
 }
 function useBlogPostBySlug(slug) {
   const { actor, isFetching } = useActor(createActor);
-  const resolvedActor = resolveActor$4(actor);
+  const resolvedActor = resolveActor$3(actor);
   const query = useQuery({
     queryKey: [...BLOG_SLUG_QUERY_KEY, slug],
     queryFn: async () => {
@@ -52686,49 +52678,6 @@ function useBlogSeed({
   }, [isEmpty, createOne, queryClient2]);
   return { seeding };
 }
-function sanitizeSlotMap(map) {
-  const sanitized = /* @__PURE__ */ new Map();
-  for (const [key, slot] of map) {
-    const isRetiredUrl = slot.videoUrl.trim() === "" || slot.videoUrl.startsWith("/videos/");
-    const fallback = DEFAULT_HERO_VIDEO_SLOT_MAP.get(key);
-    sanitized.set(key, {
-      key,
-      videoUrl: isRetiredUrl && fallback ? fallback.videoUrl : slot.videoUrl,
-      posterUrl: ""
-    });
-  }
-  return sanitized;
-}
-function resolveActor$3(actor) {
-  if (actor) return actor;
-  return null;
-}
-function useHeroVideoConfig() {
-  const { actor, isFetching } = useActor(createActor);
-  const resolvedActor = resolveActor$3(actor);
-  const query = useQuery({
-    queryKey: HERO_VIDEO_CONFIG_QUERY_KEY,
-    queryFn: async () => {
-      if (!resolvedActor) return new Map(DEFAULT_HERO_VIDEO_SLOT_MAP);
-      const config = await resolvedActor.getHeroVideoConfig();
-      const map = sanitizeSlotMap(toHeroVideoSlotMap(config));
-      return map.size > 0 ? map : new Map(DEFAULT_HERO_VIDEO_SLOT_MAP);
-    },
-    enabled: Boolean(resolvedActor) && !isFetching
-  });
-  const realMap = query.data;
-  const activeMap = realMap && realMap.size > 0 ? realMap : DEFAULT_HERO_VIDEO_SLOT_MAP;
-  const getSlot = (key) => activeMap.get(key);
-  const slots = Array.from(activeMap.values());
-  return {
-    getSlot,
-    slots,
-    loading: isFetching || query.isLoading,
-    error: query.error,
-    refetch: query.refetch,
-    isFetching: query.isFetching
-  };
-}
 const CATEGORY_BLOG = "Blog";
 const PAGE_SIZE$1 = 9;
 const SKELETON_KEYS$2 = [
@@ -52745,8 +52694,6 @@ const SKELETON_KEYS$2 = [
 function BlogPage() {
   const entranceRef = useEntranceAnimation();
   const createMutation = useCreateBlogPost();
-  const { getSlot } = useHeroVideoConfig();
-  const newspaperAd = getSlot("newspaper-ad");
   useSeoMeta({
     title: PAGE_SEO["/blog"].title,
     description: PAGE_SEO["/blog"].description,
@@ -52804,7 +52751,7 @@ function BlogPage() {
         headline: "BLOG",
         sub: "Commentary, campaign updates and news.",
         videoLabel: "Blog hero video",
-        videoSrc: newspaperAd == null ? void 0 : newspaperAd.videoUrl
+        videoSrc: VIDEO_NEWSPAPER_AD
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -55104,8 +55051,6 @@ function GalleryPage() {
   const entranceRef = useEntranceAnimation();
   const { items, loading, error, backendEmpty } = useGalleryItems();
   const createMutation = useCreateGalleryItem();
-  const { getSlot } = useHeroVideoConfig();
-  const flagWaving = getSlot("flag-waving");
   useSeoMeta({
     title: PAGE_SEO["/gallery"].title,
     description: PAGE_SEO["/gallery"].description,
@@ -55137,7 +55082,7 @@ function GalleryPage() {
         headline: "GALLERY",
         sub: "Moments from campuses, rallies and direct action.",
         videoLabel: "Gallery hero video",
-        videoSrc: flagWaving == null ? void 0 : flagWaving.videoUrl
+        videoSrc: VIDEO_DEFAULT_HERO
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -55813,12 +55758,6 @@ const ACHIEVEMENTS = [
 ];
 function HomePage() {
   const containerRef = useEntranceAnimation();
-  const { getSlot } = useHeroVideoConfig();
-  const flagWaving = getSlot("flag-waving");
-  const educationCrowd = getSlot("education-crowd");
-  const merchDisplay = getSlot("merch-display");
-  const historicLondon = getSlot("historic-london");
-  const newspaperAd = getSlot("newspaper-ad");
   useSeoMeta({
     title: PAGE_SEO["/"].title,
     description: PAGE_SEO["/"].description,
@@ -55840,7 +55779,7 @@ function HomePage() {
         headline: "WINNING THE CULTURAL WAR",
         sub: "Britain's fastest-growing conservative youth movement. Question. Challenge. Fight Back.",
         videoLabel: "Hero video 1 - Union Jack waving",
-        videoSrc: flagWaving == null ? void 0 : flagWaving.videoUrl,
+        videoSrc: VIDEO_FLAG_WAVING,
         buttons: [
           {
             label: "JOIN THE MOVEMENT",
@@ -55930,7 +55869,7 @@ function HomePage() {
         headline: "EVENTS & EDUCATION WATCH",
         sub: "Campus speeches, rallies, and a confidential channel to report classroom bias.",
         videoLabel: "Hero video 2 - modern London montage",
-        videoSrc: educationCrowd == null ? void 0 : educationCrowd.videoUrl,
+        videoSrc: VIDEO_EDUCATION_CROWD,
         buttons: [
           { label: "VIEW CALENDAR", to: ROUTES.events, variant: "primary" },
           {
@@ -55948,7 +55887,7 @@ function HomePage() {
         headline: "WEAR THE MESSAGE",
         sub: "Every order funds the movement. Shipped across the UK.",
         videoLabel: "Hero video 3 - merch flatlay on Union Jack",
-        videoSrc: merchDisplay == null ? void 0 : merchDisplay.videoUrl,
+        videoSrc: VIDEO_MERCH_DISPLAY,
         buttons: [
           {
             label: "SHOP THE COLLECTION",
@@ -55965,7 +55904,7 @@ function HomePage() {
         headline: "PRESERVING OUR HERITAGE",
         sub: "Rooted in the story of Britain — and fighting for its future.",
         videoLabel: "Hero video 4 - black-and-white Victorian London",
-        videoSrc: historicLondon == null ? void 0 : historicLondon.videoUrl,
+        videoSrc: VIDEO_HISTORIC_LONDON,
         buttons: [
           {
             label: "LEARN OUR HISTORY",
@@ -55984,7 +55923,7 @@ function HomePage() {
           /* @__PURE__ */ jsxRuntimeExports.jsx(
             BackgroundVideo,
             {
-              videoSrc: newspaperAd.videoUrl,
+              videoSrc: VIDEO_NEWSPAPER_AD,
               ariaLabel: "Background video - UK newspaper collage"
             }
           ),
@@ -58764,8 +58703,6 @@ const SKELETON_KEYS = [
 ];
 function RealBritishHistoryPage() {
   const entranceRef = useEntranceAnimation();
-  const { getSlot } = useHeroVideoConfig();
-  const historicLondon = getSlot("historic-london");
   const [offset, setOffset] = reactExports.useState(0);
   const {
     posts: pagePosts,
@@ -58814,7 +58751,7 @@ function RealBritishHistoryPage() {
     /* @__PURE__ */ jsxRuntimeExports.jsx(
       Hero,
       {
-        videoSrc: historicLondon == null ? void 0 : historicLondon.videoUrl,
+        videoSrc: VIDEO_HISTORIC_LONDON,
         videoLabel: "Real British History hero",
         eyebrow: "Turning Point UK",
         headline: "REAL BRITISH HISTORY",
@@ -60389,37 +60326,37 @@ function UniversitySocietiesPage() {
   ] });
 }
 const AdminGalleryPage = reactExports.lazy(
-  () => __vitePreload(() => import("./AdminGalleryPage-XpAq8QgE.js"), true ? [] : void 0).then((m2) => ({
+  () => __vitePreload(() => import("./AdminGalleryPage-HiBVIM0Y.js"), true ? [] : void 0).then((m2) => ({
     default: m2.AdminGalleryPage
   }))
 );
 const PostArticlePage = reactExports.lazy(
-  () => __vitePreload(() => import("./PostArticlePage-BuxWCps_.js"), true ? [] : void 0).then((m2) => ({
+  () => __vitePreload(() => import("./PostArticlePage-D06fa-lV.js"), true ? [] : void 0).then((m2) => ({
     default: m2.PostArticlePage
   }))
 );
 const AdminBlogPage = reactExports.lazy(
-  () => __vitePreload(() => import("./AdminBlogPage-B8jLAi8V.js"), true ? __vite__mapDeps([0,1]) : void 0).then((m2) => ({
+  () => __vitePreload(() => import("./AdminBlogPage-BzlicnKD.js"), true ? __vite__mapDeps([0,1]) : void 0).then((m2) => ({
     default: m2.AdminBlogPage
   }))
 );
 const CheckoutSuccessPage = reactExports.lazy(
-  () => __vitePreload(() => import("./CheckoutSuccessPage-cnOiXl2i.js"), true ? [] : void 0).then((m2) => ({
+  () => __vitePreload(() => import("./CheckoutSuccessPage-BPWKpBV6.js"), true ? [] : void 0).then((m2) => ({
     default: m2.CheckoutSuccessPage
   }))
 );
 const CheckoutCancelPage = reactExports.lazy(
-  () => __vitePreload(() => import("./CheckoutCancelPage-CeBWBLm5.js"), true ? [] : void 0).then((m2) => ({
+  () => __vitePreload(() => import("./CheckoutCancelPage-p6-YroCI.js"), true ? [] : void 0).then((m2) => ({
     default: m2.CheckoutCancelPage
   }))
 );
 const AdminRealBritishHistoryPage = reactExports.lazy(
-  () => __vitePreload(() => import("./AdminRealBritishHistoryPage-Dp5L6v7e.js"), true ? __vite__mapDeps([2,1]) : void 0).then((m2) => ({
+  () => __vitePreload(() => import("./AdminRealBritishHistoryPage-KmwTnK_r.js"), true ? __vite__mapDeps([2,1]) : void 0).then((m2) => ({
     default: m2.AdminRealBritishHistoryPage
   }))
 );
 const AdminStripePage = reactExports.lazy(
-  () => __vitePreload(() => import("./AdminStripePage-CZsxZR9m.js"), true ? [] : void 0).then((m2) => ({
+  () => __vitePreload(() => import("./AdminStripePage-B7D0XvDH.js"), true ? [] : void 0).then((m2) => ({
     default: m2.AdminStripePage
   }))
 );
@@ -60650,6 +60587,7 @@ export {
   OG_IMAGE_URL as O,
   ROUTES as R,
   Section as S,
+  VIDEO_HISTORIC_LONDON as V,
   useEntranceAnimation as a,
   useGalleryItems as b,
   createActor as c,
@@ -60662,10 +60600,10 @@ export {
   jsxRuntimeExports as j,
   useLocation as k,
   useBlogPostBySlug as l,
-  useHeroVideoConfig as m,
-  useSeoMeta as n,
-  buildBreadcrumbJsonLd as o,
-  SITE_BASE_URL as p,
+  useSeoMeta as m,
+  buildBreadcrumbJsonLd as n,
+  SITE_BASE_URL as o,
+  VIDEO_NEWSPAPER_AD as p,
   useAllBlogPosts as q,
   reactExports as r,
   useCreateBlogPost as s,

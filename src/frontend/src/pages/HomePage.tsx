@@ -4,9 +4,15 @@ import { Hero } from "@/components/Hero";
 import { VigilSpotlight } from "@/components/sections/VigilSpotlight";
 import { usePublishedPostsByCategory } from "@/hooks/useBlogPosts";
 import { useEntranceAnimation } from "@/hooks/useEntranceAnimation";
-import { useHeroVideoConfig } from "@/hooks/useHeroVideoConfig";
 import { useSeoMeta } from "@/hooks/useSeoMeta";
-import { VIDEO_MBGA_HERO } from "@/lib/assets";
+import {
+  VIDEO_EDUCATION_CROWD,
+  VIDEO_FLAG_WAVING,
+  VIDEO_HISTORIC_LONDON,
+  VIDEO_MBGA_HERO,
+  VIDEO_MERCH_DISPLAY,
+  VIDEO_NEWSPAPER_AD,
+} from "@/lib/assets";
 import { ROUTES } from "@/lib/routes";
 import { PAGE_SEO, SITE_BASE_URL, buildWebsiteJsonLd } from "@/lib/seo";
 import { Link } from "@tanstack/react-router";
@@ -180,21 +186,6 @@ const ACHIEVEMENTS: ReadonlyArray<{
 export function HomePage() {
   const containerRef = useEntranceAnimation<HTMLDivElement>();
 
-  // Hero video config — backend-driven via useHeroVideoConfig().getSlot(key)
-  // returns the { videoUrl, posterUrl } for each slot key, falling back to
-  // the baked-in DEFAULT_HERO_VIDEO_SLOT_MAP while loading / on error / on
-  // missing key so heroes never blank out. The rendered hero video
-  // presentation (autoPlay, loop, muted, playsInline, IntersectionObserver
-  // lazy loading, poster fallback, play() retries) is unchanged — only the
-  // data source moves from static VIDEO_* / POSTER_* constants to a backend
-  // query.
-  const { getSlot } = useHeroVideoConfig();
-  const flagWaving = getSlot("flag-waving");
-  const educationCrowd = getSlot("education-crowd");
-  const merchDisplay = getSlot("merch-display");
-  const historicLondon = getSlot("historic-london");
-  const newspaperAd = getSlot("newspaper-ad");
-
   // SEO meta — homepage gets the WebSite schema (Organization is handled
   // globally by Layout). No BreadcrumbList on the homepage (it is the
   // root). canonical + og:url use the absolute SITE_BASE_URL + "/".
@@ -225,7 +216,7 @@ export function HomePage() {
           headline="WINNING THE CULTURAL WAR"
           sub="Britain's fastest-growing conservative youth movement. Question. Challenge. Fight Back."
           videoLabel="Hero video 1 - Union Jack waving"
-          videoSrc={flagWaving?.videoUrl}
+          videoSrc={VIDEO_FLAG_WAVING}
           buttons={[
             {
               label: "JOIN THE MOVEMENT",
@@ -346,7 +337,7 @@ export function HomePage() {
         headline="EVENTS & EDUCATION WATCH"
         sub="Campus speeches, rallies, and a confidential channel to report classroom bias."
         videoLabel="Hero video 2 - modern London montage"
-        videoSrc={educationCrowd?.videoUrl}
+        videoSrc={VIDEO_EDUCATION_CROWD}
         buttons={[
           { label: "VIEW CALENDAR", to: ROUTES.events, variant: "primary" },
           {
@@ -363,7 +354,7 @@ export function HomePage() {
         headline="WEAR THE MESSAGE"
         sub="Every order funds the movement. Shipped across the UK."
         videoLabel="Hero video 3 - merch flatlay on Union Jack"
-        videoSrc={merchDisplay?.videoUrl}
+        videoSrc={VIDEO_MERCH_DISPLAY}
         buttons={[
           {
             label: "SHOP THE COLLECTION",
@@ -379,7 +370,7 @@ export function HomePage() {
         headline="PRESERVING OUR HERITAGE"
         sub="Rooted in the story of Britain — and fighting for its future."
         videoLabel="Hero video 4 - black-and-white Victorian London"
-        videoSrc={historicLondon?.videoUrl}
+        videoSrc={VIDEO_HISTORIC_LONDON}
         buttons={[
           {
             label: "LEARN OUR HISTORY",
@@ -416,7 +407,7 @@ export function HomePage() {
             and the mobile play() retry path. lazy defaults to true since
             this section is below the fold. */}
         <BackgroundVideo
-          videoSrc={newspaperAd!.videoUrl}
+          videoSrc={VIDEO_NEWSPAPER_AD}
           ariaLabel="Background video - UK newspaper collage"
         />
 
