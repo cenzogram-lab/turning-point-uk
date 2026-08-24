@@ -9,7 +9,7 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { useEntranceAnimation } from "@/hooks/useEntranceAnimation";
 import { useSeoMeta } from "@/hooks/useSeoMeta";
-import { VIDEO_EDUCATION_CROWD } from "@/lib/assets";
+import { VIDEO_ACTIVISM } from "@/lib/assets";
 import { ROUTES } from "@/lib/routes";
 import {
   BREADCRUMB_TRAILS,
@@ -104,7 +104,7 @@ export function EducationWatchPage() {
           { label: "READ THE FAQ", to: "#faq", variant: "outline" },
         ]}
         lazy={false}
-        videoSrc={VIDEO_EDUCATION_CROWD}
+        videoSrc={VIDEO_ACTIVISM}
       />
 
       {/* Student rights — confidential, no tracking. */}

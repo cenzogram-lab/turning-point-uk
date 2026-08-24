@@ -11,51 +11,74 @@ export const FULL_ARROW_SRC =
   "/assets/generated/tpuk-arrow-full.dim_1024x1024.png";
 
 /**
- * Hero background video URLs.
+ * Hero background video URLs — embedded directly in code.
  *
- * All hero videos are served from the external file.garden host per the
- * authoritative video mapping. Every hero renders a native HTML5
- * <video autoPlay loop muted playsInline> background with NO poster/fallback
- * image — the ambient dark page background shows while the video buffers.
+ * Every hero and background container reads one of these constants; nothing
+ * is fetched from the backend, so the code carries the footage with it.
  *
- * Mapping (authoritative — do not "correct"):
- *   VIDEO_FLAG_WAVING     — homepage main top hero + the DEFAULT for every
- *                           other hero section across the site that has no
- *                           specific video assigned (about, activism,
- *                           activism-kit, university-societies, petition,
- *                           join-us, contact, gallery, donate, patreon, etc.)
- *   VIDEO_MASCOT_WALK     — $MBGA homepage section + /mbga page hero
- *   VIDEO_NEWSPAPER_AD    — Latest News / Blog / Newsroom homepage section +
- *                           /blog + article page heroes
- *   VIDEO_HISTORIC_LONDON — British History homepage section +
- *                           /real-british-history hero
- *   VIDEO_EDUCATION_CROWD — Education Watch homepage section +
- *                           /education-watch hero
- *   VIDEO_MERCH_DISPLAY   — Official Merchandise homepage section +
- *                           /merchandise hero
+ * Authoritative mapping (do not "correct"):
+ *
+ *   VIDEO_MAIN_HERO      0806.mp4
+ *                        Homepage top hero ("Winning the Cultural War") AND
+ *                        the universal default for every hero that has no
+ *                        specific video assigned (about, donate, contact,
+ *                        events, join-us, gallery, patreon, ...).
+ *
+ *   VIDEO_SHOP_HERO      Shop / Official Merchandise ONLY — the homepage
+ *                        "Wear the Message" section and the /merchandise
+ *                        hero. Deliberately its OWN constant, separate from
+ *                        VIDEO_MAIN_HERO, so the shop footage can be swapped
+ *                        without touching any other hero. Change ONLY this
+ *                        line to give the shop its own distinct video.
+ *
+ *   VIDEO_ACTIVISM       hf_20260806_...mp4
+ *                        Education Watch (homepage section + page) AND every
+ *                        activism page: /activism, /become-an-activist,
+ *                        /activism-kit, /university-societies, /petition.
+ *
+ *   VIDEO_BRITISH_HISTORY  0806(1).mp4 — homepage British History section +
+ *                        /real-british-history + RBH article heroes.
+ *
+ *   VIDEO_MBGA           mcointpuk.mp4 — homepage $MBGA section + /mbga.
+ *
+ *   VIDEO_NEWSROOM       0803(4).mp4 — homepage Latest News section + /blog
+ *                        + article heroes.
+ *
+ * Parentheses are percent-encoded (%28 / %29) because they are not valid
+ * unescaped in a URL literal; the browser resolves them to 0806(1).mp4 and
+ * 0803(4).mp4.
  */
 const VIDEO_BASE =
   "https://file.garden/aoCNkzJZYxDjRiWz/TPUK%20BACKGROUND%20HER";
 
-export const VIDEO_FLAG_WAVING = `${VIDEO_BASE}/0806.mp4`;
-export const VIDEO_MASCOT_WALK = `${VIDEO_BASE}/mcointpuk.mp4`;
-export const VIDEO_MERCH_DISPLAY = `${VIDEO_BASE}/0806.mp4`;
-export const VIDEO_HISTORIC_LONDON = `${VIDEO_BASE}/0806%281%29.mp4`;
-export const VIDEO_EDUCATION_CROWD = `${VIDEO_BASE}/hf_20260806_184005_968d6943-9d45-4c67-9926-2d826067622e.mp4`;
-export const VIDEO_NEWSPAPER_AD = `${VIDEO_BASE}/0803%284%29.mp4`;
+/** Homepage top hero + universal default for all unassigned heroes. */
+export const VIDEO_MAIN_HERO = `${VIDEO_BASE}/0806.mp4`;
 
 /**
- * $MBGA hero background video — used for BOTH the homepage "$MBGA" section
- * and the /mbga hero.
+ * Shop / Official Merchandise ONLY (homepage merch section + /merchandise).
+ * Currently the same file as VIDEO_MAIN_HERO because the original mapping
+ * assigned 0806.mp4 to both; swap this one line when the shop gets its own
+ * dedicated footage — nothing else needs to change.
  */
-export const VIDEO_MBGA_HERO = VIDEO_MASCOT_WALK;
+export const VIDEO_SHOP_HERO = `${VIDEO_BASE}/0806.mp4`;
+
+/** Education Watch + every activism page hero. */
+export const VIDEO_ACTIVISM = `${VIDEO_BASE}/hf_20260806_184005_968d6943-9d45-4c67-9926-2d826067622e.mp4`;
+
+/** British History section + /real-british-history + RBH article heroes. */
+export const VIDEO_BRITISH_HISTORY = `${VIDEO_BASE}/0806%281%29.mp4`;
+
+/** $MBGA section + /mbga hero. */
+export const VIDEO_MBGA = `${VIDEO_BASE}/mcointpuk.mp4`;
+
+/** Latest News / Newsroom section + /blog + article heroes. */
+export const VIDEO_NEWSROOM = `${VIDEO_BASE}/0803%284%29.mp4`;
 
 /**
- * Universal default hero video — the main homepage hero video, used as the
- * background for every hero section across the site that does not have a
- * specific video assigned.
+ * Universal default hero video — the fallback <Hero> and <BackgroundVideo>
+ * substitute whenever a call site passes no explicit source.
  */
-export const VIDEO_DEFAULT_HERO = VIDEO_FLAG_WAVING;
+export const VIDEO_DEFAULT_HERO = VIDEO_MAIN_HERO;
 
 /**
  * Endorsement graphics — social-media proof images shown on the $MBGA page.

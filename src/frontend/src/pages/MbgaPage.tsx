@@ -2,11 +2,7 @@ import { BackgroundVideo } from "@/components/BackgroundVideo";
 import { Section } from "@/components/Section";
 import { useEntranceAnimation } from "@/hooks/useEntranceAnimation";
 import { useSeoMeta } from "@/hooks/useSeoMeta";
-import {
-  ELON_MUSK_MBGA,
-  ELON_MUSK_MBGA_2,
-  VIDEO_MBGA_HERO,
-} from "@/lib/assets";
+import { ELON_MUSK_MBGA, ELON_MUSK_MBGA_2, VIDEO_MBGA } from "@/lib/assets";
 import {
   BREADCRUMB_TRAILS,
   PAGE_SEO,
@@ -308,7 +304,7 @@ function DexScreenerEmbed() {
 function HeroVideo() {
   return (
     <BackgroundVideo
-      videoSrc={VIDEO_MBGA_HERO}
+      videoSrc={VIDEO_MBGA}
       lazy={false}
       ariaLabel="$MBGA hero background video - lion mascots walking"
     />

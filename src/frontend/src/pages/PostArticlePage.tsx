@@ -3,7 +3,7 @@ import { MarkdownRenderer } from "@/components/MarkdownRenderer";
 import { useBlogPostBySlug } from "@/hooks/useBlogPosts";
 import { useEntranceAnimation } from "@/hooks/useEntranceAnimation";
 import { useSeoMeta } from "@/hooks/useSeoMeta";
-import { VIDEO_HISTORIC_LONDON, VIDEO_NEWSPAPER_AD } from "@/lib/assets";
+import { VIDEO_BRITISH_HISTORY, VIDEO_NEWSROOM } from "@/lib/assets";
 import { BLOG_COVER_FALLBACK } from "@/lib/assets";
 import { ROUTES } from "@/lib/routes";
 import { OG_IMAGE_URL, SITE_BASE_URL, buildBreadcrumbJsonLd } from "@/lib/seo";
@@ -119,8 +119,8 @@ function resolveBackLink(
  * backend config) so the article hero always renders the intended footage.
  */
 const HERO_VIDEO_BY_SLOT: Record<string, string> = {
-  "newspaper-ad": VIDEO_NEWSPAPER_AD,
-  "historic-london": VIDEO_HISTORIC_LONDON,
+  "newspaper-ad": VIDEO_NEWSROOM,
+  "historic-london": VIDEO_BRITISH_HISTORY,
 };
 
 export function PostArticlePage() {
@@ -333,7 +333,7 @@ export function PostArticlePage() {
   const heroSlotKey = post
     ? pickHeroVideoSlotKey(alias, post.category)
     : "newspaper-ad";
-  const heroVideo = HERO_VIDEO_BY_SLOT[heroSlotKey] ?? VIDEO_NEWSPAPER_AD;
+  const heroVideo = HERO_VIDEO_BY_SLOT[heroSlotKey] ?? VIDEO_NEWSROOM;
   const backLink = post
     ? resolveBackLink(alias, post.category)
     : { to: ROUTES.blog, label: "Back to Blog" };

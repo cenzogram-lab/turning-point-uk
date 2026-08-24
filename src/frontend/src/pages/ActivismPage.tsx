@@ -2,6 +2,7 @@ import { Hero } from "@/components/Hero";
 import { Section } from "@/components/Section";
 import { useEntranceAnimation } from "@/hooks/useEntranceAnimation";
 import { useSeoMeta } from "@/hooks/useSeoMeta";
+import { VIDEO_ACTIVISM } from "@/lib/assets";
 import { ROUTES } from "@/lib/routes";
 import {
   BREADCRUMB_TRAILS,
@@ -126,6 +127,7 @@ export function ActivismPage() {
           },
         ]}
         lazy={false}
+        videoSrc={VIDEO_ACTIVISM}
       />
 
       {/* Six-card grid — the six ways to join the fight. */}

@@ -1,4 +1,4 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/AdminBlogPage-DDyJF-aT.js","assets/useBlogUpload-DYRChk1Q.js","assets/AdminRealBritishHistoryPage-1mjeb04b.js"])))=>i.map(i=>d[i]);
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/AdminBlogPage-BXpsXkPQ.js","assets/useBlogUpload-tgczBmxX.js","assets/AdminRealBritishHistoryPage-7LPfNrfG.js"])))=>i.map(i=>d[i]);
 var __defProp = Object.defineProperty;
 var __typeError = (msg) => {
   throw TypeError(msg);
@@ -40909,14 +40909,13 @@ const SOCIAL_ICONS = {
   )
 };
 const VIDEO_BASE = "https://file.garden/aoCNkzJZYxDjRiWz/TPUK%20BACKGROUND%20HER";
-const VIDEO_FLAG_WAVING = `${VIDEO_BASE}/0806.mp4`;
-const VIDEO_MASCOT_WALK = `${VIDEO_BASE}/mcointpuk.mp4`;
-const VIDEO_MERCH_DISPLAY = `${VIDEO_BASE}/0806.mp4`;
-const VIDEO_HISTORIC_LONDON = `${VIDEO_BASE}/0806%281%29.mp4`;
-const VIDEO_EDUCATION_CROWD = `${VIDEO_BASE}/hf_20260806_184005_968d6943-9d45-4c67-9926-2d826067622e.mp4`;
-const VIDEO_NEWSPAPER_AD = `${VIDEO_BASE}/0803%284%29.mp4`;
-const VIDEO_MBGA_HERO = VIDEO_MASCOT_WALK;
-const VIDEO_DEFAULT_HERO = VIDEO_FLAG_WAVING;
+const VIDEO_MAIN_HERO = `${VIDEO_BASE}/0806.mp4`;
+const VIDEO_SHOP_HERO = `${VIDEO_BASE}/0806.mp4`;
+const VIDEO_ACTIVISM = `${VIDEO_BASE}/hf_20260806_184005_968d6943-9d45-4c67-9926-2d826067622e.mp4`;
+const VIDEO_BRITISH_HISTORY = `${VIDEO_BASE}/0806%281%29.mp4`;
+const VIDEO_MBGA = `${VIDEO_BASE}/mcointpuk.mp4`;
+const VIDEO_NEWSROOM = `${VIDEO_BASE}/0803%284%29.mp4`;
+const VIDEO_DEFAULT_HERO = VIDEO_MAIN_HERO;
 const ELON_MUSK_MBGA = "/assets/endorsements/elon-musk-mbga.jpg";
 const ELON_MUSK_MBGA_2 = "/assets/endorsements/elon-musk-mbga-2.jpg";
 const BLOG_COVER_FALLBACK = "/assets/generated/cover-free-speech.dim_1280x720.webp";
@@ -40935,32 +40934,32 @@ const DEFAULT_NAV_ENTRIES = NAV_ENTRIES;
 const DEFAULT_HERO_VIDEO_SLOTS = [
   {
     key: "flag-waving",
-    videoUrl: VIDEO_FLAG_WAVING,
+    videoUrl: VIDEO_MAIN_HERO,
     posterUrl: ""
   },
   {
     key: "mascot-walk",
-    videoUrl: VIDEO_MASCOT_WALK,
+    videoUrl: VIDEO_MBGA,
     posterUrl: ""
   },
   {
     key: "newspaper-ad",
-    videoUrl: VIDEO_NEWSPAPER_AD,
+    videoUrl: VIDEO_NEWSROOM,
     posterUrl: ""
   },
   {
     key: "historic-london",
-    videoUrl: VIDEO_HISTORIC_LONDON,
+    videoUrl: VIDEO_BRITISH_HISTORY,
     posterUrl: ""
   },
   {
     key: "education-crowd",
-    videoUrl: VIDEO_EDUCATION_CROWD,
+    videoUrl: VIDEO_ACTIVISM,
     posterUrl: ""
   },
   {
     key: "merch-display",
-    videoUrl: VIDEO_MERCH_DISPLAY,
+    videoUrl: VIDEO_SHOP_HERO,
     posterUrl: ""
   }
 ];
@@ -50082,6 +50081,7 @@ function BackgroundVideo({
             controls: false,
             disablePictureInPicture: true,
             disableRemotePlayback: true,
+            controlsList: "nodownload",
             onCanPlayThrough: () => requestPlay(),
             onCanPlay: () => requestPlay(),
             onLoadedData: () => requestPlay(),
@@ -51100,7 +51100,8 @@ function ActivismKitPage() {
             variant: "outline"
           }
         ],
-        lazy: false
+        lazy: false,
+        videoSrc: VIDEO_ACTIVISM
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -51734,7 +51735,8 @@ function ActivismPage() {
             variant: "primary"
           }
         ],
-        lazy: false
+        lazy: false,
+        videoSrc: VIDEO_ACTIVISM
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -51952,7 +51954,8 @@ function BecomeAnActivistPage() {
             variant: "outline"
           }
         ],
-        lazy: false
+        lazy: false,
+        videoSrc: VIDEO_ACTIVISM
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -52828,7 +52831,7 @@ function BlogPage() {
         headline: "BLOG",
         sub: "Commentary, campaign updates and news.",
         videoLabel: "Blog hero video",
-        videoSrc: VIDEO_NEWSPAPER_AD
+        videoSrc: VIDEO_NEWSROOM
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -53839,7 +53842,7 @@ function EducationWatchPage() {
           { label: "READ THE FAQ", to: "#faq", variant: "outline" }
         ],
         lazy: false,
-        videoSrc: VIDEO_EDUCATION_CROWD
+        videoSrc: VIDEO_ACTIVISM
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -56031,7 +56034,7 @@ function HomePage() {
         headline: "WINNING THE CULTURAL WAR",
         sub: "Britain's fastest-growing conservative youth movement. Question. Challenge. Fight Back.",
         videoLabel: "Hero video 1 - Union Jack waving",
-        videoSrc: VIDEO_FLAG_WAVING,
+        videoSrc: VIDEO_MAIN_HERO,
         buttons: [
           {
             label: "JOIN THE MOVEMENT",
@@ -56122,7 +56125,7 @@ function HomePage() {
         headline: "EVENTS & EDUCATION WATCH",
         sub: "Campus speeches, rallies, and a confidential channel to report classroom bias.",
         videoLabel: "Hero video 2 - modern London montage",
-        videoSrc: VIDEO_EDUCATION_CROWD,
+        videoSrc: VIDEO_ACTIVISM,
         buttons: [
           { label: "VIEW CALENDAR", to: ROUTES.events, variant: "primary" },
           {
@@ -56140,7 +56143,7 @@ function HomePage() {
         headline: "WEAR THE MESSAGE",
         sub: "Every order funds the movement. Shipped across the UK.",
         videoLabel: "Hero video 3 - merch flatlay on Union Jack",
-        videoSrc: VIDEO_MERCH_DISPLAY,
+        videoSrc: VIDEO_SHOP_HERO,
         buttons: [
           {
             label: "SHOP THE COLLECTION",
@@ -56157,7 +56160,7 @@ function HomePage() {
         headline: "PRESERVING OUR HERITAGE",
         sub: "Rooted in the story of Britain — and fighting for its future.",
         videoLabel: "Hero video 4 - black-and-white Victorian London",
-        videoSrc: VIDEO_HISTORIC_LONDON,
+        videoSrc: VIDEO_BRITISH_HISTORY,
         buttons: [
           {
             label: "LEARN OUR HISTORY",
@@ -56176,7 +56179,7 @@ function HomePage() {
           /* @__PURE__ */ jsxRuntimeExports.jsx(
             BackgroundVideo,
             {
-              videoSrc: VIDEO_NEWSPAPER_AD,
+              videoSrc: VIDEO_NEWSROOM,
               ariaLabel: "Background video - UK newspaper collage"
             }
           ),
@@ -56294,7 +56297,7 @@ function HomePage() {
           /* @__PURE__ */ jsxRuntimeExports.jsx(
             BackgroundVideo,
             {
-              videoSrc: VIDEO_MBGA_HERO,
+              videoSrc: VIDEO_MBGA,
               ariaLabel: "Background video - $MBGA hero"
             }
           ),
@@ -57246,7 +57249,7 @@ function HeroVideo() {
   return /* @__PURE__ */ jsxRuntimeExports.jsx(
     BackgroundVideo,
     {
-      videoSrc: VIDEO_MBGA_HERO,
+      videoSrc: VIDEO_MBGA,
       lazy: false,
       ariaLabel: "$MBGA hero background video - lion mascots walking"
     }
@@ -57818,7 +57821,7 @@ function MerchandisePage() {
         headline: "WEAR THE MESSAGE",
         videoLabel: "Merchandise hero video",
         lazy: false,
-        videoSrc: VIDEO_MERCH_DISPLAY
+        videoSrc: VIDEO_SHOP_HERO
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -58314,7 +58317,8 @@ function PetitionPage() {
             variant: "outline"
           }
         ],
-        lazy: false
+        lazy: false,
+        videoSrc: VIDEO_ACTIVISM
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -59004,7 +59008,7 @@ function RealBritishHistoryPage() {
     /* @__PURE__ */ jsxRuntimeExports.jsx(
       Hero,
       {
-        videoSrc: VIDEO_HISTORIC_LONDON,
+        videoSrc: VIDEO_BRITISH_HISTORY,
         videoLabel: "Real British History hero",
         eyebrow: "Turning Point UK",
         headline: "REAL BRITISH HISTORY",
@@ -59801,7 +59805,8 @@ function UniversitySocietiesPage() {
             variant: "primary"
           }
         ],
-        lazy: false
+        lazy: false,
+        videoSrc: VIDEO_ACTIVISM
       }
     ),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -60579,37 +60584,37 @@ function UniversitySocietiesPage() {
   ] });
 }
 const AdminGalleryPage = reactExports.lazy(
-  () => __vitePreload(() => import("./AdminGalleryPage-auopp-1f.js"), true ? [] : void 0).then((m2) => ({
+  () => __vitePreload(() => import("./AdminGalleryPage-DUvPPPC9.js"), true ? [] : void 0).then((m2) => ({
     default: m2.AdminGalleryPage
   }))
 );
 const PostArticlePage = reactExports.lazy(
-  () => __vitePreload(() => import("./PostArticlePage-D-MW84y0.js"), true ? [] : void 0).then((m2) => ({
+  () => __vitePreload(() => import("./PostArticlePage-CYkS5ovk.js"), true ? [] : void 0).then((m2) => ({
     default: m2.PostArticlePage
   }))
 );
 const AdminBlogPage = reactExports.lazy(
-  () => __vitePreload(() => import("./AdminBlogPage-DDyJF-aT.js"), true ? __vite__mapDeps([0,1]) : void 0).then((m2) => ({
+  () => __vitePreload(() => import("./AdminBlogPage-BXpsXkPQ.js"), true ? __vite__mapDeps([0,1]) : void 0).then((m2) => ({
     default: m2.AdminBlogPage
   }))
 );
 const CheckoutSuccessPage = reactExports.lazy(
-  () => __vitePreload(() => import("./CheckoutSuccessPage-B9EZfDyp.js"), true ? [] : void 0).then((m2) => ({
+  () => __vitePreload(() => import("./CheckoutSuccessPage-rX0OBLZL.js"), true ? [] : void 0).then((m2) => ({
     default: m2.CheckoutSuccessPage
   }))
 );
 const CheckoutCancelPage = reactExports.lazy(
-  () => __vitePreload(() => import("./CheckoutCancelPage-kmzOSmfi.js"), true ? [] : void 0).then((m2) => ({
+  () => __vitePreload(() => import("./CheckoutCancelPage-D0-IPbAN.js"), true ? [] : void 0).then((m2) => ({
     default: m2.CheckoutCancelPage
   }))
 );
 const AdminRealBritishHistoryPage = reactExports.lazy(
-  () => __vitePreload(() => import("./AdminRealBritishHistoryPage-1mjeb04b.js"), true ? __vite__mapDeps([2,1]) : void 0).then((m2) => ({
+  () => __vitePreload(() => import("./AdminRealBritishHistoryPage-7LPfNrfG.js"), true ? __vite__mapDeps([2,1]) : void 0).then((m2) => ({
     default: m2.AdminRealBritishHistoryPage
   }))
 );
 const AdminStripePage = reactExports.lazy(
-  () => __vitePreload(() => import("./AdminStripePage-C3a6JKN1.js"), true ? [] : void 0).then((m2) => ({
+  () => __vitePreload(() => import("./AdminStripePage-DBIE55Bl.js"), true ? [] : void 0).then((m2) => ({
     default: m2.AdminStripePage
   }))
 );
@@ -60840,7 +60845,7 @@ export {
   OG_IMAGE_URL as O,
   ROUTES as R,
   Section as S,
-  VIDEO_HISTORIC_LONDON as V,
+  VIDEO_BRITISH_HISTORY as V,
   useEntranceAnimation as a,
   useGalleryItems as b,
   createActor as c,
@@ -60856,7 +60861,7 @@ export {
   useSeoMeta as m,
   buildBreadcrumbJsonLd as n,
   SITE_BASE_URL as o,
-  VIDEO_NEWSPAPER_AD as p,
+  VIDEO_NEWSROOM as p,
   useAllBlogPosts as q,
   reactExports as r,
   useCreateBlogPost as s,
