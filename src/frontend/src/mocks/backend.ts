@@ -225,7 +225,7 @@ const SEED_HERO_VIDEO_SLOTS: HeroVideoSlot[] = [
   {
     key: "flag-waving",
     videoUrl:
-      "https://file.garden/aoCNkzJZYxDjRiWz/TPUK%20BACKGROUND%20HER/0806.mp4",
+      "https://file.garden/aoCNkzJZYxDjRiWz/TPUK%20BACKGROUND%20HER/0806%283%29.mp4",
     posterUrl: "",
   },
   {
