@@ -18,18 +18,19 @@ export const FULL_ARROW_SRC =
  *
  * Authoritative mapping (do not "correct"):
  *
- *   VIDEO_MAIN_HERO      0806.mp4
+ *   VIDEO_MAIN_HERO      0806(3).mp4
  *                        Homepage top hero ("Winning the Cultural War") AND
  *                        the universal default for every hero that has no
  *                        specific video assigned (about, donate, contact,
  *                        events, join-us, gallery, patreon, ...).
  *
- *   VIDEO_SHOP_HERO      Shop / Official Merchandise ONLY — the homepage
+ *   VIDEO_SHOP_HERO      0806.mp4
+ *                        Shop / Official Merchandise ONLY — the homepage
  *                        "Wear the Message" section and the /merchandise
- *                        hero. Deliberately its OWN constant, separate from
- *                        VIDEO_MAIN_HERO, so the shop footage can be swapped
- *                        without touching any other hero. Change ONLY this
- *                        line to give the shop its own distinct video.
+ *                        hero. This is the merch footage; it must NOT leak
+ *                        onto any other hero. It is its OWN constant,
+ *                        separate from VIDEO_MAIN_HERO, precisely so those
+ *                        two heroes are the only places it appears.
  *
  *   VIDEO_ACTIVISM       hf_20260806_...mp4
  *                        Education Watch (homepage section + page) AND every
@@ -45,20 +46,21 @@ export const FULL_ARROW_SRC =
  *                        + article heroes.
  *
  * Parentheses are percent-encoded (%28 / %29) because they are not valid
- * unescaped in a URL literal; the browser resolves them to 0806(1).mp4 and
- * 0803(4).mp4.
+ * unescaped in a URL literal; the browser resolves them to 0806(3).mp4,
+ * 0806(1).mp4 and 0803(4).mp4.
  */
 const VIDEO_BASE =
   "https://file.garden/aoCNkzJZYxDjRiWz/TPUK%20BACKGROUND%20HER";
 
 /** Homepage top hero + universal default for all unassigned heroes. */
-export const VIDEO_MAIN_HERO = `${VIDEO_BASE}/0806.mp4`;
+export const VIDEO_MAIN_HERO = `${VIDEO_BASE}/0806%283%29.mp4`;
 
 /**
  * Shop / Official Merchandise ONLY (homepage merch section + /merchandise).
- * Currently the same file as VIDEO_MAIN_HERO because the original mapping
- * assigned 0806.mp4 to both; swap this one line when the shop gets its own
- * dedicated footage — nothing else needs to change.
+ * 0806.mp4 is the merch footage: it belongs to those two heroes and nowhere
+ * else. Every other hero reads VIDEO_MAIN_HERO / VIDEO_DEFAULT_HERO, so this
+ * constant having its own value is what keeps the merch clip off the rest of
+ * the site.
  */
 export const VIDEO_SHOP_HERO = `${VIDEO_BASE}/0806.mp4`;
 
