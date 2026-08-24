@@ -4,7 +4,7 @@ import { Section } from "@/components/Section";
 import { usePublishedPostsByCategory } from "@/hooks/useBlogPosts";
 import { useEntranceAnimation } from "@/hooks/useEntranceAnimation";
 import { useSeoMeta } from "@/hooks/useSeoMeta";
-import { VIDEO_HISTORIC_LONDON } from "@/lib/assets";
+import { VIDEO_BRITISH_HISTORY } from "@/lib/assets";
 import {
   BREADCRUMB_TRAILS,
   PAGE_SEO,
@@ -156,7 +156,7 @@ export function RealBritishHistoryPage() {
           overlay at z-10, and the eyebrow + headline + sub at z-20, with
           a bottom-edge fade that blends into the hub-header beneath it. */}
       <Hero
-        videoSrc={VIDEO_HISTORIC_LONDON}
+        videoSrc={VIDEO_BRITISH_HISTORY}
         videoLabel="Real British History hero"
         eyebrow="Turning Point UK"
         headline="REAL BRITISH HISTORY"

@@ -243,6 +243,10 @@ export function BackgroundVideo({
           // foreground content.
           disablePictureInPicture
           disableRemotePlayback
+          // From the supplied embed snippet. Controls are off for a background
+          // video, so this only matters if they are ever turned on — but it
+          // costs nothing and honours the intent of the original markup.
+          controlsList="nodownload"
           // Reliability hooks for the in-view hero on mobile: the initial
           // play() call frequently rejects while the source is still
           // buffering. These buffer-readiness events each retry play() so the

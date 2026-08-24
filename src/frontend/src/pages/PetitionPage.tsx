@@ -3,6 +3,7 @@ import { Section } from "@/components/Section";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useEntranceAnimation } from "@/hooks/useEntranceAnimation";
 import { useSeoMeta } from "@/hooks/useSeoMeta";
+import { VIDEO_ACTIVISM } from "@/lib/assets";
 import { ROUTES } from "@/lib/routes";
 import {
   BREADCRUMB_TRAILS,
@@ -57,6 +58,7 @@ export function PetitionPage() {
           },
         ]}
         lazy={false}
+        videoSrc={VIDEO_ACTIVISM}
       />
 
       {/* Real impact — the Gurkha veterans pension petition. */}

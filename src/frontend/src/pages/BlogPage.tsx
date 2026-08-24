@@ -6,7 +6,7 @@ import { usePublishedPostsByCategory } from "@/hooks/useBlogPosts";
 import { useBlogSeed } from "@/hooks/useBlogSeed";
 import { useEntranceAnimation } from "@/hooks/useEntranceAnimation";
 import { useSeoMeta } from "@/hooks/useSeoMeta";
-import { VIDEO_NEWSPAPER_AD } from "@/lib/assets";
+import { VIDEO_NEWSROOM } from "@/lib/assets";
 import { BLOG_COVER_FALLBACK } from "@/lib/assets";
 import { ROUTES } from "@/lib/routes";
 import {
@@ -162,7 +162,7 @@ export function BlogPage() {
         headline="BLOG"
         sub="Commentary, campaign updates and news."
         videoLabel="Blog hero video"
-        videoSrc={VIDEO_NEWSPAPER_AD}
+        videoSrc={VIDEO_NEWSROOM}
       />
 
       {/* Article grid — tall, no-snap section. */}

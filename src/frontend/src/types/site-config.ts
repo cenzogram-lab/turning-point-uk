@@ -3,12 +3,12 @@ import type {
   NavConfig as BackendNavConfig,
 } from "@/backend";
 import {
-  VIDEO_EDUCATION_CROWD,
-  VIDEO_FLAG_WAVING,
-  VIDEO_HISTORIC_LONDON,
-  VIDEO_MASCOT_WALK,
-  VIDEO_MERCH_DISPLAY,
-  VIDEO_NEWSPAPER_AD,
+  VIDEO_ACTIVISM,
+  VIDEO_BRITISH_HISTORY,
+  VIDEO_MAIN_HERO,
+  VIDEO_MBGA,
+  VIDEO_NEWSROOM,
+  VIDEO_SHOP_HERO,
 } from "@/lib/assets";
 import {
   NAV_ENTRIES,
@@ -144,32 +144,32 @@ export function toHeroVideoSlotMap(
 export const DEFAULT_HERO_VIDEO_SLOTS: readonly HeroVideoSlot[] = [
   {
     key: "flag-waving",
-    videoUrl: VIDEO_FLAG_WAVING,
+    videoUrl: VIDEO_MAIN_HERO,
     posterUrl: "",
   },
   {
     key: "mascot-walk",
-    videoUrl: VIDEO_MASCOT_WALK,
+    videoUrl: VIDEO_MBGA,
     posterUrl: "",
   },
   {
     key: "newspaper-ad",
-    videoUrl: VIDEO_NEWSPAPER_AD,
+    videoUrl: VIDEO_NEWSROOM,
     posterUrl: "",
   },
   {
     key: "historic-london",
-    videoUrl: VIDEO_HISTORIC_LONDON,
+    videoUrl: VIDEO_BRITISH_HISTORY,
     posterUrl: "",
   },
   {
     key: "education-crowd",
-    videoUrl: VIDEO_EDUCATION_CROWD,
+    videoUrl: VIDEO_ACTIVISM,
     posterUrl: "",
   },
   {
     key: "merch-display",
-    videoUrl: VIDEO_MERCH_DISPLAY,
+    videoUrl: VIDEO_SHOP_HERO,
     posterUrl: "",
   },
 ];

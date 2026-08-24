@@ -7,12 +7,12 @@ import { usePublishedPostsByCategory } from "@/hooks/useBlogPosts";
 import { useEntranceAnimation } from "@/hooks/useEntranceAnimation";
 import { useSeoMeta } from "@/hooks/useSeoMeta";
 import {
-  VIDEO_EDUCATION_CROWD,
-  VIDEO_FLAG_WAVING,
-  VIDEO_HISTORIC_LONDON,
-  VIDEO_MBGA_HERO,
-  VIDEO_MERCH_DISPLAY,
-  VIDEO_NEWSPAPER_AD,
+  VIDEO_ACTIVISM,
+  VIDEO_BRITISH_HISTORY,
+  VIDEO_MAIN_HERO,
+  VIDEO_MBGA,
+  VIDEO_NEWSROOM,
+  VIDEO_SHOP_HERO,
 } from "@/lib/assets";
 import { ROUTES } from "@/lib/routes";
 import { PAGE_SEO, SITE_BASE_URL, buildWebsiteJsonLd } from "@/lib/seo";
@@ -36,13 +36,13 @@ import {
  * HomePage — the front door.
  *
  * Strict 10-section order (per user spec):
- *   (1) Main Top Hero — "Winning the Cultural War" [VIDEO_FLAG_WAVING]
+ *   (1) Main Top Hero — "Winning the Cultural War" [VIDEO_MAIN_HERO]
  *   (2) The Movement — "What We Stand For" pillars section (bg-navy)
- *   (3) Events & Education Watch [VIDEO_EDUCATION_CROWD]
- *   (4) Wear the Message / Shop & Merchandise [VIDEO_MERCH_DISPLAY]
- *   (5) Preserving Our Heritage / History [VIDEO_HISTORIC_LONDON]
- *   (6) Blog Showcase — "LATEST FROM THE MOVEMENT" [VIDEO_NEWSPAPER_AD bg]
- *   (7) Memecoin ($MBGA) [VIDEO_MASCOT_WALK bg]
+ *   (3) Events & Education Watch [VIDEO_ACTIVISM]
+ *   (4) Wear the Message / Shop & Merchandise [VIDEO_SHOP_HERO]
+ *   (5) Preserving Our Heritage / History [VIDEO_BRITISH_HISTORY]
+ *   (6) Blog Showcase — "LATEST FROM THE MOVEMENT" [VIDEO_NEWSROOM bg]
+ *   (7) Memecoin ($MBGA) [VIDEO_MBGA bg]
  *   (8) Our Achievements — six polished impact cards on a dark navy grid
  *   (9) FAQ Accordion — mounted in Layout (homepage only)
  *   (10) Footer — rendered by the Layout shell (not added here)
@@ -217,7 +217,7 @@ export function HomePage() {
           headline="WINNING THE CULTURAL WAR"
           sub="Britain's fastest-growing conservative youth movement. Question. Challenge. Fight Back."
           videoLabel="Hero video 1 - Union Jack waving"
-          videoSrc={VIDEO_FLAG_WAVING}
+          videoSrc={VIDEO_MAIN_HERO}
           buttons={[
             {
               label: "JOIN THE MOVEMENT",
@@ -345,7 +345,7 @@ export function HomePage() {
         headline="EVENTS & EDUCATION WATCH"
         sub="Campus speeches, rallies, and a confidential channel to report classroom bias."
         videoLabel="Hero video 2 - modern London montage"
-        videoSrc={VIDEO_EDUCATION_CROWD}
+        videoSrc={VIDEO_ACTIVISM}
         buttons={[
           { label: "VIEW CALENDAR", to: ROUTES.events, variant: "primary" },
           {
@@ -362,7 +362,7 @@ export function HomePage() {
         headline="WEAR THE MESSAGE"
         sub="Every order funds the movement. Shipped across the UK."
         videoLabel="Hero video 3 - merch flatlay on Union Jack"
-        videoSrc={VIDEO_MERCH_DISPLAY}
+        videoSrc={VIDEO_SHOP_HERO}
         buttons={[
           {
             label: "SHOP THE COLLECTION",
@@ -378,7 +378,7 @@ export function HomePage() {
         headline="PRESERVING OUR HERITAGE"
         sub="Rooted in the story of Britain — and fighting for its future."
         videoLabel="Hero video 4 - black-and-white Victorian London"
-        videoSrc={VIDEO_HISTORIC_LONDON}
+        videoSrc={VIDEO_BRITISH_HISTORY}
         buttons={[
           {
             label: "LEARN OUR HISTORY",
@@ -389,7 +389,7 @@ export function HomePage() {
       />
 
       {/* (6) Blog Showcase — "LATEST FROM THE MOVEMENT".
-          A full-bleed section with VIDEO_NEWSPAPER_AD as the background
+          A full-bleed section with VIDEO_NEWSROOM as the background
           hero video, the deep-blue gradient overlay, and a grid of recent
           "Blog" category article preview cards rendered through the shared
           ArticleCard component. A primary "READ ALL ARTICLES" CTA links
@@ -415,7 +415,7 @@ export function HomePage() {
             and the mobile play() retry path. lazy defaults to true since
             this section is below the fold. */}
         <BackgroundVideo
-          videoSrc={VIDEO_NEWSPAPER_AD}
+          videoSrc={VIDEO_NEWSROOM}
           ariaLabel="Background video - UK newspaper collage"
         />
 
@@ -565,7 +565,7 @@ export function HomePage() {
             and the mobile play() retry path. lazy defaults to true since
             this section is below the fold. */}
         <BackgroundVideo
-          videoSrc={VIDEO_MBGA_HERO}
+          videoSrc={VIDEO_MBGA}
           ariaLabel="Background video - $MBGA hero"
         />
 
