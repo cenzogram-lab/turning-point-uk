@@ -2880,6 +2880,9 @@ video {
 .pb-3 {
   padding-bottom: 0.75rem;
 }
+.pb-32 {
+  padding-bottom: 8rem;
+}
 .pb-4 {
   padding-bottom: 1rem;
 }
@@ -7396,6 +7399,10 @@ button.article-share-button {
 
   .lg\:col-span-2 {
     grid-column: span 2 / span 2;
+  }
+
+  .lg\:flex {
+    display: flex;
   }
 
   .lg\:table-cell {

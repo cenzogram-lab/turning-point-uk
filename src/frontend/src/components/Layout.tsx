@@ -172,7 +172,12 @@ export function Layout() {
     // mesh + vignette are painted on fixed body::before / body::after layers
     // at negative z-index; an opaque background here would cover them on
     // every page. Sections/cards above paint translucent surfaces instead.
-    <div className="flex min-h-[100dvh] flex-col bg-transparent">
+    // pb-32 lg:pb-0 on the ROOT (not on <main>): the mobile bottom bar is
+    // fixed, and the Footer / EndorsementsSlider / HomeFaq are SIBLINGS of
+    // <main>, so padding <main> alone left the last ~114px of the footer
+    // sitting under the bar at the very bottom of the page. Padding the shell
+    // root reserves the space for every child.
+    <div className="flex min-h-[100dvh] flex-col bg-transparent pb-32 lg:pb-0">
       <InitialLoadPreloader />
       <RouteTransitionPreloader />
       {/* Persistent red announcement bar — fixed at the very top, above the
@@ -200,7 +205,7 @@ export function Layout() {
       {/* pb-24 lg:pb-0 compensates for the mobile-only fixed email capture bar
           (portaled to body) so page content and the footer are never occluded
           when scrolled to the absolute bottom on mobile. */}
-      <main className="flex-1 pb-24 lg:pb-0">
+      <main className="flex-1">
         <Outlet />
       </main>
       {!isAdmin && <EndorsementsSlider />}
@@ -241,6 +246,34 @@ export function Layout() {
       {typeof document !== "undefined"
         ? createPortal(
             <div className="fixed bottom-0 left-0 w-full z-[100] bg-navy border-t border-border/40 lg:hidden">
+              {/* Mobile Patreon CTA — relocated here from the floating
+                  mid-viewport overlay, which sat at right-0 top-1/2 and
+                  covered page content on phones (hero CTA pills, the
+                  campaign countdown badges). Anchored in the bottom bar
+                  directly above the newsletter subscribe form, it stays
+                  reachable without ever occluding content. The floating
+                  half-oval remains on lg+ where there is empty gutter for
+                  it. */}
+              <div
+                data-ocid="mobile.patreon_cta"
+                className="flex items-center justify-center gap-3 border-b border-border/30 px-4 py-2"
+              >
+                <span
+                  data-ocid="mobile.patreon_cta.label"
+                  className="whitespace-nowrap font-display text-[0.65rem] font-bold uppercase tracking-[0.18em] text-white/75"
+                >
+                  Our podcasts
+                </span>
+                <a
+                  href="https://www.patreon.com/tpointuk"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-ocid="mobile.patreon_cta.button"
+                  className="shrink-0 rounded-full bg-red-600 px-4 py-1.5 font-display text-xs font-bold uppercase tracking-wider text-white transition-colors hover:bg-red-700"
+                >
+                  Join our Patreon
+                </a>
+              </div>
               <form
                 action="https://tpointuk.us3.list-manage.com/subscribe/post?u=6fe69c3d0521b617677c81700&amp;id=2ce1dac979&amp;f_id=0081c1e5f0"
                 method="post"
@@ -274,8 +307,11 @@ export function Layout() {
           )
         : null}
 
-      {/* Global floating half-oval Patreon CTA — fixed on the middle-right
-          edge of the viewport on EVERY route. Stacked column: bold animated
+      {/* Floating half-oval Patreon CTA — DESKTOP ONLY (lg+), fixed on the
+          middle-right edge of the viewport on every route. On mobile this
+          is hidden and the CTA is rendered inside the bottom bar above the
+          subscribe form instead (see mobile.patreon_cta above), so it never
+          overlays page content on small screens. Stacked column: bold animated
           'Our podcasts' label above, half-oval 'Join our patreon' button
           flush against the right side below. Sits at z-[99] so it floats
           above page content but stays clear of the bottom-fixed mobile
@@ -284,7 +320,7 @@ export function Layout() {
           column; the button is a half-oval (rounded-l-full) anchored to
           the right edge. */}
       <div
-        className="fixed top-1/2 right-0 -translate-y-1/2 z-[99] flex flex-col items-end"
+        className="fixed top-1/2 right-0 -translate-y-1/2 z-[99] hidden flex-col items-end lg:flex"
         data-ocid="floating.patreon_cta"
       >
         <span

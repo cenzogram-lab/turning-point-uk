@@ -1,4 +1,4 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/AdminBlogPage-DBJyAF3p.js","assets/useBlogUpload-DM6yUOEW.js","assets/AdminRealBritishHistoryPage-BTjmZpyn.js"])))=>i.map(i=>d[i]);
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/AdminBlogPage-DDyJF-aT.js","assets/useBlogUpload-DYRChk1Q.js","assets/AdminRealBritishHistoryPage-1mjeb04b.js"])))=>i.map(i=>d[i]);
 var __defProp = Object.defineProperty;
 var __typeError = (msg) => {
   throw TypeError(msg);
@@ -49843,7 +49843,12 @@ function Layout() {
     // mesh + vignette are painted on fixed body::before / body::after layers
     // at negative z-index; an opaque background here would cover them on
     // every page. Sections/cards above paint translucent surfaces instead.
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex min-h-[100dvh] flex-col bg-transparent", children: [
+    // pb-32 lg:pb-0 on the ROOT (not on <main>): the mobile bottom bar is
+    // fixed, and the Footer / EndorsementsSlider / HomeFaq are SIBLINGS of
+    // <main>, so padding <main> alone left the last ~114px of the footer
+    // sitting under the bar at the very bottom of the page. Padding the shell
+    // root reserves the space for every child.
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex min-h-[100dvh] flex-col bg-transparent pb-32 lg:pb-0", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(InitialLoadPreloader, {}),
       /* @__PURE__ */ jsxRuntimeExports.jsx(RouteTransitionPreloader, {}),
       /* @__PURE__ */ jsxRuntimeExports.jsxs(
@@ -49867,53 +49872,83 @@ function Layout() {
         }
       ),
       /* @__PURE__ */ jsxRuntimeExports.jsx(Nav, {}),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("main", { className: "flex-1 pb-24 lg:pb-0", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Outlet, {}) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("main", { className: "flex-1", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Outlet, {}) }),
       !isAdmin && /* @__PURE__ */ jsxRuntimeExports.jsx(EndorsementsSlider, {}),
       isHomepage && /* @__PURE__ */ jsxRuntimeExports.jsx(HomeFaq, {}),
       !isAdmin && /* @__PURE__ */ jsxRuntimeExports.jsx(Footer, {}),
       /* @__PURE__ */ jsxRuntimeExports.jsx(CookieConsentBanner, {}),
       typeof document !== "undefined" ? reactDomExports.createPortal(
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "fixed bottom-0 left-0 w-full z-[100] bg-navy border-t border-border/40 lg:hidden", children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
-          "form",
-          {
-            action: "https://tpointuk.us3.list-manage.com/subscribe/post?u=6fe69c3d0521b617677c81700&id=2ce1dac979&f_id=0081c1e5f0",
-            method: "post",
-            target: "_blank",
-            className: "flex items-center gap-2 px-4 py-3",
-            "data-ocid": "mobile.subscribe_bar",
-            children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("label", { htmlFor: "mce-EMAIL-mobile", className: "sr-only", children: "Email Address" }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                "input",
-                {
-                  type: "email",
-                  name: "EMAIL",
-                  id: "mce-EMAIL-mobile",
-                  required: true,
-                  placeholder: "Email address",
-                  className: "admin-input min-w-0 flex-1",
-                  "data-ocid": "mobile.subscribe.email_input"
-                }
-              ),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(
-                "button",
-                {
-                  type: "submit",
-                  name: "subscribe",
-                  className: "shrink-0 bg-red-600 hover:bg-red-700 px-4 py-3 font-display text-sm font-bold uppercase tracking-wider text-white transition-colors",
-                  "data-ocid": "mobile.subscribe.submit_button",
-                  children: "Subscribe"
-                }
-              )
-            ]
-          }
-        ) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "fixed bottom-0 left-0 w-full z-[100] bg-navy border-t border-border/40 lg:hidden", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            "div",
+            {
+              "data-ocid": "mobile.patreon_cta",
+              className: "flex items-center justify-center gap-3 border-b border-border/30 px-4 py-2",
+              children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "span",
+                  {
+                    "data-ocid": "mobile.patreon_cta.label",
+                    className: "whitespace-nowrap font-display text-[0.65rem] font-bold uppercase tracking-[0.18em] text-white/75",
+                    children: "Our podcasts"
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "a",
+                  {
+                    href: "https://www.patreon.com/tpointuk",
+                    target: "_blank",
+                    rel: "noopener noreferrer",
+                    "data-ocid": "mobile.patreon_cta.button",
+                    className: "shrink-0 rounded-full bg-red-600 px-4 py-1.5 font-display text-xs font-bold uppercase tracking-wider text-white transition-colors hover:bg-red-700",
+                    children: "Join our Patreon"
+                  }
+                )
+              ]
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            "form",
+            {
+              action: "https://tpointuk.us3.list-manage.com/subscribe/post?u=6fe69c3d0521b617677c81700&id=2ce1dac979&f_id=0081c1e5f0",
+              method: "post",
+              target: "_blank",
+              className: "flex items-center gap-2 px-4 py-3",
+              "data-ocid": "mobile.subscribe_bar",
+              children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx("label", { htmlFor: "mce-EMAIL-mobile", className: "sr-only", children: "Email Address" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "input",
+                  {
+                    type: "email",
+                    name: "EMAIL",
+                    id: "mce-EMAIL-mobile",
+                    required: true,
+                    placeholder: "Email address",
+                    className: "admin-input min-w-0 flex-1",
+                    "data-ocid": "mobile.subscribe.email_input"
+                  }
+                ),
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
+                  "button",
+                  {
+                    type: "submit",
+                    name: "subscribe",
+                    className: "shrink-0 bg-red-600 hover:bg-red-700 px-4 py-3 font-display text-sm font-bold uppercase tracking-wider text-white transition-colors",
+                    "data-ocid": "mobile.subscribe.submit_button",
+                    children: "Subscribe"
+                  }
+                )
+              ]
+            }
+          )
+        ] }),
         document.body
       ) : null,
       /* @__PURE__ */ jsxRuntimeExports.jsxs(
         "div",
         {
-          className: "fixed top-1/2 right-0 -translate-y-1/2 z-[99] flex flex-col items-end",
+          className: "fixed top-1/2 right-0 -translate-y-1/2 z-[99] hidden flex-col items-end lg:flex",
           "data-ocid": "floating.patreon_cta",
           children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -60544,37 +60579,37 @@ function UniversitySocietiesPage() {
   ] });
 }
 const AdminGalleryPage = reactExports.lazy(
-  () => __vitePreload(() => import("./AdminGalleryPage-PyRorCtA.js"), true ? [] : void 0).then((m2) => ({
+  () => __vitePreload(() => import("./AdminGalleryPage-auopp-1f.js"), true ? [] : void 0).then((m2) => ({
     default: m2.AdminGalleryPage
   }))
 );
 const PostArticlePage = reactExports.lazy(
-  () => __vitePreload(() => import("./PostArticlePage-q__2D0nT.js"), true ? [] : void 0).then((m2) => ({
+  () => __vitePreload(() => import("./PostArticlePage-D-MW84y0.js"), true ? [] : void 0).then((m2) => ({
     default: m2.PostArticlePage
   }))
 );
 const AdminBlogPage = reactExports.lazy(
-  () => __vitePreload(() => import("./AdminBlogPage-DBJyAF3p.js"), true ? __vite__mapDeps([0,1]) : void 0).then((m2) => ({
+  () => __vitePreload(() => import("./AdminBlogPage-DDyJF-aT.js"), true ? __vite__mapDeps([0,1]) : void 0).then((m2) => ({
     default: m2.AdminBlogPage
   }))
 );
 const CheckoutSuccessPage = reactExports.lazy(
-  () => __vitePreload(() => import("./CheckoutSuccessPage-CksHeeO_.js"), true ? [] : void 0).then((m2) => ({
+  () => __vitePreload(() => import("./CheckoutSuccessPage-B9EZfDyp.js"), true ? [] : void 0).then((m2) => ({
     default: m2.CheckoutSuccessPage
   }))
 );
 const CheckoutCancelPage = reactExports.lazy(
-  () => __vitePreload(() => import("./CheckoutCancelPage-BOx7xv9q.js"), true ? [] : void 0).then((m2) => ({
+  () => __vitePreload(() => import("./CheckoutCancelPage-kmzOSmfi.js"), true ? [] : void 0).then((m2) => ({
     default: m2.CheckoutCancelPage
   }))
 );
 const AdminRealBritishHistoryPage = reactExports.lazy(
-  () => __vitePreload(() => import("./AdminRealBritishHistoryPage-BTjmZpyn.js"), true ? __vite__mapDeps([2,1]) : void 0).then((m2) => ({
+  () => __vitePreload(() => import("./AdminRealBritishHistoryPage-1mjeb04b.js"), true ? __vite__mapDeps([2,1]) : void 0).then((m2) => ({
     default: m2.AdminRealBritishHistoryPage
   }))
 );
 const AdminStripePage = reactExports.lazy(
-  () => __vitePreload(() => import("./AdminStripePage-BNwHVTBi.js"), true ? [] : void 0).then((m2) => ({
+  () => __vitePreload(() => import("./AdminStripePage-C3a6JKN1.js"), true ? [] : void 0).then((m2) => ({
     default: m2.AdminStripePage
   }))
 );
