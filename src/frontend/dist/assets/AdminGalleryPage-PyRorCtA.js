@@ -1,4 +1,4 @@
-import { u as useActor, r as reactExports, E as ExternalBlob, c as createActor, a as useEntranceAnimation, j as jsxRuntimeExports, b as useGalleryItems, d as useCreateGalleryItem, e as useUpdateGalleryItem, f as useDeleteGalleryItem, D as DEFAULT_GALLERY_CATEGORY, S as Section, g as getFallbackImageUrl } from "./index-BK-5O9Rg.js";
+import { u as useActor, r as reactExports, E as ExternalBlob, c as createActor, a as useEntranceAnimation, j as jsxRuntimeExports, b as useGalleryItems, d as useCreateGalleryItem, e as useUpdateGalleryItem, f as useDeleteGalleryItem, D as DEFAULT_GALLERY_CATEGORY, S as Section, g as getFallbackImageUrl } from "./index-Bu2FOQtQ.js";
 const ACCEPTED_IMAGE_TYPES = [
   "image/jpeg",
   "image/png",

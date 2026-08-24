@@ -1,4 +1,4 @@
-import { a as useEntranceAnimation, m as useSeoMeta, j as jsxRuntimeExports, S as Section, L as Link, R as ROUTES } from "./index-BK-5O9Rg.js";
+import { a as useEntranceAnimation, m as useSeoMeta, j as jsxRuntimeExports, S as Section, L as Link, R as ROUTES } from "./index-Bu2FOQtQ.js";
 function CheckoutCancelPage() {
   const ref = useEntranceAnimation();
   useSeoMeta({

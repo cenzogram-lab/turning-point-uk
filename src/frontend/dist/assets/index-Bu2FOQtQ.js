@@ -1,4 +1,4 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/AdminBlogPage-BzlicnKD.js","assets/useBlogUpload-gMvQx8SI.js","assets/AdminRealBritishHistoryPage-KmwTnK_r.js"])))=>i.map(i=>d[i]);
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/AdminBlogPage-DBJyAF3p.js","assets/useBlogUpload-DM6yUOEW.js","assets/AdminRealBritishHistoryPage-BTjmZpyn.js"])))=>i.map(i=>d[i]);
 var __defProp = Object.defineProperty;
 var __typeError = (msg) => {
   throw TypeError(msg);
@@ -610,10 +610,10 @@ function concatBytes(...arrays) {
     sum += a2.length;
   }
   const res = new Uint8Array(sum);
-  for (let i = 0, pad = 0; i < arrays.length; i++) {
+  for (let i = 0, pad2 = 0; i < arrays.length; i++) {
     const a2 = arrays[i];
-    res.set(a2, pad);
-    pad += a2.length;
+    res.set(a2, pad2);
+    pad2 += a2.length;
   }
   return res;
 }
@@ -43322,67 +43322,67 @@ const createLucideIcon = (iconName, iconNode) => {
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$f = [
+const __iconNode$h = [
   ["path", { d: "m12 19-7-7 7-7", key: "1l729n" }],
   ["path", { d: "M19 12H5", key: "x3x0zl" }]
 ];
-const ArrowLeft = createLucideIcon("arrow-left", __iconNode$f);
+const ArrowLeft = createLucideIcon("arrow-left", __iconNode$h);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$e = [
+const __iconNode$g = [
   ["path", { d: "M5 12h14", key: "1ays0h" }],
   ["path", { d: "m12 5 7 7-7 7", key: "xquz4c" }]
 ];
-const ArrowRight = createLucideIcon("arrow-right", __iconNode$e);
+const ArrowRight = createLucideIcon("arrow-right", __iconNode$g);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$d = [
+const __iconNode$f = [
   ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
   ["path", { d: "m4.9 4.9 14.2 14.2", key: "1m5liu" }]
 ];
-const Ban = createLucideIcon("ban", __iconNode$d);
+const Ban = createLucideIcon("ban", __iconNode$f);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$c = [["path", { d: "M20 6 9 17l-5-5", key: "1gmf2c" }]];
-const Check = createLucideIcon("check", __iconNode$c);
+const __iconNode$e = [["path", { d: "M20 6 9 17l-5-5", key: "1gmf2c" }]];
+const Check = createLucideIcon("check", __iconNode$e);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$b = [["path", { d: "m6 9 6 6 6-6", key: "qrunsl" }]];
-const ChevronDown = createLucideIcon("chevron-down", __iconNode$b);
+const __iconNode$d = [["path", { d: "m6 9 6 6 6-6", key: "qrunsl" }]];
+const ChevronDown = createLucideIcon("chevron-down", __iconNode$d);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$a = [
+const __iconNode$c = [
   ["path", { d: "M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z", key: "i9b6wo" }],
   ["line", { x1: "4", x2: "4", y1: "22", y2: "15", key: "1cm3nv" }]
 ];
-const Flag = createLucideIcon("flag", __iconNode$a);
+const Flag = createLucideIcon("flag", __iconNode$c);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$9 = [
+const __iconNode$b = [
   [
     "path",
     {
@@ -43393,14 +43393,14 @@ const __iconNode$9 = [
   ["path", { d: "M22 10v6", key: "1lu8f3" }],
   ["path", { d: "M6 12.5V16a6 3 0 0 0 12 0v-3.5", key: "1r8lef" }]
 ];
-const GraduationCap = createLucideIcon("graduation-cap", __iconNode$9);
+const GraduationCap = createLucideIcon("graduation-cap", __iconNode$b);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$8 = [
+const __iconNode$a = [
   ["path", { d: "M18 12.5V10a2 2 0 0 0-2-2a2 2 0 0 0-2 2v1.4", key: "wc6myp" }],
   ["path", { d: "M14 11V9a2 2 0 1 0-4 0v2", key: "94qvcw" }],
   ["path", { d: "M10 10.5V5a2 2 0 1 0-4 0v9", key: "m1ah89" }],
@@ -43412,14 +43412,39 @@ const __iconNode$8 = [
     }
   ]
 ];
-const HandMetal = createLucideIcon("hand-metal", __iconNode$8);
+const HandMetal = createLucideIcon("hand-metal", __iconNode$a);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$7 = [
+const __iconNode$9 = [
+  [
+    "path",
+    {
+      d: "M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z",
+      key: "c3ymky"
+    }
+  ],
+  [
+    "path",
+    {
+      d: "M12 5 9.04 7.96a2.17 2.17 0 0 0 0 3.08c.82.82 2.13.85 3 .07l2.07-1.9a2.82 2.82 0 0 1 3.79 0l2.96 2.66",
+      key: "4oyue0"
+    }
+  ],
+  ["path", { d: "m18 15-2-2", key: "60u0ii" }],
+  ["path", { d: "m15 18-2-2", key: "6p76be" }]
+];
+const HeartHandshake = createLucideIcon("heart-handshake", __iconNode$9);
+/**
+ * @license lucide-react v0.511.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+const __iconNode$8 = [
   ["path", { d: "M10 18v-7", key: "wt116b" }],
   [
     "path",
@@ -43433,14 +43458,14 @@ const __iconNode$7 = [
   ["path", { d: "M3 22h18", key: "8prr45" }],
   ["path", { d: "M6 18v-7", key: "1ivflk" }]
 ];
-const Landmark = createLucideIcon("landmark", __iconNode$7);
+const Landmark = createLucideIcon("landmark", __iconNode$8);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$6 = [
+const __iconNode$7 = [
   [
     "path",
     {
@@ -43454,7 +43479,18 @@ const __iconNode$6 = [
   ["circle", { cx: "12", cy: "17", r: "5", key: "qbz8iq" }],
   ["path", { d: "M12 18v-2h-.5", key: "fawc4q" }]
 ];
-const Medal = createLucideIcon("medal", __iconNode$6);
+const Medal = createLucideIcon("medal", __iconNode$7);
+/**
+ * @license lucide-react v0.511.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+const __iconNode$6 = [
+  ["path", { d: "m3 11 18-5v12L3 14v-3z", key: "n962bs" }],
+  ["path", { d: "M11.6 16.8a3 3 0 1 1-5.8-1.6", key: "1yl0tm" }]
+];
+const Megaphone = createLucideIcon("megaphone", __iconNode$6);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -43462,10 +43498,11 @@ const Medal = createLucideIcon("medal", __iconNode$6);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$5 = [
-  ["path", { d: "m3 11 18-5v12L3 14v-3z", key: "n962bs" }],
-  ["path", { d: "M11.6 16.8a3 3 0 1 1-5.8-1.6", key: "1yl0tm" }]
+  ["path", { d: "M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z", key: "131961" }],
+  ["path", { d: "M19 10v2a7 7 0 0 1-14 0v-2", key: "1vc78b" }],
+  ["line", { x1: "12", x2: "12", y1: "19", y2: "22", key: "x3vr5v" }]
 ];
-const Megaphone = createLucideIcon("megaphone", __iconNode$5);
+const Mic = createLucideIcon("mic", __iconNode$5);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -43473,11 +43510,10 @@ const Megaphone = createLucideIcon("megaphone", __iconNode$5);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$4 = [
-  ["path", { d: "M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z", key: "131961" }],
-  ["path", { d: "M19 10v2a7 7 0 0 1-14 0v-2", key: "1vc78b" }],
-  ["line", { x1: "12", x2: "12", y1: "19", y2: "22", key: "x3vr5v" }]
+  ["path", { d: "m21 21-4.34-4.34", key: "14j7rj" }],
+  ["circle", { cx: "11", cy: "11", r: "8", key: "4ej97u" }]
 ];
-const Mic = createLucideIcon("mic", __iconNode$4);
+const Search = createLucideIcon("search", __iconNode$4);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -43485,10 +43521,16 @@ const Mic = createLucideIcon("mic", __iconNode$4);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$3 = [
-  ["path", { d: "m21 21-4.34-4.34", key: "14j7rj" }],
-  ["circle", { cx: "11", cy: "11", r: "8", key: "4ej97u" }]
+  [
+    "path",
+    {
+      d: "M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z",
+      key: "oel41y"
+    }
+  ],
+  ["path", { d: "m9 12 2 2 4-4", key: "dzmm74" }]
 ];
-const Search = createLucideIcon("search", __iconNode$3);
+const ShieldCheck = createLucideIcon("shield-check", __iconNode$3);
 /**
  * @license lucide-react v0.511.0 - ISC
  *
@@ -55577,6 +55619,181 @@ function GalleryLightbox({ item, onClose }) {
     }
   );
 }
+const CAMPAIGN_URL = "https://www.crowdfunder.co.uk/p/urgent-medical-care-for-success";
+const CAMPAIGN_DEADLINE_ISO = "2026-10-01T23:59:59Z";
+function getRemaining(deadlineMs, nowMs) {
+  const diff = deadlineMs - nowMs;
+  if (!Number.isFinite(diff) || diff <= 0) {
+    return { days: 0, hours: 0, minutes: 0, seconds: 0, expired: true };
+  }
+  const totalSeconds = Math.floor(diff / 1e3);
+  return {
+    days: Math.floor(totalSeconds / 86400),
+    hours: Math.floor(totalSeconds % 86400 / 3600),
+    minutes: Math.floor(totalSeconds % 3600 / 60),
+    seconds: totalSeconds % 60,
+    expired: false
+  };
+}
+function pad(value) {
+  return String(Math.max(0, value)).padStart(2, "0");
+}
+function CountdownBadge({
+  value,
+  label,
+  ocid
+}) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(
+    "div",
+    {
+      "data-ocid": ocid,
+      className: "flex min-w-0 flex-col items-center gap-1 rounded-xl border border-red-500/25 bg-slate-950/60 px-2 py-3 backdrop-blur-sm sm:px-5 sm:py-4",
+      children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-display text-[1.6rem] font-bold tabular-nums leading-none text-white sm:text-4xl md:text-5xl", children: value }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-mono text-[0.55rem] uppercase tracking-[0.12em] text-white/60 sm:text-xs sm:tracking-[0.18em]", children: label })
+      ]
+    }
+  );
+}
+function CampaignCountdown() {
+  const deadlineMs = reactExports.useMemo(() => Date.parse(CAMPAIGN_DEADLINE_ISO), []);
+  const [remaining, setRemaining] = reactExports.useState(
+    () => getRemaining(deadlineMs, Date.now())
+  );
+  reactExports.useEffect(() => {
+    const id = window.setInterval(() => {
+      setRemaining(getRemaining(deadlineMs, Date.now()));
+    }, 1e3);
+    return () => window.clearInterval(id);
+  }, [deadlineMs]);
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(
+    "section",
+    {
+      "data-ocid": "section.campaign_countdown",
+      "aria-labelledby": "campaign-countdown-heading",
+      className: "w-full px-4 py-12 sm:px-6 sm:py-16",
+      children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mx-auto w-full max-w-5xl", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative overflow-hidden rounded-2xl border border-red-500/30 bg-slate-900/70 p-6 text-center backdrop-blur-md md:p-10", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "div",
+          {
+            "aria-hidden": "true",
+            className: "pointer-events-none absolute -left-24 -top-24 h-72 w-72 rounded-full bg-[radial-gradient(circle,rgba(225,29,72,0.28),transparent_70%)] blur-2xl"
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "div",
+          {
+            "aria-hidden": "true",
+            className: "pointer-events-none absolute -bottom-28 -right-20 h-80 w-80 rounded-full bg-[radial-gradient(circle,rgba(185,28,28,0.24),transparent_70%)] blur-2xl"
+          }
+        ),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative z-10 flex flex-col items-center gap-5", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            "span",
+            {
+              "data-ocid": "section.campaign_countdown.badge",
+              className: "inline-flex items-center gap-2 rounded-full border border-red-500/40 bg-red-600/15 px-4 py-1.5 font-mono text-[0.65rem] uppercase tracking-[0.18em] text-red-200 sm:text-xs",
+              children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(ShieldCheck, { className: "h-3.5 w-3.5", "aria-hidden": "true" }),
+                "Official Crowdfunder Initiative"
+              ]
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "h2",
+            {
+              id: "campaign-countdown-heading",
+              className: "entrance-left font-display text-3xl font-bold uppercase leading-tight tracking-tight text-white sm:text-4xl lg:text-5xl",
+              "data-entrance-delay": "0",
+              children: "Urgent Medical Care Campaign"
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "p",
+            {
+              className: "entrance-left max-w-2xl font-body text-base font-light leading-relaxed text-white/75 sm:text-lg",
+              "data-entrance-delay": "80",
+              children: "Time remaining to reach our funding goal for essential medical care and support."
+            }
+          ),
+          remaining.expired ? /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "p",
+            {
+              "data-ocid": "section.campaign_countdown.closed",
+              className: "font-display text-xl font-bold uppercase tracking-wide text-white sm:text-2xl",
+              children: "This campaign has now closed — thank you for your support."
+            }
+          ) : /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              "div",
+              {
+                role: "timer",
+                "aria-live": "off",
+                "data-ocid": "section.campaign_countdown.timer",
+                className: "mt-1 grid w-full max-w-md grid-cols-4 gap-2 sm:gap-3",
+                children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    CountdownBadge,
+                    {
+                      value: pad(remaining.days),
+                      label: "Days",
+                      ocid: "section.campaign_countdown.days"
+                    }
+                  ),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    CountdownBadge,
+                    {
+                      value: pad(remaining.hours),
+                      label: "Hours",
+                      ocid: "section.campaign_countdown.hours"
+                    }
+                  ),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    CountdownBadge,
+                    {
+                      value: pad(remaining.minutes),
+                      label: "Minutes",
+                      ocid: "section.campaign_countdown.minutes"
+                    }
+                  ),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(
+                    CountdownBadge,
+                    {
+                      value: pad(remaining.seconds),
+                      label: "Seconds",
+                      ocid: "section.campaign_countdown.seconds"
+                    }
+                  )
+                ]
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "sr-only", children: [
+              remaining.days,
+              " days remaining to support this campaign."
+            ] })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-2 flex flex-col items-center gap-3", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              "a",
+              {
+                href: CAMPAIGN_URL,
+                target: "_blank",
+                rel: "noopener noreferrer",
+                "data-ocid": "section.campaign_countdown.donate_button",
+                className: "btn-primary-square group inline-flex items-center gap-2 rounded-full",
+                children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(HeartHandshake, { className: "h-4 w-4", "aria-hidden": "true" }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: "Support the Campaign" })
+                ]
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-mono text-[0.65rem] uppercase tracking-[0.15em] text-white/45", children: "Secure donations via Crowdfunder" })
+          ] })
+        ] })
+      ] }) })
+    }
+  );
+}
 const VIGIL_DETAILS = [
   { label: "Date", value: "Thursday 10th Sept 2026" },
   { label: "Gather", value: "18:30" },
@@ -55800,6 +56017,7 @@ function HomePage() {
         lazy: false
       }
     ) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(CampaignCountdown, {}),
     /* @__PURE__ */ jsxRuntimeExports.jsx(VigilSpotlight, {}),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
       "section",
@@ -60326,37 +60544,37 @@ function UniversitySocietiesPage() {
   ] });
 }
 const AdminGalleryPage = reactExports.lazy(
-  () => __vitePreload(() => import("./AdminGalleryPage-HiBVIM0Y.js"), true ? [] : void 0).then((m2) => ({
+  () => __vitePreload(() => import("./AdminGalleryPage-PyRorCtA.js"), true ? [] : void 0).then((m2) => ({
     default: m2.AdminGalleryPage
   }))
 );
 const PostArticlePage = reactExports.lazy(
-  () => __vitePreload(() => import("./PostArticlePage-D06fa-lV.js"), true ? [] : void 0).then((m2) => ({
+  () => __vitePreload(() => import("./PostArticlePage-q__2D0nT.js"), true ? [] : void 0).then((m2) => ({
     default: m2.PostArticlePage
   }))
 );
 const AdminBlogPage = reactExports.lazy(
-  () => __vitePreload(() => import("./AdminBlogPage-BzlicnKD.js"), true ? __vite__mapDeps([0,1]) : void 0).then((m2) => ({
+  () => __vitePreload(() => import("./AdminBlogPage-DBJyAF3p.js"), true ? __vite__mapDeps([0,1]) : void 0).then((m2) => ({
     default: m2.AdminBlogPage
   }))
 );
 const CheckoutSuccessPage = reactExports.lazy(
-  () => __vitePreload(() => import("./CheckoutSuccessPage-BPWKpBV6.js"), true ? [] : void 0).then((m2) => ({
+  () => __vitePreload(() => import("./CheckoutSuccessPage-CksHeeO_.js"), true ? [] : void 0).then((m2) => ({
     default: m2.CheckoutSuccessPage
   }))
 );
 const CheckoutCancelPage = reactExports.lazy(
-  () => __vitePreload(() => import("./CheckoutCancelPage-p6-YroCI.js"), true ? [] : void 0).then((m2) => ({
+  () => __vitePreload(() => import("./CheckoutCancelPage-BOx7xv9q.js"), true ? [] : void 0).then((m2) => ({
     default: m2.CheckoutCancelPage
   }))
 );
 const AdminRealBritishHistoryPage = reactExports.lazy(
-  () => __vitePreload(() => import("./AdminRealBritishHistoryPage-KmwTnK_r.js"), true ? __vite__mapDeps([2,1]) : void 0).then((m2) => ({
+  () => __vitePreload(() => import("./AdminRealBritishHistoryPage-BTjmZpyn.js"), true ? __vite__mapDeps([2,1]) : void 0).then((m2) => ({
     default: m2.AdminRealBritishHistoryPage
   }))
 );
 const AdminStripePage = reactExports.lazy(
-  () => __vitePreload(() => import("./AdminStripePage-B7D0XvDH.js"), true ? [] : void 0).then((m2) => ({
+  () => __vitePreload(() => import("./AdminStripePage-BNwHVTBi.js"), true ? [] : void 0).then((m2) => ({
     default: m2.AdminStripePage
   }))
 );

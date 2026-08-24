@@ -1,6 +1,7 @@
 import { ArticleCard } from "@/components/ArticleCard";
 import { BackgroundVideo } from "@/components/BackgroundVideo";
 import { Hero } from "@/components/Hero";
+import { CampaignCountdown } from "@/components/sections/CampaignCountdown";
 import { VigilSpotlight } from "@/components/sections/VigilSpotlight";
 import { usePublishedPostsByCategory } from "@/hooks/useBlogPosts";
 import { useEntranceAnimation } from "@/hooks/useEntranceAnimation";
@@ -237,6 +238,13 @@ export function HomePage() {
           lazy={false}
         />
       </div>
+
+      {/* (1a) Campaign Countdown — featured urgency banner for the live
+          Crowdfunder medical-care appeal. Sits directly above the Charlie
+          Kirk vigil spotlight. Counts down to a FIXED deadline so it ticks
+          toward zero for every visitor rather than resetting to 38 days on
+          each load. */}
+      <CampaignCountdown />
 
       {/* (1b) Vigil Spotlight — featured event, directly below the Hero and
           before the 'What We Stand For' pillars section. Carries id="vigil"
