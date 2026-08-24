@@ -1,4 +1,4 @@
-import { HeartHandshake, ShieldCheck } from "lucide-react";
+import { HeartHandshake } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
 /**
@@ -135,15 +135,6 @@ export function CampaignCountdown() {
           />
 
           <div className="relative z-10 flex flex-col items-center gap-5">
-            {/* Official-initiative badge */}
-            <span
-              data-ocid="section.campaign_countdown.badge"
-              className="inline-flex items-center gap-2 rounded-full border border-red-500/40 bg-red-600/15 px-4 py-1.5 font-mono text-[0.65rem] uppercase tracking-[0.18em] text-red-200 sm:text-xs"
-            >
-              <ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" />
-              Official Crowdfunder Initiative
-            </span>
-
             <h2
               id="campaign-countdown-heading"
               className="entrance-left font-display text-3xl font-bold uppercase leading-tight tracking-tight text-white sm:text-4xl lg:text-5xl"
