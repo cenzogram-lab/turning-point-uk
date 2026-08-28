@@ -27,7 +27,34 @@
     />
     <meta name="twitter:image" content="https://www.tpointuk.co.uk/assets/generated/og-image.dim_1200x630.jpg" />
     <meta name="twitter:image:alt" content="Turning Point UK" />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <!-- Favicons.
+
+         Google Search only shows a site icon if it can fetch a SQUARE icon
+         from a <link rel="icon"> in the homepage <head>, and it wants the
+         edge length to be a multiple of 48px. EVERY PNG linked below is
+         therefore 48/96/192 — all exact multiples of 48 — so whichever one
+         Google picks conforms. /favicon.ico is kept first for older browsers
+         and carries 16..256px entries internally.
+
+         favicon-512x512.png is deliberately NOT linked here: 512 is not a
+         multiple of 48, so offering it to Google's icon picker risks it
+         choosing a non-conforming size. It is referenced from
+         site.webmanifest instead, where 512x512 is the Android/PWA
+         convention.
+
+         Google caches site icons aggressively, so a change here can take
+         days to appear in search results even once it is live. -->
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="/favicon-192x192.png"
+    />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     <!-- Google Fonts CDN: condensed display + neutral body + technical mono.
          Replaces missing local woff2 files so the chosen type stack renders. -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
