@@ -49,11 +49,16 @@ export const FULL_ARROW_SRC =
  * unescaped in a URL literal; the browser resolves them to 0806(3).mp4,
  * 0806(1).mp4 and 0803(4).mp4.
  */
-const VIDEO_BASE =
+/**
+ * Shared file.garden folder holding the site's large media. Named for the
+ * host rather than for video because it now carries stills too (the featured
+ * talk poster below).
+ */
+const FILE_GARDEN_BASE =
   "https://file.garden/aoCNkzJZYxDjRiWz/TPUK%20BACKGROUND%20HER";
 
 /** Homepage top hero + universal default for all unassigned heroes. */
-export const VIDEO_MAIN_HERO = `${VIDEO_BASE}/0806%283%29.mp4`;
+export const VIDEO_MAIN_HERO = `${FILE_GARDEN_BASE}/0806%283%29.mp4`;
 
 /**
  * Shop / Official Merchandise ONLY (homepage merch section + /merchandise).
@@ -62,25 +67,36 @@ export const VIDEO_MAIN_HERO = `${VIDEO_BASE}/0806%283%29.mp4`;
  * constant having its own value is what keeps the merch clip off the rest of
  * the site.
  */
-export const VIDEO_SHOP_HERO = `${VIDEO_BASE}/0806.mp4`;
+export const VIDEO_SHOP_HERO = `${FILE_GARDEN_BASE}/0806.mp4`;
 
 /** Education Watch + every activism page hero. */
-export const VIDEO_ACTIVISM = `${VIDEO_BASE}/hf_20260806_184005_968d6943-9d45-4c67-9926-2d826067622e.mp4`;
+export const VIDEO_ACTIVISM = `${FILE_GARDEN_BASE}/hf_20260806_184005_968d6943-9d45-4c67-9926-2d826067622e.mp4`;
 
 /** British History section + /real-british-history + RBH article heroes. */
-export const VIDEO_BRITISH_HISTORY = `${VIDEO_BASE}/0806%281%29.mp4`;
+export const VIDEO_BRITISH_HISTORY = `${FILE_GARDEN_BASE}/0806%281%29.mp4`;
 
 /** $MBGA section + /mbga hero. */
-export const VIDEO_MBGA = `${VIDEO_BASE}/mcointpuk.mp4`;
+export const VIDEO_MBGA = `${FILE_GARDEN_BASE}/mcointpuk.mp4`;
 
 /** Latest News / Newsroom section + /blog + article heroes. */
-export const VIDEO_NEWSROOM = `${VIDEO_BASE}/0803%284%29.mp4`;
+export const VIDEO_NEWSROOM = `${FILE_GARDEN_BASE}/0803%284%29.mp4`;
 
 /**
  * Universal default hero video — the fallback <Hero> and <BackgroundVideo>
  * substitute whenever a call site passes no explicit source.
  */
 export const VIDEO_DEFAULT_HERO = VIDEO_MAIN_HERO;
+
+/**
+ * Featured talk poster — "Why Are Nigerian Christians Suffering?", the
+ * Vans Without Borders talk at St Paul's Church, Shadwell on 7th September.
+ * Rendered by the homepage <ExclusiveTalk> section directly below the vigil.
+ *
+ * Hosted on file.garden alongside the hero videos rather than bundled into
+ * the repo, matching how the rest of the site's large media is served.
+ * Replace this URL when the poster is reissued.
+ */
+export const IMAGE_EXCLUSIVE_TALK_POSTER = `${FILE_GARDEN_BASE}/06958be7-09d3-4feb-8809-2011547a3061.JPG`;
 
 /**
  * Endorsement graphics — social-media proof images shown on the $MBGA page.
