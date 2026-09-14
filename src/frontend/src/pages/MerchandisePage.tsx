@@ -1,9 +1,12 @@
 import { Hero } from "@/components/Hero";
+import { ProductCard } from "@/components/ProductCard";
+import { ProductShowcaseModal } from "@/components/ProductShowcaseModal";
 import { Section } from "@/components/Section";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useEntranceAnimation } from "@/hooks/useEntranceAnimation";
 import { useSeoMeta } from "@/hooks/useSeoMeta";
 import { VIDEO_SHOP_HERO } from "@/lib/assets";
+import { PRODUCTS, type Product } from "@/lib/products";
 import { ROUTES } from "@/lib/routes";
 import {
   BREADCRUMB_TRAILS,
@@ -12,7 +15,7 @@ import {
   buildBreadcrumbJsonLd,
 } from "@/lib/seo";
 import { Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 /**
  * MerchandisePage — the product grid.
@@ -22,89 +25,6 @@ import { useState } from "react";
  * button that opens the item's direct tpointuk.co.uk checkout page in a
  * new tab. The hero is unchanged — same background, same size.
  */
-
-interface Product {
-  name: string;
-  price: string;
-  /** Numeric price in pence (GBP) for the Stripe checkout line item. */
-  priceInCents: bigint;
-  /** Short product description passed to Stripe as the line-item description. */
-  description: string;
-  href: string;
-  /** Live Stripe Payment Link URL the BUY button opens in a new tab. */
-  stripeUrl: string;
-  image: string;
-  alt: string;
-}
-
-const PRODUCTS: Product[] = [
-  {
-    name: "Charlie Kirk Freedom Shirt",
-    price: "£36",
-    priceInCents: 3600n,
-    description:
-      "Official Turning Point UK Charlie Kirk Freedom Shirt. Premium cotton, bold freedom message.",
-    href: "https://tpointuk.co.uk/product/charlie-kirk-freedom-shirt-only-authentic-tpuk-version-30/",
-    stripeUrl: "https://buy.stripe.com/14A14n8Zj56T1d81Mpfw407",
-    image: "/assets/images/product-shirt-freedom.jpg",
-    alt: "Charlie Kirk Freedom Shirt",
-  },
-  {
-    name: "Make Britain Great Again Hat With Union Flag",
-    price: "£30",
-    priceInCents: 3000n,
-    description:
-      "Official Turning Point UK Make Britain Great Again hat with the Union Flag embroidered.",
-    href: "https://tpointuk.co.uk/product/make-britain-great-again-hat-with-union-flag/",
-    stripeUrl: "https://buy.stripe.com/14A6oH0sN42Pf3Y3Uxfw408",
-    image: "/assets/images/product-hat-mbga.jpg",
-    alt: "Make Britain Great Again Hat With Union Flag",
-  },
-  {
-    name: "Make Britain Great Again Hat - St George's Cross Hybrid",
-    price: "£30",
-    priceInCents: 3000n,
-    description:
-      "Official Turning Point UK Make Britain Great Again hat, St George's Cross hybrid edition.",
-    href: "https://tpointuk.co.uk/product/make-britain-great-again-hat-st-georges-cross-hybrid/",
-    stripeUrl: "https://buy.stripe.com/aFa14n2AV6aX4pk8aNfw409",
-    image: "/assets/images/product-hat-mbga-stgeorge.jpg",
-    alt: "Make Britain Great Again Hat - St George's Cross Hybrid",
-  },
-  {
-    name: "'Stop The Invasion' Stickers",
-    price: "48 for £15.60",
-    priceInCents: 1560n,
-    description:
-      "Official Turning Point UK 'Stop The Invasion' stickers - pack of 48, including VAT.",
-    href: "https://tpointuk.co.uk/product/stop-the-invasion-stickers-48-for-15-60-including-vat/",
-    stripeUrl: "https://buy.stripe.com/6oUeVddfzgPB3lg8aNfw40a",
-    image: "/assets/images/stop-the-invasion.png",
-    alt: "'Stop The Invasion' Stickers",
-  },
-  {
-    name: "'We Want Our Country Back' Stickers",
-    price: "48 for £15.60",
-    priceInCents: 1560n,
-    description:
-      "Official Turning Point UK 'We Want Our Country Back' stickers - pack of 48, including VAT.",
-    href: "https://tpointuk.co.uk/product/stop-the-invasion-stickers-48-for-15-60-inc-vat/",
-    stripeUrl: "https://buy.stripe.com/7sYaEX3EZ0QDg82dv7fw40b",
-    image: "/assets/images/we-want-our-country-back.webp",
-    alt: "'We Want Our Country Back' Stickers",
-  },
-  {
-    name: "'Stop Importing - Start Deporting' Stickers",
-    price: "48 for £15.60",
-    priceInCents: 1560n,
-    description:
-      "Official Turning Point UK 'Stop Importing - Start Deporting' stickers - pack of 48, including VAT.",
-    href: "https://tpointuk.co.uk/product/stop-importing-start-deporting-stickers-48-for-15-60-inc-vat/",
-    stripeUrl: "https://buy.stripe.com/9B6dR94J39n92hc8aNfw40c",
-    image: "/assets/images/stop-importing-start-deporting.webp",
-    alt: "'Stop Importing - Start Deporting' Stickers",
-  },
-];
 
 /**
  * Build one Product JSON-LD schema object per inline product, mirroring the
@@ -289,86 +209,11 @@ function MerchSubscribeForm() {
   );
 }
 
-/**
- * ProductCard — one merchandise card with a direct Stripe Payment Link.
- *
- * Renders the product image, name, price, and a BUY anchor. The CTA is an
- * active <a> that opens the product's live Stripe Payment Link
- * (product.stripeUrl) in a new tab (target="_blank" rel="noopener
- * noreferrer"), so visitors go straight to a hosted Stripe checkout.
- *
- * The backend createCheckoutSession wiring and the useStripeCheckout hook
- * are intentionally left intact in the codebase so the session-based
- * checkout can be toggled back on later — this card simply bypasses it
- * with a direct Payment Link for now.
- *
- * Brand discipline: the BUY anchor is the single red primary CTA per card
- * (`.btn-primary-square`), square corners, zero shadows.
- */
-interface ProductCardProps {
-  product: Product;
-  index: number;
-  /** True for the single card whose BUY anchor is the red primary CTA.
-   *  All other cards use the neutral secondary treatment so red is
-   *  reserved for one primary CTA per screen. */
-  isPrimaryCta?: boolean;
-}
-
-function ProductCard({
-  product,
-  index,
-  isPrimaryCta = false,
-}: ProductCardProps) {
-  return (
-    <article
-      key={product.name}
-      data-ocid={`products.item.${index}`}
-      className="flex flex-col bg-card"
-    >
-      {/* Square product image. */}
-      <div
-        className="relative aspect-square w-full overflow-hidden border-b border-foreground/15"
-        data-ocid={`products.image.${index}`}
-      >
-        <img
-          src={product.image}
-          alt={product.alt}
-          loading="lazy"
-          className="absolute inset-0 h-full w-full object-cover"
-        />
-      </div>
-
-      {/* Body — name + description + price + BUY anchor. */}
-      <div className="flex flex-1 flex-col gap-2 px-6 py-6">
-        <h3 className="font-display text-base font-semibold uppercase tracking-tight text-foreground">
-          {product.name}
-        </h3>
-        <p className="font-body text-sm font-light leading-relaxed text-foreground/70">
-          {product.description}
-        </p>
-        <span className="font-body text-lg font-light text-foreground/80">
-          {product.price}
-        </span>
-        <a
-          href={product.stripeUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          data-ocid={`products.buy_button.${index}`}
-          className={
-            isPrimaryCta
-              ? "btn-primary-square group mt-auto w-full"
-              : "btn-outline-invert group mt-auto w-full"
-          }
-        >
-          <span>BUY</span>
-        </a>
-      </div>
-    </article>
-  );
-}
-
 export function MerchandisePage() {
   const ref = useEntranceAnimation<HTMLDivElement>();
+  /** The product whose showcase modal is open, or null when none is. */
+  const [shownProduct, setShownProduct] = useState<Product | null>(null);
+  const closeShowcase = useCallback(() => setShownProduct(null), []);
 
   useSeoMeta({
     title: PAGE_SEO["/merchandise"].title,
@@ -448,15 +293,17 @@ export function MerchandisePage() {
 
           <div
             data-ocid="products.list"
-            className="entrance-left grid gap-px overflow-hidden border border-foreground/15 bg-foreground/15 sm:grid-cols-2 lg:grid-cols-3"
+            className="entrance-left grid gap-px overflow-hidden border border-border bg-border sm:grid-cols-2 lg:grid-cols-3"
             data-entrance-delay="320"
           >
             {PRODUCTS.map((product, i) => (
               <ProductCard
-                key={product.name}
+                key={product.id}
                 product={product}
                 index={i}
                 isPrimaryCta={i === 0}
+                ocidPrefix="products"
+                onViewDetails={setShownProduct}
               />
             ))}
           </div>
@@ -474,6 +321,10 @@ export function MerchandisePage() {
           </p>
         </div>
       </Section>
+
+      {/* Showcase modal — portaled to document.body by Radix, so it is not
+          affected by this page's entrance-animation container. */}
+      <ProductShowcaseModal product={shownProduct} onClose={closeShowcase} />
     </div>
   );
 }
