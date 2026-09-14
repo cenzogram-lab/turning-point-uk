@@ -3,7 +3,7 @@ import { Dialog, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import type { Product } from "@/lib/products";
 import { cn } from "@/lib/utils";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
-import { CreditCard, ExternalLink, Lock, ShieldCheck, X } from "lucide-react";
+import { CreditCard, Lock, ShieldCheck, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
 /**
@@ -206,19 +206,6 @@ export function ProductShowcaseModal({
                     <p className="font-body text-sm font-light leading-relaxed text-white/70">
                       {shown.sizingNote}
                     </p>
-                    <a
-                      href={shown.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      data-ocid="product_showcase.details_link"
-                      className="inline-flex w-fit items-center gap-1.5 font-body text-sm font-medium text-white/80 underline underline-offset-4 transition-colors hover:text-white"
-                    >
-                      <span>Full product page</span>
-                      <ExternalLink
-                        className="h-3.5 w-3.5"
-                        aria-hidden="true"
-                      />
-                    </a>
                   </div>
 
                   {/* Checkout — the single primary CTA inside this view. */}
