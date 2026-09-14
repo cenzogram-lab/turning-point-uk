@@ -99,6 +99,25 @@ export const VIDEO_DEFAULT_HERO = VIDEO_MAIN_HERO;
 export const IMAGE_EXCLUSIVE_TALK_POSTER = `${FILE_GARDEN_BASE}/06958be7-09d3-4feb-8809-2011547a3061.JPG`;
 
 /**
+ * Merchandise product photography — the six shop items, hosted on file.garden.
+ *
+ * These replace the low-resolution copies that used to ship from
+ * `public/assets/images/`. The showcase modal magnifies these images with a
+ * zoom lens, which only reveals real detail when the source raster is larger
+ * than its displayed size — so the hosted originals, not the bundled
+ * thumbnails, are what the shop reads.
+ *
+ * Consumed through `@/lib/products`, which is the single catalogue both the
+ * homepage merchandise grid and the /merchandise page render from.
+ */
+export const IMAGE_PRODUCT_SHIRT_FREEDOM = `${FILE_GARDEN_BASE}/product_shirt_freedom.jpg`;
+export const IMAGE_PRODUCT_HAT_MBGA = `${FILE_GARDEN_BASE}/product_hat_mbga.jpg`;
+export const IMAGE_PRODUCT_HAT_MBGA_ST_GEORGE = `${FILE_GARDEN_BASE}/product_hat_mbga_stgeorge.jpg`;
+export const IMAGE_PRODUCT_STICKER_STOP_THE_INVASION = `${FILE_GARDEN_BASE}/Stop-the-Invasion-600x600.png`;
+export const IMAGE_PRODUCT_STICKER_COUNTRY_BACK = `${FILE_GARDEN_BASE}/We-Want-Our-Country-Back-600x600.webp`;
+export const IMAGE_PRODUCT_STICKER_STOP_IMPORTING = `${FILE_GARDEN_BASE}/Stop-Importing-Start-Deporting-600x600.webp`;
+
+/**
  * Endorsement graphics — social-media proof images shown on the $MBGA page.
  * ELON_MUSK_MBGA is the uploaded Elon Musk social graphic ("Followed and
  * subscribed by Elon Musk" endorsement) displayed in its own section.

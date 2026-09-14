@@ -2,6 +2,7 @@ import { ArticleCard } from "@/components/ArticleCard";
 import { BackgroundVideo } from "@/components/BackgroundVideo";
 import { Hero } from "@/components/Hero";
 import { ExclusiveTalk } from "@/components/sections/ExclusiveTalk";
+import { MerchandiseShowcase } from "@/components/sections/MerchandiseShowcase";
 import { VigilSpotlight } from "@/components/sections/VigilSpotlight";
 import { usePublishedPostsByCategory } from "@/hooks/useBlogPosts";
 import { useEntranceAnimation } from "@/hooks/useEntranceAnimation";
@@ -369,6 +370,10 @@ export function HomePage() {
           },
         ]}
       />
+
+      {/* (4a) Merchandise grid — the six shop items with dual CTAs, rendered
+          from the shared catalogue so they cannot drift from /merchandise. */}
+      <MerchandiseShowcase />
 
       {/* (5) Hero — Preserving Our Heritage / History */}
       <Hero
