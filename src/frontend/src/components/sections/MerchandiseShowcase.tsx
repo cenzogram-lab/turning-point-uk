@@ -32,7 +32,7 @@ export function MerchandiseShowcase() {
     <section
       id="shop"
       data-ocid="section.merchandise_showcase"
-      className="w-full scroll-mt-[calc(var(--announcement-bar-height)+4rem)] px-6 py-20 sm:px-10 sm:py-24"
+      className="w-full scroll-mt-16 px-6 py-20 sm:px-10 sm:py-24"
     >
       <div className="mx-auto w-full max-w-6xl">
         <div className="mb-12 flex flex-col items-center gap-3 text-center">

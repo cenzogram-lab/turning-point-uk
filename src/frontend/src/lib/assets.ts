@@ -90,7 +90,7 @@ export const VIDEO_DEFAULT_HERO = VIDEO_MAIN_HERO;
 /**
  * Featured talk poster — "Why Are Nigerian Christians Suffering?", the
  * Vans Without Borders talk at St Paul's Church, Shadwell on 7th September.
- * Rendered by the homepage <ExclusiveTalk> section directly below the vigil.
+ * Rendered by the homepage <ExclusiveTalk> section directly below the hero.
  *
  * Hosted on file.garden alongside the hero videos rather than bundled into
  * the repo, matching how the rest of the site's large media is served.

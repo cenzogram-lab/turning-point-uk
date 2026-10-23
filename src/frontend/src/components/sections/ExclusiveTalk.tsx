@@ -4,7 +4,7 @@ import { useState } from "react";
 
 /**
  * ExclusiveTalk — the featured talk poster, rendered directly below the
- * VigilSpotlight on the homepage.
+ * homepage hero.
  *
  * The poster is a self-contained flyer: speaker, date, time, venue and QR
  * code are all baked into the artwork. The section therefore does NOT restate
@@ -24,7 +24,7 @@ import { useState } from "react";
  * whole. The frame shrink-wraps the artwork so the border hugs it instead of
  * leaving bars down the sides.
  *
- * The treatment follows the site's flat discipline used by VigilSpotlight:
+ * The treatment follows the site's flat discipline:
  * hairline borders, zero radius, no drop shadows.
  *
  * GRACEFUL ABSENCE: the whole section unmounts if the artwork fails to load.
@@ -67,7 +67,7 @@ export function ExclusiveTalk() {
     <section
       id="exclusive-talk"
       data-ocid="section.exclusive_talk"
-      className="w-full scroll-mt-[calc(var(--announcement-bar-height)+4rem)] bg-navy/40 px-6 py-20 sm:px-10 sm:py-28"
+      className="w-full scroll-mt-16 bg-navy/40 px-6 py-20 sm:px-10 sm:py-28"
     >
       <div className="mx-auto flex w-full max-w-6xl flex-col items-center gap-10">
         {/* Caption block. */}

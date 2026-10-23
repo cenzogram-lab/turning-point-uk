@@ -3,7 +3,6 @@ import { BackgroundVideo } from "@/components/BackgroundVideo";
 import { Hero } from "@/components/Hero";
 import { ExclusiveTalk } from "@/components/sections/ExclusiveTalk";
 import { MerchandiseShowcase } from "@/components/sections/MerchandiseShowcase";
-import { VigilSpotlight } from "@/components/sections/VigilSpotlight";
 import { usePublishedPostsByCategory } from "@/hooks/useBlogPosts";
 import { useEntranceAnimation } from "@/hooks/useEntranceAnimation";
 import { useSeoMeta } from "@/hooks/useSeoMeta";
@@ -240,13 +239,8 @@ export function HomePage() {
         />
       </div>
 
-      {/* (1a) Vigil Spotlight — featured event, directly below the Hero and
-          before the 'What We Stand For' pillars section. Carries id="vigil"
-          so the announcement bar's 'Learn More' link scrolls here. */}
-      <VigilSpotlight />
-
-      {/* (1b) Exclusive Talk — the featured talk poster in its own section,
-          directly below the vigil. Self-unmounts if the poster artwork is
+      {/* (1a) Exclusive Talk — the featured talk poster in its own section,
+          directly below the hero. Self-unmounts if the poster artwork is
           missing (see ExclusiveTalk). */}
       <ExclusiveTalk />
 
