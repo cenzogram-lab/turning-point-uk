@@ -1,3 +1,4 @@
+import { BuyNowButton, ProductBadge } from "@/components/ProductCard";
 import { ZoomableImage } from "@/components/ZoomableImage";
 import { Dialog, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import type { Product } from "@/lib/products";
@@ -169,6 +170,7 @@ export function ProductShowcaseModal({
                 {/* Specifications + checkout. */}
                 <div className="flex min-w-0 flex-col gap-5 overflow-y-auto p-5 sm:p-7">
                   <div className="flex flex-col gap-2">
+                    {shown.badge ? <ProductBadge text={shown.badge} /> : null}
                     <h2 className="font-display text-xl font-semibold uppercase leading-tight tracking-tight text-white sm:text-2xl">
                       {shown.name}
                     </h2>
@@ -210,15 +212,12 @@ export function ProductShowcaseModal({
 
                   {/* Checkout — the single primary CTA inside this view. */}
                   <div className="mt-auto flex flex-col gap-3 border-t border-white/10 pt-5">
-                    <a
-                      href={shown.stripeUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      data-ocid="product_showcase.buy_button"
-                      className="btn-primary-square group w-full"
-                    >
-                      <span>BUY NOW — {shown.price}</span>
-                    </a>
+                    <BuyNowButton
+                      product={shown}
+                      primary
+                      ocid="product_showcase.buy_button"
+                      label={`BUY NOW — ${shown.price}`}
+                    />
                     <ul className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
                       {TRUST_BADGES.map(({ Icon, label }) => (
                         <li

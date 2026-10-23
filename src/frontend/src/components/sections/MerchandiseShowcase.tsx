@@ -1,6 +1,9 @@
-import { ProductCard } from "@/components/ProductCard";
+import { FeaturedProductCard, ProductCard } from "@/components/ProductCard";
 import { ProductShowcaseModal } from "@/components/ProductShowcaseModal";
 import { PRODUCTS, type Product } from "@/lib/products";
+
+const FEATURED = PRODUCTS.filter((p) => p.featured);
+const GRID = PRODUCTS.filter((p) => !p.featured);
 import { ROUTES } from "@/lib/routes";
 import { Link } from "@tanstack/react-router";
 import { useCallback, useState } from "react";
@@ -47,12 +50,30 @@ export function MerchandiseShowcase() {
           </h2>
         </div>
 
+        {/* Featured spotlight(s) — e.g. the Limited Edition hat — above the
+            regular grid so the grid itself stays a whole 3 x 2. */}
+        {FEATURED.length > 0 ? (
+          <div
+            className="entrance-left mb-px flex flex-col gap-px"
+            data-entrance-delay="160"
+          >
+            {FEATURED.map((product) => (
+              <FeaturedProductCard
+                key={product.id}
+                product={product}
+                ocidPrefix="home_products"
+                onViewDetails={setShownProduct}
+              />
+            ))}
+          </div>
+        ) : null}
+
         <div
           data-ocid="home_products.list"
           className="entrance-left grid gap-px overflow-hidden border border-border bg-border sm:grid-cols-2 lg:grid-cols-3"
           data-entrance-delay="240"
         >
-          {PRODUCTS.map((product, i) => (
+          {GRID.map((product, i) => (
             <ProductCard
               key={product.id}
               product={product}

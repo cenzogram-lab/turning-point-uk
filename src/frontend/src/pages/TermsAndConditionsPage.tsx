@@ -13,7 +13,7 @@ import { Link } from "@tanstack/react-router";
 /**
  * TermsAndConditionsPage — standard UK-compliant Terms & Conditions for
  * Turning Point UK, a political activist organisation operated by
- * Media & Activism Ltd.
+ * Turning Point UK Ltd.
  *
  * Six sections as h2 headings:
  *   1. Acceptance of Terms
@@ -29,7 +29,7 @@ import { Link } from "@tanstack/react-router";
  * text-headline), muted body text (text-foreground/70), red TPUK
  * accent reserved for the page eyebrow and h1 title only.
  *
- * References Media & Activism Ltd as the operator and links to the
+ * References Turning Point UK Ltd as the operator and links to the
  * Privacy Policy via the TanStack Router Link component.
  */
 
@@ -110,7 +110,7 @@ export function TermsAndConditionsPage() {
           className="entrance-left mt-4 font-body text-base font-light leading-relaxed text-foreground/70 sm:text-lg"
           data-entrance-delay="120"
         >
-          This website is owned and operated by Media &amp; Activism Ltd
+          This website is owned and operated by Turning Point UK Ltd
           (&ldquo;we&rdquo;, &ldquo;us&rdquo;, &ldquo;our&rdquo;), the
           organisation behind Turning Point UK (&ldquo;TPUK&rdquo;).
         </p>
@@ -128,7 +128,7 @@ export function TermsAndConditionsPage() {
         >
           All content on this website — including text, graphics, logos,
           branding, imagery, video, audio, downloadable materials, and software
-          — is the property of Media &amp; Activism Ltd or its licensors and is
+          — is the property of Turning Point UK Ltd or its licensors and is
           protected by United Kingdom and international intellectual property
           laws.
         </p>
@@ -252,11 +252,10 @@ export function TermsAndConditionsPage() {
           className="entrance-left mt-6 font-body text-base font-light leading-relaxed text-foreground/70 sm:text-lg"
           data-entrance-delay="80"
         >
-          To the maximum extent permitted by law, Media &amp; Activism Ltd
-          accepts no liability for any loss or damage arising from your use of,
-          or reliance on, this website or its content. We do not warrant that
-          the site will be uninterrupted, error-free, or free of harmful
-          components.
+          To the maximum extent permitted by law, Turning Point UK Ltd accepts
+          no liability for any loss or damage arising from your use of, or
+          reliance on, this website or its content. We do not warrant that the
+          site will be uninterrupted, error-free, or free of harmful components.
         </p>
         <p
           className="entrance-left mt-4 font-body text-base font-light leading-relaxed text-foreground/70 sm:text-lg"
@@ -297,7 +296,7 @@ export function TermsAndConditionsPage() {
           className="entrance-left mt-4 font-body text-base font-light leading-relaxed text-foreground/70 sm:text-lg"
           data-entrance-delay="120"
         >
-          This website is operated by Media &amp; Activism Ltd, registered in
+          This website is operated by Turning Point UK Ltd, registered in
           England and Wales under registration number 11786279.
         </p>
       </div>

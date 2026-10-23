@@ -117,6 +117,9 @@ export const IMAGE_PRODUCT_STICKER_STOP_THE_INVASION = `${FILE_GARDEN_BASE}/Stop
 export const IMAGE_PRODUCT_STICKER_COUNTRY_BACK = `${FILE_GARDEN_BASE}/We-Want-Our-Country-Back-600x600.webp`;
 export const IMAGE_PRODUCT_STICKER_STOP_IMPORTING = `${FILE_GARDEN_BASE}/Stop-Importing-Start-Deporting-600x600.webp`;
 
+/** Limited Edition Black MBGA Hat — hosted alongside the other product photos. */
+export const IMAGE_PRODUCT_HAT_MBGA_BLACK = `${FILE_GARDEN_BASE}/7b94736f-733e-4ade-921a-cf70e010ab01.jpg`;
+
 /**
  * Endorsement graphics — social-media proof images shown on the $MBGA page.
  * ELON_MUSK_MBGA is the uploaded Elon Musk social graphic ("Followed and

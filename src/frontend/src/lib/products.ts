@@ -1,5 +1,6 @@
 import {
   IMAGE_PRODUCT_HAT_MBGA,
+  IMAGE_PRODUCT_HAT_MBGA_BLACK,
   IMAGE_PRODUCT_HAT_MBGA_ST_GEORGE,
   IMAGE_PRODUCT_SHIRT_FREEDOM,
   IMAGE_PRODUCT_STICKER_COUNTRY_BACK,
@@ -60,6 +61,30 @@ export interface Product {
   specs: ProductSpec[];
   /** Sizing / dimensions guidance shown beneath the specs. */
   sizingNote: string;
+  /**
+   * Featured items render in their own full-width spotlight above the regular
+   * grid on both the homepage and /merchandise, instead of inside it.
+   */
+  featured?: boolean;
+  /** Short label shown as a badge on the card and in the modal, e.g. "Limited Edition". */
+  badge?: string;
+}
+
+/**
+ * Stand-in for a Stripe Payment Link that has not been created yet.
+ *
+ * A product whose `stripeUrl` is this value is shown everywhere, but its Buy
+ * Now renders as a disabled "Coming soon" button rather than a link — an
+ * anchor to this string would open a 404 in a new tab — and it is left out of
+ * the Product JSON-LD so search engines are not told it is in stock. Replace
+ * the value on the product with the live https://buy.stripe.com/... link and
+ * every surface switches over with no other change.
+ */
+export const STRIPE_LINK_PENDING = "TODO_STRIPE_PAYMENT_LINK";
+
+/** True once a product has a real checkout link to send buyers to. */
+export function hasLiveCheckout(product: Product): boolean {
+  return /^https:\/\//.test(product.stripeUrl);
 }
 
 /** Shared by every item — the shop's single delivery promise. */
@@ -82,6 +107,31 @@ const APPAREL_SIZING =
   "For the full size chart and fit guidance, see the official product page.";
 
 export const PRODUCTS: Product[] = [
+  {
+    id: "mbga-hat-black-limited",
+    name: "Limited Edition Black MBGA Hat",
+    // Matches the other two Make Britain Great Again hats.
+    price: "£30",
+    priceInCents: 3000n,
+    description:
+      "Official Turning Point UK Make Britain Great Again hat in black. Limited edition, with white embroidered lettering and an embroidered Union Flag on the side.",
+    href: "https://www.tpointuk.co.uk/merchandise",
+    stripeUrl: "https://buy.stripe.com/3cI8wP2AV42PcVQ8aNfw40e",
+    image: IMAGE_PRODUCT_HAT_MBGA_BLACK,
+    alt: "Limited Edition Black MBGA Hat — a black cap with white embroidered Make Britain Great Again lettering and a Union Flag patch on the side",
+    specs: [
+      { label: "Colour", value: "Black" },
+      {
+        label: "Detail",
+        value: "White embroidered lettering, Union Flag side patch",
+      },
+      { label: "Edition", value: "Limited" },
+      UK_DELIVERY,
+    ],
+    sizingNote: "Sizing details coming soon.",
+    featured: true,
+    badge: "Limited Edition",
+  },
   {
     id: "charlie-kirk-freedom-shirt",
     name: "Charlie Kirk Freedom Shirt",
