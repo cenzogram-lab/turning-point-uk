@@ -24,13 +24,6 @@
 
     --radius: 0;
 
-    /* Global announcement bar height — the persistent red top banner rendered
-       above the fixed navbar on every page. The fixed Nav offsets itself by
-       this value (top-[var(--announcement-bar-height)]) so the bar never
-       overlaps the nav, and the vigil spotlight section uses it in its
-       scroll-margin so in-page anchor scrolling clears the fixed header. */
-    --announcement-bar-height: 2.5rem;
-
     /* Cinematic Civic — deep blue is the default; light is a constrained inverse.
        The hero placeholder deep blue (oklch 0.22 0.08 255) is now the universal
        background. --background sits one step darker than --navy so the two tokens

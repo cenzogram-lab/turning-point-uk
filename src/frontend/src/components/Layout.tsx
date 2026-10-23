@@ -180,27 +180,6 @@ export function Layout() {
     <div className="flex min-h-[100dvh] flex-col bg-transparent pb-32 lg:pb-0">
       <InitialLoadPreloader />
       <RouteTransitionPreloader />
-      {/* Persistent red announcement bar — fixed at the very top, above the
-          fixed Nav (which offsets itself by --announcement-bar-height). Red
-          primary background, white Oswald text, and a 'Learn More' link that
-          navigates to the homepage vigil spotlight section via a hash anchor. */}
-      <div
-        data-ocid="announcement_bar"
-        className="fixed inset-x-0 top-0 z-[60] flex h-[var(--announcement-bar-height)] items-center justify-center gap-2 bg-primary px-4 text-center"
-      >
-        <span className="truncate font-display text-xs font-semibold uppercase tracking-[0.08em] text-primary-foreground sm:text-sm">
-          🕯️ Charlie Kirk Vigil — Thursday 10th September 2026 | Montgomery
-          Statue, Whitehall, London | Gather 18:30
-        </span>
-        <Link
-          to={ROUTES.home}
-          hash="vigil"
-          data-ocid="announcement_bar.learn_more"
-          className="shrink-0 font-display text-xs font-bold uppercase tracking-[0.08em] text-primary-foreground underline underline-offset-2 hover:opacity-80 transition-opacity sm:text-sm"
-        >
-          Learn More
-        </Link>
-      </div>
       <Nav />
       {/* pb-24 lg:pb-0 compensates for the mobile-only fixed email capture bar
           (portaled to body) so page content and the footer are never occluded

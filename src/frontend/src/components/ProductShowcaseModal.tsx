@@ -18,7 +18,7 @@ import { useEffect, useState } from "react";
  *      its `bg-blue-950/50` scrim cannot be restyled through props. The glass
  *      treatment needs its own backdrop.
  *   2. <DialogContent> is pinned at `z-50`, which in this app is BELOW the
- *      announcement bar (z-[60]), the Patreon oval (z-[99]), the mobile bottom
+ *      fixed nav (z-50), the Patreon oval (z-[99]), the mobile bottom
  *      bar (z-[100]) and the cookie banner (z-[110]). A modal at z-50 is
  *      painted under the bottom bar on phones. Everything here sits at
  *      z-[120].

@@ -858,7 +858,7 @@ export function Nav() {
     <header
       data-ocid="nav"
       className={cn(
-        "fixed inset-x-0 top-[var(--announcement-bar-height)] z-50 transition-all duration-300",
+        "fixed inset-x-0 top-0 z-50 transition-all duration-300",
         scrolled
           ? "border-b border-white/10 bg-navy/90 backdrop-blur-md"
           : "border-b border-transparent bg-transparent",
