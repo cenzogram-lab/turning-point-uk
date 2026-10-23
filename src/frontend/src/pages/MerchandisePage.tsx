@@ -1,12 +1,12 @@
 import { Hero } from "@/components/Hero";
-import { ProductCard } from "@/components/ProductCard";
+import { FeaturedProductCard, ProductCard } from "@/components/ProductCard";
 import { ProductShowcaseModal } from "@/components/ProductShowcaseModal";
 import { Section } from "@/components/Section";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useEntranceAnimation } from "@/hooks/useEntranceAnimation";
 import { useSeoMeta } from "@/hooks/useSeoMeta";
 import { VIDEO_SHOP_HERO } from "@/lib/assets";
-import { PRODUCTS, type Product } from "@/lib/products";
+import { PRODUCTS, type Product, hasLiveCheckout } from "@/lib/products";
 import { ROUTES } from "@/lib/routes";
 import {
   BREADCRUMB_TRAILS,
@@ -36,7 +36,19 @@ import { useCallback, useState } from "react";
  * absolute URLs as schema.org requires. Description is derived from the
  * product name per the build contract.
  */
-const PRODUCT_SCHEMAS = PRODUCTS.map((product) => {
+const FEATURED = PRODUCTS.filter((p) => p.featured);
+const GRID = PRODUCTS.filter((p) => !p.featured);
+
+/**
+ * The red primary pill goes to the featured item once it can be bought, and to
+ * the first grid card until then — a disabled "Coming soon" button must never
+ * be the one primary action on the page.
+ */
+const FEATURED_IS_PRIMARY = FEATURED.length > 0 && hasLiveCheckout(FEATURED[0]);
+
+// Products still waiting on a Stripe link are left out: the schema below marks
+// every Offer InStock, which would be untrue for an item that cannot be bought.
+const PRODUCT_SCHEMAS = PRODUCTS.filter(hasLiveCheckout).map((product) => {
   const priceMatch = product.price.match(/£\s*([\d.]+)/);
   const numericPrice = priceMatch ? priceMatch[1] : "0";
   const imageUrl = product.image.startsWith("/")
@@ -273,7 +285,7 @@ export function MerchandisePage() {
         </div>
       </Section>
 
-      {/* Product grid — six cards. */}
+      {/* Product grid — featured spotlight, then the regular cards. */}
       <Section id="products" variant="center" className="px-6 py-24 sm:px-10">
         <div className="mx-auto w-full max-w-6xl">
           <div className="mb-12 flex flex-col items-center gap-3 text-center">
@@ -291,17 +303,34 @@ export function MerchandisePage() {
             </h2>
           </div>
 
+          {FEATURED.length > 0 ? (
+            <div
+              className="entrance-left mb-px flex flex-col gap-px"
+              data-entrance-delay="240"
+            >
+              {FEATURED.map((product, i) => (
+                <FeaturedProductCard
+                  key={product.id}
+                  product={product}
+                  isPrimaryCta={FEATURED_IS_PRIMARY && i === 0}
+                  ocidPrefix="products"
+                  onViewDetails={setShownProduct}
+                />
+              ))}
+            </div>
+          ) : null}
+
           <div
             data-ocid="products.list"
             className="entrance-left grid gap-px overflow-hidden border border-border bg-border sm:grid-cols-2 lg:grid-cols-3"
             data-entrance-delay="320"
           >
-            {PRODUCTS.map((product, i) => (
+            {GRID.map((product, i) => (
               <ProductCard
                 key={product.id}
                 product={product}
                 index={i}
-                isPrimaryCta={i === 0}
+                isPrimaryCta={!FEATURED_IS_PRIMARY && i === 0}
                 ocidPrefix="products"
                 onViewDetails={setShownProduct}
               />

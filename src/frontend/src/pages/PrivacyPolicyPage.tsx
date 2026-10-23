@@ -304,7 +304,7 @@ export function PrivacyPolicyPage() {
           className="entrance-left mt-6 font-body text-base font-light leading-relaxed text-foreground/70 sm:text-lg"
           data-entrance-delay="80"
         >
-          12.1 This website is owned and operated by Media &amp; Activism Ltd.
+          12.1 This website is owned and operated by Turning Point UK Ltd.
         </p>
         <p
           className="entrance-left mt-4 font-body text-base font-light leading-relaxed text-foreground/70 sm:text-lg"
