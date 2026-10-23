@@ -117,16 +117,8 @@ export const IMAGE_PRODUCT_STICKER_STOP_THE_INVASION = `${FILE_GARDEN_BASE}/Stop
 export const IMAGE_PRODUCT_STICKER_COUNTRY_BACK = `${FILE_GARDEN_BASE}/We-Want-Our-Country-Back-600x600.webp`;
 export const IMAGE_PRODUCT_STICKER_STOP_IMPORTING = `${FILE_GARDEN_BASE}/Stop-Importing-Start-Deporting-600x600.webp`;
 
-/**
- * Limited Edition Black MBGA Hat — PLACEHOLDER MEDIA SLOT.
- *
- * Currently the product photo supplied with the brief, bundled locally because
- * the final asset has not been delivered yet. To swap in the final image,
- * overwrite `public/assets/images/mbga-black-hat.jpg` (no code change), or
- * point this constant at the hosted file.garden URL to match the other five
- * product photos.
- */
-export const IMAGE_PRODUCT_HAT_MBGA_BLACK = "/assets/images/mbga-black-hat.jpg";
+/** Limited Edition Black MBGA Hat — hosted alongside the other product photos. */
+export const IMAGE_PRODUCT_HAT_MBGA_BLACK = `${FILE_GARDEN_BASE}/7b94736f-733e-4ade-921a-cf70e010ab01.jpg`;
 
 /**
  * Endorsement graphics — social-media proof images shown on the $MBGA page.

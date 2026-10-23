@@ -116,8 +116,7 @@ export const PRODUCTS: Product[] = [
     description:
       "Official Turning Point UK Make Britain Great Again hat in black. Limited edition, with white embroidered lettering and an embroidered Union Flag on the side.",
     href: "https://www.tpointuk.co.uk/merchandise",
-    // TODO_STRIPE_PAYMENT_LINK: replace with the live Stripe Payment Link.
-    stripeUrl: STRIPE_LINK_PENDING,
+    stripeUrl: "https://buy.stripe.com/3cI8wP2AV42PcVQ8aNfw40e",
     image: IMAGE_PRODUCT_HAT_MBGA_BLACK,
     alt: "Limited Edition Black MBGA Hat — a black cap with white embroidered Make Britain Great Again lettering and a Union Flag patch on the side",
     specs: [
