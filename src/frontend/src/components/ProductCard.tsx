@@ -92,10 +92,22 @@ export function BuyNowButton({
   );
 }
 
-/** ProductBadge — the small label pill, e.g. "Limited Edition". */
-export function ProductBadge({ text }: { text: string }) {
+/** ProductBadge — the label pill, e.g. "Limited Edition". */
+export function ProductBadge({
+  text,
+  size = "sm",
+}: {
+  text: string;
+  size?: "sm" | "lg";
+}) {
   return (
-    <span className="inline-flex w-fit items-center rounded-full bg-primary px-3 py-1 font-mono text-[0.6rem] font-semibold uppercase tracking-[0.18em] text-white">
+    <span
+      className={
+        size === "lg"
+          ? "inline-flex w-fit items-center rounded-full bg-primary px-4 py-1.5 font-display text-sm font-bold uppercase tracking-[0.12em] text-white"
+          : "inline-flex w-fit items-center rounded-full bg-primary px-3 py-1 font-mono text-[0.6rem] font-semibold uppercase tracking-[0.18em] text-white"
+      }
+    >
       {text}
     </span>
   );
@@ -130,11 +142,19 @@ function ProductImageButton({
   ocid,
   onViewDetails,
   className,
+  backdrop = false,
 }: {
   product: Product;
   ocid: string;
   onViewDetails: (product: Product) => void;
   className: string;
+  /**
+   * Fill the letterbox bars with a blurred, dimmed copy of the same photo.
+   * Used on the featured card, whose wide image panel would otherwise frame a
+   * portrait photo with large empty bars. It is the same URL as the main
+   * image, so it costs no extra request.
+   */
+  backdrop?: boolean;
 }) {
   return (
     <button
@@ -144,6 +164,16 @@ function ProductImageButton({
       aria-label={`View details for ${product.name}`}
       className={`group relative w-full cursor-zoom-in overflow-hidden border-0 border-border bg-slate-900/40 p-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary ${className}`}
     >
+      {backdrop ? (
+        <img
+          src={product.image}
+          alt=""
+          aria-hidden="true"
+          loading="lazy"
+          draggable={false}
+          className="pointer-events-none absolute inset-0 h-full w-full scale-110 object-cover opacity-40 blur-2xl"
+        />
+      ) : null}
       {/* object-contain, not cover: these are product shots on flat grounds,
           and cropping a hat or a sticker to fill the frame loses the thing
           being sold. */}
@@ -223,7 +253,10 @@ export function ProductCard({
  * row later. A separate band keeps the grid whole and gives the featured item
  * the prominence it is meant to have.
  *
- * Image left / details right from `md`, stacked (image first) below that.
+ * Layout: a full-width red band carrying the badge text ("LIMITED EDITION")
+ * in large display type across the top, then image left / details right from
+ * `md`, stacked (image first) below that. The whole card is framed in the
+ * brand red so it reads as distinct from the grid beneath it.
  */
 export function FeaturedProductCard({
   product,
@@ -234,38 +267,49 @@ export function FeaturedProductCard({
   return (
     <article
       data-ocid={`${ocidPrefix}.featured`}
-      className="grid grid-cols-1 overflow-hidden border border-border bg-card md:grid-cols-2"
+      className="overflow-hidden border-2 border-primary bg-card"
     >
-      <ProductImageButton
-        product={product}
-        ocid={`${ocidPrefix}.featured_image`}
-        onViewDetails={onViewDetails}
-        className="aspect-square border-b md:aspect-auto md:min-h-[26rem] md:border-b-0 md:border-r"
-      />
-
-      <div className="flex min-w-0 flex-col justify-center gap-4 px-6 py-8 sm:px-10 sm:py-10">
-        {product.badge ? <ProductBadge text={product.badge} /> : null}
-        <h3 className="font-display text-2xl font-bold uppercase leading-tight tracking-tight text-foreground sm:text-3xl">
-          {product.name}
-        </h3>
-        <p className="font-body text-base font-light leading-relaxed text-white/70">
-          {product.description}
+      {product.badge ? (
+        <p
+          data-ocid={`${ocidPrefix}.featured_badge`}
+          className="bg-primary px-6 py-4 text-center font-display text-3xl font-bold uppercase leading-none tracking-tight text-white sm:py-5 sm:text-5xl lg:text-6xl"
+        >
+          {product.badge}
         </p>
-        <span className="font-display text-2xl font-bold text-white">
-          {product.price}
-        </span>
+      ) : null}
 
-        <div className="mt-2 flex flex-col gap-2 sm:max-w-sm">
-          <BuyNowButton
-            product={product}
-            primary={isPrimaryCta}
-            ocid={`${ocidPrefix}.featured_buy_button`}
-          />
-          <ViewDetailsButton
-            product={product}
-            ocid={`${ocidPrefix}.featured_details_button`}
-            onViewDetails={onViewDetails}
-          />
+      <div className="grid grid-cols-1 md:grid-cols-2">
+        <ProductImageButton
+          product={product}
+          ocid={`${ocidPrefix}.featured_image`}
+          onViewDetails={onViewDetails}
+          backdrop
+          className="aspect-square border-b md:aspect-auto md:min-h-[30rem] md:border-b-0 md:border-r"
+        />
+
+        <div className="flex min-w-0 flex-col justify-center gap-4 px-6 py-8 sm:px-10 sm:py-12">
+          <h3 className="font-display text-2xl font-bold uppercase leading-tight tracking-tight text-foreground sm:text-4xl">
+            {product.name}
+          </h3>
+          <p className="font-body text-base font-light leading-relaxed text-white/70">
+            {product.description}
+          </p>
+          <span className="font-display text-3xl font-bold text-white sm:text-4xl">
+            {product.price}
+          </span>
+
+          <div className="mt-2 flex flex-col gap-2 sm:max-w-sm">
+            <BuyNowButton
+              product={product}
+              primary={isPrimaryCta}
+              ocid={`${ocidPrefix}.featured_buy_button`}
+            />
+            <ViewDetailsButton
+              product={product}
+              ocid={`${ocidPrefix}.featured_details_button`}
+              onViewDetails={onViewDetails}
+            />
+          </div>
         </div>
       </div>
     </article>
