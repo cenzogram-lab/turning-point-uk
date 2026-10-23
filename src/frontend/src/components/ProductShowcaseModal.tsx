@@ -170,7 +170,9 @@ export function ProductShowcaseModal({
                 {/* Specifications + checkout. */}
                 <div className="flex min-w-0 flex-col gap-5 overflow-y-auto p-5 sm:p-7">
                   <div className="flex flex-col gap-2">
-                    {shown.badge ? <ProductBadge text={shown.badge} /> : null}
+                    {shown.badge ? (
+                      <ProductBadge text={shown.badge} size="lg" />
+                    ) : null}
                     <h2 className="font-display text-xl font-semibold uppercase leading-tight tracking-tight text-white sm:text-2xl">
                       {shown.name}
                     </h2>
